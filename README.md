@@ -44,6 +44,12 @@ FlexiDot handles base ambiguities, often found in consensus sequences. This allo
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/ambiguities.png" width="500">
 
+```
+Panel A>> python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w n -r y -x n
+Panel B>> python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w y -r y -x n
+```
+
+
 ### Annotation-based shading
 
 text text text
