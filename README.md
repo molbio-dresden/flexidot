@@ -3,7 +3,6 @@
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner.png "FlexiDot self dotplots")
 
 
-
 FlexiDot is a cross-platform dotplot suite generating high quality self, pairwise and all-against-all visualizations by exact matching. To improve dotplot suitability for comparison of consensus and error-prone sequences, FlexiDot harbors routines for strict and relaxed handling of ambiguous residues. Our two custom shading modules facilitate dotplot interpretation and motif identification by adding information on sequence annotations and sequence similarities to the images. Combined with collage-like outputs, FlexiDot supports simultaneous visual screening of a large sequence sets, allowing dotplot use for routine screening.
 
 ## Implementation
@@ -21,4 +20,36 @@ Upon first starting FlexiDot, the program tries to call all needed modules. If a
 
 `python flexidot.py -i input.fas [optional arguments]`
 
+## Plotting modes
+
+### Self dotplots
+
+text text text
+
+### Pairwise comparisons
+
+text text text
+
+### All-against-all comparisons
+
+text text text
+
+## Major features
+
+### Ambiguity handling
+
+`-w/--wobble_conversion Y/N`
+
+FlexiDot handles base ambiguities, often found in consensus sequences. This allows the comparison of species-specific representations of multigene or repeat families as well as common variants or sequence subfamilies. 
+
+
+
+
+### Annotation-based shading
+
+text text text
+
+### Similarity shading
+
+text text text
 
