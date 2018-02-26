@@ -22,6 +22,12 @@ Upon first starting FlexiDot, the program tries to call all needed modules. If a
 
 ## Plotting modes
 
+FlexiDot allows sequence investigation in three run modes via the option `-p/--plotting_modes`: 
+
+`-p 0`    self sequence comparison 
+`-p 1`    pairwise sequence comparison
+`-p 2`    all-to-all sequence comparison
+
 ### Self dotplots
 
 text text text
@@ -32,7 +38,12 @@ text text text
 
 ### All-against-all comparisons
 
-text text text
+In all-against-all mode, FlexiDot compares each pair from a set of input sequences. To enable the identification of long shared subsequences at a glance, FlexiDot offers similarity shading (switched on/off via option `-x/--lcs_shading`) based on the LCS length in all-against-all comparisons. Longer matches are represented by darker background shading. 
+
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all.png" width="500">
+
+`python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 0`
+
 
 ## Major features
 
