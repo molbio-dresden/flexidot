@@ -42,8 +42,7 @@ text text text
 
 FlexiDot handles base ambiguities, often found in consensus sequences. This allows the comparison of species-specific representations of multigene or repeat families as well as common variants or sequence subfamilies. 
 
-![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/ambiguities.png&s=200 "FlexiDot self dotplots with ambiguities")
-
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/ambiguities.png" width="500">
 
 ### Annotation-based shading
 
