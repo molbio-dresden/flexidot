@@ -93,5 +93,18 @@ python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g
 
 ### Similarity shading
 
-text text text
+In all-against-all mode, FlexiDot compares each pair from a set of input sequences. To enable the identification of long shared subsequences at a glance, FlexiDot offers similarity shading (switched on/off via option `-x/--lcs_shading`) based on the LCS length in all-against-all comparisons. Longer matches are represented by darker background shading. A separate shading legend output file is created written according to mathematical interval notation, where interval boundaries are represented by a pair of numbers. Consequently, the symbols “(” or “)” represent exclusion, whereas “[” or “]” represent inclusion of the respective number.
+
+FlexiDot similarity shading is highly customizable with the following parameters, explained in depth in the documentation:
+* Reference for shading (option `-y/--lcs_shading_ref`)
+* Number of shading intervals (option `-X/--lcs_shading_num`)
+* Shading based on sequence orientation (option `-z/--lcs_shading_ori`)
+
+Shading examples based on sequence orientation (forward, panel A; reverse, panel B; both, panel C) are shown:
+
+![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_shaded_orientation.png "FlexiDot shaded dotplots")
+
+```
+python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
+```
 
