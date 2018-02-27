@@ -14,7 +14,7 @@ Kathrin M. Seibt, Thomas Schmidt, and Tony Heitkam "FlexiDot: Highly customizabl
 
 * in depth documentation (PUT IN LINK, WHEN FINISHED). 
 * parameter cheat sheet (PUT IN LINK, WHEN FINISHED)
-* [artificial test sequences used for all examples](https://github.com/molbio-dresden/flexidot/tree/master/test-data)
+* [artificial test sequences used for the examples](https://github.com/molbio-dresden/flexidot/tree/master/test-data)
 
 
 ## Implementation
