@@ -4,6 +4,9 @@
 
 FlexiDot is a cross-platform dotplot suite generating high quality self, pairwise and all-against-all visualizations by exact matching. To improve dotplot suitability for comparison of consensus and error-prone sequences, FlexiDot harbors routines for strict and relaxed handling of ambiguous residues. Our two custom shading modules facilitate dotplot interpretation and motif identification by adding information on sequence annotations and sequence similarities to the images. Combined with collage-like outputs, FlexiDot supports simultaneous visual screening of a large sequence sets, allowing dotplot use for routine screening.
 
+In depth documentation is provided as pdf (PUT IN LINK, WHEN FINISHED). In the following, the main features are exemplified.
+
+
 ## Implementation
 
 FlexiDot is implemented in Python 2.7, using 
