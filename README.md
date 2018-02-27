@@ -4,7 +4,18 @@
 
 FlexiDot is a cross-platform dotplot suite generating high quality self, pairwise and all-against-all visualizations by exact matching. To improve dotplot suitability for comparison of consensus and error-prone sequences, FlexiDot harbors routines for strict and relaxed handling of ambiguous residues. Our two custom shading modules facilitate dotplot interpretation and motif identification by adding information on sequence annotations and sequence similarities to the images. Combined with collage-like outputs, FlexiDot supports simultaneous visual screening of a large sequence sets, allowing dotplot use for routine screening.
 
-In depth documentation is provided as pdf (PUT IN LINK, WHEN FINISHED). In the following, the main features are exemplified.
+We provide the following:
+
+* in depth documentation (PUT IN LINK, WHEN FINISHED). 
+* parameter cheat sheet (PUT IN LINK, WHEN FINISHED)
+* [artificial test sequences used for all examples](https://github.com/molbio-dresden/flexidot/tree/master/test-data)
+
+In the following, the main features are exemplified:
+
+
+## Citation
+
+Kathrin M. Seibt, Thomas Schmidt, and Tony Heitkam "FlexiDot: Highly customizable ambiguity-aware dotplots for visual sequence investigation". *in prep.*
 
 
 ## Implementation
