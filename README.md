@@ -43,7 +43,15 @@ python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w y -r y -x n -m 6 -P 
 
 ### Pairwise comparisons
 
-text text text
+Similar to self dotplots, pairwise dotplots can be combined to a collage or saved to separate output files. The collage output of the 15 pairwise dotplots for the test sequences is shown. By default, dotplot images are in square format (panel A). This maximizes the visibility of matches, if the compared sequences differ drastically in length. To enable scaling according to the respective sequence lengths, the FlexiDot scaling feature is callable via option -S/--length_scaling (panel B). If scaling is enabled, a red line indicates the end of the shorter sequence in the collage output. 
+
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/pairwise_low_res.png" width="600">
+
+```
+Panel A$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -S n 
+Panel B$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -S y
+```
+
 
 ### All-against-all comparisons
 
@@ -54,6 +62,7 @@ In all-against-all mode, FlexiDot compares each pair from a set of input sequenc
 ```
 python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 0
 ```
+
 
 ## Major features
 
@@ -66,8 +75,8 @@ FlexiDot handles base ambiguities, often found in consensus sequences. This allo
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/ambiguities.png" width="500">
 
 ```
-Panel A>> python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w n -r y -x n
-Panel B>> python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w y -r y -x n
+Panel A$ python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w n -r y -x n
+Panel B$ python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w y -r y -x n
 ```
 
 
