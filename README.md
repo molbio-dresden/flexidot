@@ -115,7 +115,7 @@ FlexiDot similarity shading is highly customizable with the following parameters
 
 Shading examples based on sequence orientation (forward, panel A; reverse, panel B; both, panel C) are shown:
 
-![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_shaded_orientation.png "FlexiDot shaded dotplots")
+![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_shaded_orientation2.png "FlexiDot shaded dotplots")
 
 ```
 Panel A$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 0
