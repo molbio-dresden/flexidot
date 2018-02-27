@@ -2,7 +2,6 @@
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner.png "FlexiDot self dotplots")
 
-
 FlexiDot is a cross-platform dotplot suite generating high quality self, pairwise and all-against-all visualizations by exact matching. To improve dotplot suitability for comparison of consensus and error-prone sequences, FlexiDot harbors routines for strict and relaxed handling of ambiguous residues. Our two custom shading modules facilitate dotplot interpretation and motif identification by adding information on sequence annotations and sequence similarities to the images. Combined with collage-like outputs, FlexiDot supports simultaneous visual screening of a large sequence sets, allowing dotplot use for routine screening.
 
 ## Implementation
@@ -18,7 +17,9 @@ Upon first starting FlexiDot, the program tries to call all needed modules. If a
 
 ## General FlexiDot command
 
-`python flexidot.py -i input.fas [optional arguments]`
+```
+python flexidot.py -i input.fas [optional arguments]
+```
 
 ## Plotting modes
 
@@ -28,9 +29,17 @@ FlexiDot allows sequence investigation in three run modes via the option `-p/--p
 `-p 1`    pairwise sequence comparison
 `-p 2`    all-to-all sequence comparison
 
+
 ### Self dotplots
 
-text text text
+In self dotplot mode, each sequence is compared with itself. The resulting dotplots can be combined to form a collage [default] or written to separate files.
+
+![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner.png "FlexiDot self dotplots")
+
+```
+python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w y -r y -x n -m 6 -P 15 -g example.gff3 -G gff_color.config
+```
+
 
 ### Pairwise comparisons
 
@@ -42,8 +51,9 @@ In all-against-all mode, FlexiDot compares each pair from a set of input sequenc
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all.png" width="500">
 
-`python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 0`
-
+```
+python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 0
+```
 
 ## Major features
 
