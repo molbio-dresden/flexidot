@@ -118,6 +118,8 @@ Shading examples based on sequence orientation (forward, panel A; reverse, panel
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_shaded_orientation.png "FlexiDot shaded dotplots")
 
 ```
-python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
+Panel A$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 0
+Panel B$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 1
+Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 2
 ```
 
