@@ -20,7 +20,7 @@ Kathrin M. Seibt, Thomas Schmidt, and Tony Heitkam "FlexiDot: Highly customizabl
 
 ## Implementation
 
-FlexiDot is implemented in Python 2.7, using 
+FlexiDot is implemented in [Python 2.7](https://www.python.org/), using 
 
 * [numpy](https://pypi.python.org/pypi/numpy)
 * [matplotlib](https://pypi.python.org/pypi/matplotlib)
