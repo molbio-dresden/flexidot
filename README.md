@@ -1,4 +1,4 @@
-# FlexiDot: Highly customizable ambiguity-aware dotplots for visual sequence investigation
+# FlexiDot: Highly customizable ambiguity-aware dotplots for visual sequence analyses
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
 
@@ -7,7 +7,7 @@ FlexiDot is a cross-platform dotplot suite generating high quality self, pairwis
 
 ## Citation
 
-Kathrin M. Seibt, Thomas Schmidt, and Tony Heitkam "FlexiDot: Highly customizable ambiguity-aware dotplots for visual sequence investigation". *in prep.*
+Kathrin M. Seibt, Thomas Schmidt, and Tony Heitkam "FlexiDot: Highly customizable ambiguity-aware dotplots for visual sequence analyses". *in prep.*
 
 
 ## Documentation
