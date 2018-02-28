@@ -123,3 +123,6 @@ Panel B$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y
 Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 2
 ```
 
+### Custom matrix shading
+
+coming soon...
