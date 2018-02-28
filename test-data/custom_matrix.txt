@@ -1,0 +1,7 @@
+	Seq1	Seq2	Seq3	Seq4	Seq5	Seq6
+Seq1	100					
+Seq2	50	100				
+Seq3	40	60	100			
+Seq4	70	80	70	100		
+Seq5	30	20	60	10	100	
+Seq6	20	30	50	10	10	100
