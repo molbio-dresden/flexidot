@@ -126,3 +126,10 @@ Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y
 ### Custom matrix shading
 
 coming soon...
+
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_shaded_orientation_custom_matrix.png" width="680">
+
+```
+python flexidot.py -i test-seqs.fas -p 2 -D y -f 2 -t y -k 10 -w y -r y -x y -y 0 -u custom_matrix.txt -U y
+```
+
