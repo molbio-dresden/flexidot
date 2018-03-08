@@ -24,6 +24,9 @@ FlexiDot is implemented in [Python 2.7](https://www.python.org/), using
 * [numpy](https://pypi.python.org/pypi/numpy)
 * [matplotlib](https://pypi.python.org/pypi/matplotlib)
 * [biopython](https://pypi.python.org/pypi/biopython)
+* [regex](https://pypi.python.org/pypi/regex)
+* [colormap](https://pypi.python.org/pypi/colormap)
+* [easydev](https://pypi.python.org/pypi/easydev) (required for colormap)
 * [colour](https://pypi.python.org/pypi/colour)
 
 Upon first starting FlexiDot, the program calls all needed modules. If absent, it installs them automatically using the Python’s install manager pip. If this fails, please try again with administrator privileges.
