@@ -2,7 +2,7 @@
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
 
-FlexiDot is a cross-platform dotplot suite generating high quality self, pairwise and all-against-all visualizations by exact and fuzzy matching. To improve dotplot suitability for comparison of consensus and error-prone sequences, FlexiDot harbors routines for strict and relaxed handling of ambiguous residues. The custom shading modules facilitate dotplot interpretation and motif identification by adding information on sequence annotations and sequence similarities to the images. Combined with collage-like outputs, FlexiDot supports simultaneous visual screening of a large sequence sets, allowing dotplot use for routine screening.
+FlexiDot is a cross-platform dotplot suite generating high quality self, pairwise and all-against-all visualizations. To improve dotplot suitability for comparison of consensus and error-prone sequences, FlexiDot harbors routines for strict and relaxed handling of mismatches and ambiguous residues. The custom shading modules facilitate dotplot interpretation and motif identification by adding information on sequence annotations and sequence similarities to the images. Combined with collage-like outputs, FlexiDot supports simultaneous visual screening of a large sequence sets, allowing dotplot use for routine screening.
 
 
 ## Citation
@@ -48,6 +48,8 @@ FlexiDot allows sequence investigation in three run modes via the option `-p/--p
 
 ### Self dotplots
 
+with `-p/--plotting_mode 0`
+
 In self dotplot mode, each sequence is compared with itself. The resulting dotplots can be combined to form a collage [default] or written to separate files.
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner.png "FlexiDot self dotplots")
@@ -59,7 +61,9 @@ python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w y -r y -x n -m 6 -P 
 
 ### Pairwise comparisons
 
-Similar to self dotplots, pairwise dotplots can be combined to a collage or saved to separate output files. The collage output of the 15 pairwise dotplots for the test sequences is shown. By default, dotplot images are in square format (panel A). This maximizes the visibility of matches, if the compared sequences differ drastically in length. To enable scaling according to the respective sequence lengths, the FlexiDot scaling feature is callable via option -S/--length_scaling (panel B). If scaling is enabled, a red line indicates the end of the shorter sequence in the collage output. 
+with `-p/--plotting_mode 1`
+
+Similar to self dotplots, pairwise dotplots can be combined to a collage or saved to separate output files. The collage output of the 15 pairwise dotplots for the test sequences is shown. By default, dotplot images are in square format (panel A). This maximizes the visibility of matches, if the compared sequences differ drastically in length. To enable scaling according to the respective sequence lengths, the FlexiDot scaling feature is callable via option `-S/--length_scaling` (panel B). If scaling is enabled, a red line indicates the end of the shorter sequence in the collage output. 
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/pairwise_low_res.png" width="600">
 
@@ -70,6 +74,8 @@ Panel B$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5
 
 
 ### All-against-all comparisons
+
+with `-p/--plotting_mode 2`
 
 In all-against-all mode, FlexiDot compares each pair from a set of input sequences. To enable the identification of long shared subsequences at a glance, FlexiDot offers similarity shading (switched on/off via option `-x/--lcs_shading`) based on the LCS length in all-against-all comparisons. Longer matches are represented by darker background shading. 
 
@@ -82,9 +88,18 @@ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 
 
 ## Major features
 
-### Error and ambiguity handling
+### Mismatch and ambiguity handling
 
-`-w/--wobble_conversion Y/N`
+#### Mismatches 
+
+with `-M/--mutation_count [number of allowed mismatches (substitutions)]`
+
+FlexiDot allows toleration of a specified mismatch number per window, thus increasing specificity, yet decreasing specificity.
+
+
+#### Ambiguities
+
+with `-w/--wobble_conversion Y/N`
 
 FlexiDot handles base ambiguities, often found in consensus sequences. This allows the comparison of species-specific representations of multigene or repeat families as well as common variants or sequence subfamilies. 
 
@@ -127,6 +142,8 @@ Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y
 ```
 
 ### Custom matrix shading
+
+with `-u/--input_user_matrix_file <matrix.txt>` and `-U/--user_matrix_print y`
 
 coming soon...
 
