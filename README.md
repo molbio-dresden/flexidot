@@ -82,7 +82,7 @@ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 
 
 ## Major features
 
-### Ambiguity handling
+### Error and ambiguity handling
 
 `-w/--wobble_conversion Y/N`
 
@@ -94,11 +94,6 @@ FlexiDot handles base ambiguities, often found in consensus sequences. This allo
 Panel A$ python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w n -r y -x n
 Panel B$ python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w y -r y -x n
 ```
-
-
-### Error handling/exact vs. fuzzy matching
-
-coming soon...
 
 
 ### Annotation-based shading
