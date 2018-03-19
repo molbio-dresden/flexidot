@@ -39,7 +39,7 @@ python flexidot.py -i input.fas [optional arguments]
 
 ## Plotting modes
 
-FlexiDot allows sequence investigation in three run modes via the option `-p/--plotting_modes`: 
+FlexiDot allows sequence investigation in three run modes via the option `-p/--plotting_mode`: 
 
 `-p 0`    self sequence comparison 
 `-p 1`    pairwise sequence comparison
