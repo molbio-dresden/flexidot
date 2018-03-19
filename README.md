@@ -63,13 +63,13 @@ python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w y -r y -x n -m 6 -P 
 
 with `-p/--plotting_mode 1`
 
-Similar to self dotplots, pairwise dotplots can be combined to a collage or saved to separate output files. The collage output of the 15 pairwise dotplots for the test sequences is shown. By default, dotplot images are in square format (panel A). This maximizes the visibility of matches, if the compared sequences differ drastically in length. To enable scaling according to the respective sequence lengths, the FlexiDot scaling feature is callable via option `-S/--length_scaling` (panel B). If scaling is enabled, a red line indicates the end of the shorter sequence in the collage output. 
+Similar to self dotplots, pairwise dotplots can be combined to a collage or saved to separate output files. The collage output of the 15 pairwise dotplots for the test sequences is shown. By default, dotplot images are in square format (panel A). This maximizes the visibility of matches, if the compared sequences differ drastically in length. To enable scaling according to the respective sequence lengths, the FlexiDot scaling feature is callable via option `-L/--length_scaling` (panel B). If scaling is enabled, a red line indicates the end of the shorter sequence in the collage output. 
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/pairwise_low_res.png" width="600">
 
 ```
-Panel A$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -S n 
-Panel B$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -S y
+Panel A$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -L n 
+Panel B$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -L y
 ```
 
 
@@ -92,7 +92,7 @@ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 
 
 #### Mismatches 
 
-with `-M/--mutation_count [number of allowed mismatches (substitutions)]`
+with `-S/--substitution_count [number of allowed mismatches (substitutions)]`
 
 FlexiDot allows toleration of a specified mismatch number per window, thus increasing specificity, yet decreasing specificity.
 
