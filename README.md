@@ -34,16 +34,23 @@ Upon first starting FlexiDot, the program calls all needed modules. If absent, i
 ## Use FlexiDot
 
 To run FlexiDot, [Python 2.7](https://www.python.org/download/releases/2.7/) must be installed on the machine. 
-FlexiDot is started via command line in the console. The console can be started the following way:
+FlexiDot is started via command line in the console. For a brief introduction to the command line interface, check out this [tutorial](https://tutorial.djangogirls.org/en/intro_to_command_line/). 
+
+In brief, the console can be started the following way:
+
 * Windows: 
-     * start console: WINDOWS key + type "CMD" + ENTER (Shift + ENTER starts console as administrator)
+     * start console: WINDOWS key + type `CMD` + ENTER (Shift + ENTER starts console as administrator)
      * prepare directory
           * select directory and add python script "flexidot.py" and sequence files   
-          * copy userpath from address bar (exemplary path: C:\Users\Documents\Test)
+          * copy userpath from address bar (e.g.: C:\Users\Documents\Test)
+     * navigate to directory in console: type `cd userpath` + ENTER (paste userpath using right click)
+     * start Flexidot with the command below (with your specific fasta file name)
+* Linux/MacOS
+     * start console: Applications → Utilities [Linux] or Accessories [MacOS] → Terminal
+     * prepare directory (see above, e.g. /Users/Documents/Test)
      * navigate to directory in console: type "cd userpath" + ENTER (paste userpath using right click)
-     * start Flexidot: type command with specified sequence filename + ENTER
-* Linux
-
+     * start Flexidot with the command below (with your specific fasta file name)
+     
 The general FlexiDot command depends on whether one or multiple fasta files are used as input via:
 
 ```
