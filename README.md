@@ -43,7 +43,9 @@ python flexidot.py -i input.fas [optional arguments]
 The console can be started the following way:
 * Windows: 
      * start console: Windows key + type "CMD" + Enter (Shift + Enter starts console as administrator)
-     * navigate to directory with sequence file: type "cd path" (exemplary path: C:/Documents/)
+     * copy userpath of directory with sequence file to analyze from address bar (exemplary path: C:\Users\Documents\)
+     * add python script flexidot.py to userpath
+     * navigate to directory in console: type "cd userpath" (paste using right click)
 * Linux
 
 
