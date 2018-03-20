@@ -38,14 +38,22 @@ FlexiDot is started via command line with the general command in the console:
 
 ```
 python flexidot.py -i input.fas [optional arguments]
+
+# use multiple fasta files
+python flexidot.py -i input1.fas,input2.fas [optional arguments]
+
+# use all fasta files in current directory
+python flexidot.py -a
 ```
 
 The console can be started the following way:
 * Windows: 
-     * start console: Windows key + type "CMD" + Enter (Shift + Enter starts console as administrator)
-     * copy userpath of directory with sequence file to analyze from address bar (exemplary path: C:\Users\Documents\)
-     * add python script flexidot.py to userpath
-     * navigate to directory in console: type "cd userpath" (paste using right click)
+     * start console: WINDOWS key + type "CMD" + ENTER (Shift + ENTER starts console as administrator)
+     * prepare directory
+          * select directory and add python script "flexidot.py" and sequence files   
+          * copy userpath from address bar (exemplary path: C:\Users\Documents\Test)
+     * navigate to directory in console: type "cd userpath" + ENTER (paste userpath using right click)
+     * start Flexidot: type command with specified input + ENTER
 * Linux
 
 
