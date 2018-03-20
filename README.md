@@ -134,11 +134,15 @@ with `-w/--wobble_conversion Y/N`
 
 FlexiDot handles base ambiguities, often found in consensus sequences. This allows the comparison of species-specific representations of multigene or repeat families as well as common variants or sequence subfamilies. 
 
-<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/ambiguities.png" width="500">
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Fig-Suppl-MismatchesWobbles.png" width="600">
 
 ```
-Panel A$ python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w n -r y -x n
-Panel B$ python flexidot.py -i Seq4.fas -p 0 -D y -f 0 -t y -k 10 -w y -r y -x n
+Panel tl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n
+Panel tm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n -S 1
+Panel tr$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n -S 2
+Panel bl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n
+Panel bm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n -S 1
+Panel br$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n -S 2
 ```
 
 
