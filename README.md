@@ -34,27 +34,30 @@ Upon first starting FlexiDot, the program calls all needed modules. If absent, i
 ## Use FlexiDot
 
 To run FlexiDot, [Python 2.7](https://www.python.org/download/releases/2.7/) must be installed on the machine. 
-FlexiDot is started via command line with the general command in the console:
-
-```
-python flexidot.py -i input.fas [optional arguments]
-
-# use multiple fasta files
-python flexidot.py -i input1.fas,input2.fas [optional arguments]
-
-# use all fasta files in current directory
-python flexidot.py -a
-```
-
-The console can be started the following way:
+FlexiDot is started via command line in the console. The console can be started the following way:
 * Windows: 
      * start console: WINDOWS key + type "CMD" + ENTER (Shift + ENTER starts console as administrator)
      * prepare directory
           * select directory and add python script "flexidot.py" and sequence files   
           * copy userpath from address bar (exemplary path: C:\Users\Documents\Test)
      * navigate to directory in console: type "cd userpath" + ENTER (paste userpath using right click)
-     * start Flexidot: type command with specified input + ENTER
+     * start Flexidot: type command with specified sequence filename + ENTER
 * Linux
+
+The general FlexiDot command depends on whether one or multiple fasta files are used as input via:
+
+```
+# use individual fasta file (can contain multiple sequences)
+python flexidot.py -i input.fas [optional arguments]
+
+# use multiple fasta files
+python flexidot.py -i input1.fas,input2.fas [optional arguments]
+
+# use all fasta files in current directory
+python flexidot.py -a [optional arguments]
+```
+
+Optional arguments are explained below and in detail in the [Usage](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage.pdf). Importantly, `-k` specifies the word size and `-t` specifies the sequence type (`-t y` for sequences [default]; `-t n` for proteins).
 
 
 ## Plotting modes
