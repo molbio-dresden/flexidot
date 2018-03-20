@@ -31,11 +31,21 @@ FlexiDot is implemented in [Python 2.7](https://www.python.org/), using
 
 Upon first starting FlexiDot, the program calls all needed modules. If absent, it installs them automatically using the Python’s install manager pip. If this fails, please try again with administrator privileges.
 
-## General FlexiDot command
+## Use FlexiDot
+
+To run FlexiDot, [Python 2.7](https://www.python.org/download/releases/2.7/) must be installed on the machine. 
+FlexiDot is started via command line with the general command in the console:
 
 ```
 python flexidot.py -i input.fas [optional arguments]
 ```
+
+The console can be started the following way:
+* Windows: 
+     * start console: Windows key + type "CMD" + Enter (Shift + Enter starts console as administrator)
+     * navigate to directory with sequence file: type "cd path" (exemplary path: C:/Documents/)
+* Linux
+
 
 ## Plotting modes
 
