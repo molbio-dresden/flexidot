@@ -57,7 +57,8 @@ python flexidot.py -i input1.fas,input2.fas [optional arguments]
 python flexidot.py -a [optional arguments]
 ```
 
-Optional arguments are explained below and in detail in the [Usage](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage.pdf). Importantly, `-k` specifies the word size and `-t` specifies the sequence type (`-t y` for sequences [default]; `-t n` for proteins).
+Optional arguments are explained below and in detail in the [Usage](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage.pdf). Importantly, `-k` defines the word size (e.g. `-k 10`) and `-t` specifies the sequence type (`-t y` for DNA [default]; `-t n` for proteins). The plotting mode is chosen via `-p` and described below.
+
 
 
 ## Plotting modes
