@@ -48,7 +48,7 @@ In brief, the console can be started the following way:
 * **Linux/MacOS**
      * start console: Applications → Utilities [Linux] or Accessories [MacOS] → Terminal
      * prepare directory (see above, e.g. /Users/Documents/Test)
-     * navigate to directory in console: type "cd userpath" + ENTER (paste userpath using right click)
+     * navigate to directory in console: type `cd userpath` + ENTER (paste userpath using right click)
      * start Flexidot with the command below (with your specific fasta file name)
      
 The general FlexiDot command depends on whether one or multiple fasta files are used as input via:
