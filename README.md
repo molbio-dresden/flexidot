@@ -173,13 +173,13 @@ Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y
 
 ### Custom matrix shading
 
-When comparing related sequences, multiple sequence alignments are frequently applied. The resulting **sequence similarity** can be integrated in the FlexiDot images by providing a **matrix file** via `-u/--input_user_matrix_file <matrix.txt>`. This allows a shading of the top right triangle according to the matrix. With `-U/--user_matrix_print y` the matrix values can be printed into the respective fields. Besides, also **text** information can be provided in the matrix, but then shading is suppressed.
+When comparing related sequences, multiple sequence alignments are frequently applied. The resulting pairwise **sequence similarities** can be integrated in the FlexiDot images by providing a **matrix file** via `-u/--input_user_matrix_file <matrix.txt>`. This allows a shading of the upper right triangle according to the matrix (here orange). With `-U/--user_matrix_print y` the matrix values can be printed into the respective fields. Besides, also **text** information can be provided in the matrix, but then shading is suppressed.
 
-coming soon...
+In the example, LCS and matrix shading are combined to visualize the relationships between different members of a repeat family. 
 
-<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_shaded_orientation_custom_matrix.png" width="680">
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Beetle_matrix_shading.png" width="750">
 
 ```
-python flexidot.py -i test-seqs.fas -p 2 -D y -f 2 -t y -k 10 -w y -r y -x y -y 0 -u custom_matrix.txt -U y
+python flexidot.py -i Beetle.fas -p 2 -x y -k 10 -S 1 -r n -u custom_matrix.txt -U y
 ```
 
