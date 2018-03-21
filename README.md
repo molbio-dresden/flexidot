@@ -29,9 +29,14 @@ FlexiDot is implemented in [Python 2.7](https://www.python.org/), using
 * [easydev](https://pypi.python.org/pypi/easydev) (required for colormap)
 * [colour](https://pypi.python.org/pypi/colour)
 
-Upon **first starting FlexiDot**, the program calls all needed modules. If absent, it installs them automatically using the Python’s install manager pip. If this fails, please try again with **administrator** privileges. Please note, that **Biopython** requires a C compiler. In case of errors during Biopython installation, installing Microsoft Visual C++ Compiler (Windows), GCC (Linux) or Apple’s XCode suite (Mac OS) may help.
+Upon **first starting FlexiDot**, the program calls all needed modules. If absent, it installs them automatically using the Python’s install manager pip. If this fails, please try again with **administrator** privileges. 
+
+Please note, that the dependency **Biopython** requires a C compiler. In case of errors during Biopython installation, installing Microsoft Visual C++ Compiler (Windows), GCC (Linux) or Apple’s XCode suite (Mac OS) may help.
+
 
 ## Use FlexiDot
+
+Download the [FlexiDot script](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot.py).
 
 To run FlexiDot, [**Python 2.7**](https://www.python.org/download/releases/2.7/) must be installed on the machine. 
 FlexiDot is started via **command line** in the console. For a brief introduction to the command line interface, check out this nice [tutorial](https://tutorial.djangogirls.org/en/intro_to_command_line/). 
