@@ -12,7 +12,7 @@ Kathrin M. Seibt, Thomas Schmidt, and Tony Heitkam "FlexiDot: Highly customizabl
 
 ## Documentation
 
-* in depth documentation (will follow) 
+* [in depth documentation](https://github.com/molbio-dresden/flexidot/blob/master/documentation/SupplementaryData.pdf) 
 * [parameter cheat sheet](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage.pdf)
 * [artificial test sequences used for the examples](https://github.com/molbio-dresden/flexidot/tree/master/test-data)
 
