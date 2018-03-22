@@ -1,4 +1,4 @@
-# FlexiDot: Highly customizable ambiguity-aware dotplots for visual sequence analyses
+# FlexiDot: Highly customizable, ambiguity-aware dotplots for visual sequence analyses
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
 
