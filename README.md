@@ -29,7 +29,7 @@ FlexiDot is implemented in [Python 2.7](https://www.python.org/), using
 * [easydev](https://pypi.python.org/pypi/easydev) (required for colormap)
 * [colour](https://pypi.python.org/pypi/colour)
 
-Upon **first starting FlexiDot**, the program calls all needed modules. If absent, it installs them automatically using the Python’s install manager pip. If this fails, please try again with **administrator** privileges. 
+Upon **first starting FlexiDot**, the program calls all needed modules. If absent, it installs them automatically using Python’s install manager pip. If this fails, please try again with **administrator** privileges. 
 
 Please note, that the dependency **Biopython** requires a C compiler. In case of errors during Biopython installation, installing Microsoft Visual C++ Compiler (Windows), GCC (Linux) or Apple’s XCode suite (Mac OS) may help.
 
