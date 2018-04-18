@@ -1,5 +1,7 @@
 # FlexiDot versions
 
+![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
+
 ## Version 1.00
 
 first FlexiDot release
