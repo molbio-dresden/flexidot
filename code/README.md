@@ -9,4 +9,5 @@ first FlexiDot release
 ## Version 1.01
 
 * minor bugfixing
-* change handling of -a parameter to increase intuitive usage of FlexiDot
+* change handling of `-a` parameter to enhance intuitive FlexiDot usage 
+
