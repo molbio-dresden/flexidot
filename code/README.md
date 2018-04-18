@@ -1,4 +1,4 @@
-# FlexiDot versions
+# FlexiDot version changes
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
 
