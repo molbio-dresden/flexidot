@@ -7,7 +7,7 @@
 *18.04.2018*
 
 * minor bugfixing
-* change handling of boolean parameters (-a, -w, -s, -x, -U) which are inactive by default to enhance intuitive FlexiDot usage 
+* change handling of boolean parameters which are inactive by default (-a, -w, -s, -x, -U) to enhance intuitive FlexiDot usage 
 
 
 ## Version 1.00 
