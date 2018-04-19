@@ -91,7 +91,7 @@ In **self** dotplot mode, each sequence is compared with itself. The resulting d
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner.png "FlexiDot self dotplots")
 
 ```
-python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w y -r y -x n -m 6 -P 15 -g example.gff3 -G gff_color.config
+python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w -r y -x n -m 6 -P 15 -g example.gff3 -G gff_color.config
 ```
 
 
@@ -104,8 +104,8 @@ For **pairwise** dotplots, the collage output is recommended for larger numbers 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/pairwise_low_res.png" width="600">
 
 ```
-Panel A$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -L n 
-Panel B$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -L y
+Panel A$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w -r y -m 5 -c y -L n 
+Panel B$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w -r y -m 5 -c y -L y
 ```
 
 
@@ -118,7 +118,7 @@ In **all-against-all** mode, FlexiDot compares each pair from a set of input seq
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all.png" width="500">
 
 ```
-python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 0
+python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w -r y -x -y 0
 ```
 
 
@@ -137,12 +137,12 @@ Lastly, both mismatch and ambiguity handling can be combined for the analysis.
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Fig-Suppl-MismatchesWobbles.png" width="600">
 
 ```
-Panel tl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n
-Panel tm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n -S 1
-Panel tr$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n -S 2
-Panel bl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n
-Panel bm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n -S 1
-Panel br$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n -S 2
+Panel tl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -r y
+Panel tm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -r y -S 1
+Panel tr$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -r y -S 2
+Panel bl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w -r y 
+Panel bm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w -r y -S 1
+Panel br$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w -r y -S 2
 ```
 
 
@@ -153,7 +153,7 @@ In FlexiDot self dotplots, annotated sequence regions can be highlighted by **sh
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplot_shaded.png" width="500">
 
 ```
-python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
+python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
 ```
 
 
@@ -171,9 +171,9 @@ Shading examples based on sequence orientation (forward, panel A; reverse, panel
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_shaded_orientation2.png "FlexiDot shaded dotplots")
 
 ```
-Panel A$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 0
-Panel B$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 1
-Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 2
+Panel A$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -r y -x -y 0 -z 0
+Panel B$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -r y -x -y 0 -z 1
+Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -r y -x -y 0 -z 2
 ```
 
 ### Custom matrix shading
@@ -185,6 +185,6 @@ In the example, LCS and matrix shading are combined to visualize the relationshi
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Beetle_matrix_shading.png" width="750">
 
 ```
-python flexidot.py -i Beetle.fas -p 2 -x y -k 10 -S 1 -r n -u custom_matrix.txt -U y
+python flexidot.py -i Beetle.fas -p 2 -x -k 10 -S 1 -r n -u custom_matrix.txt -U
 ```
 
