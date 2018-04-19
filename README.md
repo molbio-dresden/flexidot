@@ -153,7 +153,7 @@ In FlexiDot self dotplots, annotated sequence regions can be highlighted by **sh
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplot_shaded.png" width="500">
 
 ```
-python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
+python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w -r y -m 12 -P 5 -g example.gff3 -G gff_color.config
 ```
 
 
