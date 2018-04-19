@@ -13,4 +13,4 @@
 ## Version 1.00 
 *21.03.2018*
 
-first FlexiDot release
+* first FlexiDot release
