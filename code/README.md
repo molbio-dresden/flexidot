@@ -4,10 +4,10 @@
 
 
 ## Version 1.01 
-*18.04.2018*
+*21.04.2018*
 
 * minor bugfixing
-* change handling of boolean parameters which are inactive by default (`-a`, `-w`, `-s`, `-x`, `-U`) to enhance intuitive FlexiDot usage 
+
 
 
 ## Version 1.00 
