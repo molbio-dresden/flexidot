@@ -91,7 +91,7 @@ In **self** dotplot mode, each sequence is compared with itself. The resulting d
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner.png "FlexiDot self dotplots")
 
 ```
-python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w -r y -x n -m 6 -P 15 -g example.gff3 -G gff_color.config
+python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w y -r y -x n -m 6 -P 15 -g example.gff3 -G gff_color.config
 ```
 
 
@@ -104,8 +104,8 @@ For **pairwise** dotplots, the collage output is recommended for larger numbers 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/pairwise_low_res.png" width="600">
 
 ```
-Panel A$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w -r y -m 5 -c y -L n 
-Panel B$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w -r y -m 5 -c y -L y
+Panel A$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -L n 
+Panel B$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -L y
 ```
 
 
@@ -118,7 +118,7 @@ In **all-against-all** mode, FlexiDot compares each pair from a set of input seq
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all.png" width="500">
 
 ```
-python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w -r y -x -y 0
+python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 0
 ```
 
 
@@ -128,7 +128,7 @@ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w -r y -x -y 0
 
 In diverged or distantly related sequences matches may be interrupted by mismatches or residues might be represented as ambiguities to refer to frequent variants or mutations. Similarly, relaxed matching is helpful when analyzing error-prone sequences like SMRT reads. The achieved relaxation of the matching conditions thus increases sensitivity, while decreasing specificity. 
 
-Firstly, FlexiDot handles **ambiguous residues**, often found in consensus sequences. This allows the comparison of species-specific representations of multigene or repeat families as well as common variants or sequence subfamilies. The ambiguity handling is activated with `-w/--wobble_conversion`.
+Firstly, FlexiDot handles **ambiguous residues**, often found in consensus sequences. This allows the comparison of species-specific representations of multigene or repeat families as well as common variants or sequence subfamilies. The ambiguity handling is controlled via`-w/--wobble_conversion Y/N`.
 
 Secondly, a defined number of **mismatches** within the window can be allowed with `-S/--substitution_count [number of allowed mismatches (substitutions)]`. This is even less stringent than the ambiguity handling. Please note, that only substitution mutations are allowed but not indels. 
 
@@ -137,12 +137,12 @@ Lastly, both mismatch and ambiguity handling can be combined for the analysis.
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Fig-Suppl-MismatchesWobbles.png" width="600">
 
 ```
-Panel tl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -r y
-Panel tm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -r y -S 1
-Panel tr$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -r y -S 2
-Panel bl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w -r y 
-Panel bm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w -r y -S 1
-Panel br$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w -r y -S 2
+Panel tl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n
+Panel tm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n -S 1
+Panel tr$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n -S 2
+Panel bl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n
+Panel bm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n -S 1
+Panel br$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n -S 2
 ```
 
 
@@ -153,13 +153,13 @@ In FlexiDot self dotplots, annotated sequence regions can be highlighted by **sh
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplot_shaded.png" width="500">
 
 ```
-python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w -r y -m 12 -P 5 -g example.gff3 -G gff_color.config
+python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
 ```
 
 
 ### Similarity shading
 
-In all-against-all mode, FlexiDot compares each pair from a set of input sequences. To enable the identification of long shared subsequences at a glance, FlexiDot offers similarity shading (activated with option `-x/--lcs_shading`) based on the **LCS length** (longest common subsequence, or longest match if mismatches are considered) in all-against-all comparisons. Longer matches are represented by darker background shading. A separate shading **legend** output file is created written according to mathematical interval notation, where interval boundaries are represented by a pair of numbers. Consequently, the symbols “(” or “)” represent exclusion, whereas “[” or “]” represent inclusion of the respective number.
+In all-against-all mode, FlexiDot compares each pair from a set of input sequences. To enable the identification of long shared subsequences at a glance, FlexiDot offers similarity shading (switched on/off via option `-x/--lcs_shading`) based on the **LCS length** (longest common subsequence, or longest match if mismatches are considered) in all-against-all comparisons. Longer matches are represented by darker background shading. A separate shading **legend** output file is created written according to mathematical interval notation, where interval boundaries are represented by a pair of numbers. Consequently, the symbols “(” or “)” represent exclusion, whereas “[” or “]” represent inclusion of the respective number.
 
 FlexiDot similarity shading is highly customizable with the following parameters, explained in depth in the documentation:
 * Reference for shading (option `-y/--lcs_shading_ref`)
@@ -171,20 +171,20 @@ Shading examples based on sequence orientation (forward, panel A; reverse, panel
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_shaded_orientation2.png "FlexiDot shaded dotplots")
 
 ```
-Panel A$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -r y -x -y 0 -z 0
-Panel B$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -r y -x -y 0 -z 1
-Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -r y -x -y 0 -z 2
+Panel A$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 0
+Panel B$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 1
+Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 2
 ```
 
 ### Custom matrix shading
 
-When comparing related sequences, multiple sequence alignments are frequently applied. The resulting pairwise **sequence similarities** can be integrated in the FlexiDot images by providing a **matrix file** via `-u/--input_user_matrix_file <matrix.txt>`. This allows a shading of the upper right triangle according to the matrix (here orange). With `-U/--user_matrix_print` the matrix values can be printed into the respective fields. Besides, also **text** information can be provided in the matrix, but then shading is suppressed.
+When comparing related sequences, multiple sequence alignments are frequently applied. The resulting pairwise **sequence similarities** can be integrated in the FlexiDot images by providing a **matrix file** via `-u/--input_user_matrix_file <matrix.txt>`. This allows a shading of the upper right triangle according to the matrix (here orange). With `-U/--user_matrix_print y` the matrix values can be printed into the respective fields. Besides, also **text** information can be provided in the matrix, but then shading is suppressed.
 
 In the example, LCS and matrix shading are combined to visualize the relationships between different members of a repeat family. 
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Beetle_matrix_shading.png" width="750">
 
 ```
-python flexidot.py -i Beetle.fas -p 2 -x -k 10 -S 1 -r n -u custom_matrix.txt -U
+python flexidot.py -i Beetle.fas -p 2 -x y -k 10 -S 1 -r n -u custom_matrix.txt -U y
 ```
 
