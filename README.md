@@ -13,7 +13,7 @@ FlexiDot is a cross-platform dotplot suite generating high quality self, pairwis
 ## Documentation
 
 * [in depth documentation](https://github.com/molbio-dresden/flexidot/blob/master/documentation/SupplementaryData.pdf) 
-* [parameter cheat sheet](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage.pdf)
+* [parameter cheat sheet](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.02.pdf)
 * [artificial test sequences used for the examples](https://github.com/molbio-dresden/flexidot/tree/master/test-data)
 
 
@@ -36,7 +36,7 @@ Please note, that the dependency **Biopython** requires a C compiler. In case of
 
 ## Use FlexiDot
 
-Download the [FlexiDot script](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot.py).
+Download the [FlexiDot script](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.02.py).
 
 To run FlexiDot, [**Python 2.7**](https://www.python.org/download/releases/2.7/) must be installed on the machine. 
 FlexiDot is started via **command line** in the console. For a brief introduction to the command line interface, check out this nice [tutorial](https://tutorial.djangogirls.org/en/intro_to_command_line/). 
@@ -69,7 +69,7 @@ python flexidot.py -i input1.fas,input2.fas [optional arguments]
 python flexidot.py -a [optional arguments]
 ```
 
-Optional arguments are explained below and in detail in the [**usage**](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage.pdf). Importantly, `-k` defines the word size (e.g. `-k 10`) and `-t` specifies the sequence type (`-t y` for DNA [default]; `-t n` for proteins). The plotting mode is chosen via `-p` and described below.
+Optional arguments are explained below and in detail in the [**usage**](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.02.pdf). Importantly, `-k` defines the word size (e.g. `-k 10`) and `-t` specifies the sequence type (`-t y` for DNA [default]; `-t n` for proteins). The plotting mode is chosen via `-p` and described below.
 
 
 
