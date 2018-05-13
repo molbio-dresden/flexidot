@@ -148,6 +148,8 @@ Panel br$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y
 
 ### Annotation-based shading
 
+Note: See also [**our tutorial**](https://github.com/molbio-dresden/flexidot/blob/master/documentation/tutorial_add_annotation.md) on how to integrate annotation shadings with a real-life example.
+
 In FlexiDot self dotplots, annotated sequence regions can be highlighted by **shading** to allow clear assignment of dotplot regions to specific sequence contexts (see Seq2 in self dotplots). The underlying **annotation** information must be provided in general feature format (**gff3**), either as individual file or file list via the `-g/--input_gff_files` option. To customize GFF-based shading, a user-defined configuration file can be provided via the `-G/--gff_color_config option`. Example files are provided in the test-data directory. Please note, that a legend is generated in a separate file.
 
 If you wish to find out more on the gff3 file format used here, Ensembl provides a [good overview](https://www.ensembl.org/info/website/upload/gff3.html).
