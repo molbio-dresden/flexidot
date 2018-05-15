@@ -25,3 +25,9 @@ The *config file* defines color, alpha and zoom of each sequence type. Please no
 ```
 python flexidot.py -i sSaTar.fas -g sSaTar.gff3 -G sSaTar.config -k 10 -S 1 -T 30 -c n -E 15 -A 2 -C black -f 1
 ```
+
+---
+
+For additional application use cases, please see the [FlexiDot in-depth documentation (pdf)](https://github.com/molbio-dresden/flexidot/blob/master/documentation/SupplementaryData.pdf).
+
+Back to [FlexiDot home](https://github.com/molbio-dresden/flexidot).
