@@ -14,7 +14,7 @@ Meanwhile, if you wish access to the pdf, you can follow the link from our [inst
 
 ## Documentation
 
-* [in depth documentation](https://github.com/molbio-dresden/flexidot/blob/master/documentation/SupplementaryData.pdf) 
+* [in depth documentation](https://github.com/molbio-dresden/flexidot/blob/master/documentation/SupplementaryData.pdf) (This Readme gives an overview, you will find more detail is in the documentation.) 
 * [parameter cheat sheet](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.02.pdf)
 * [artificial test sequences used for the examples](https://github.com/molbio-dresden/flexidot/tree/master/test-data)
 
