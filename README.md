@@ -7,12 +7,14 @@ FlexiDot is a cross-platform dotplot suite generating high quality self, pairwis
 
 ## Citation
 
+If you use FlexiDot in your research, please cite us:
+
 **Kathrin M. Seibt, Thomas Schmidt, and Tony Heitkam** (2018) "FlexiDot: Highly customizable, ambiguity-aware dotplots for visual sequence analyses". *Bioinformatics*, advance article online. doi: 10.1093/bioinformatics/bty395  -  [**Read article**](https://doi.org/10.1093/bioinformatics/bty395)  -  [**LaTeX preprint**](https://www.overleaf.com/read/bkkcmmtpttgn) 
 
 
 ## Documentation
 
-* [in depth documentation](https://github.com/molbio-dresden/flexidot/blob/master/documentation/SupplementaryData.pdf) (This Readme gives an overview, you will find more detail is in the documentation.) 
+* [in depth documentation](https://github.com/molbio-dresden/flexidot/blob/master/documentation/SupplementaryData.pdf) (This readme gives an overview, and more detail is in the documentation.) 
 * [parameter cheat sheet](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.02.pdf)
 * [artificial test sequences used for the examples](https://github.com/molbio-dresden/flexidot/tree/master/test-data)
 
