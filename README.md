@@ -38,7 +38,7 @@ Please note, that the dependency **Biopython** requires a C compiler. In case of
 
 ## Use FlexiDot
 
-Download the [FlexiDot script](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.02.py).
+Download the [FlexiDot script](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.02.py). With a right click on the field `Raw` you can download the script easily via `Save as`.
 
 To run FlexiDot, [**Python 2.7**](https://www.python.org/download/releases/2.7/) must be installed on the machine. 
 FlexiDot is started via **command line** in the console. For a brief introduction to the command line interface, check out this nice [tutorial](https://tutorial.djangogirls.org/en/intro_to_command_line/). 
