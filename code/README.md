@@ -2,6 +2,19 @@
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
 
+## Version 1.03 (stub, uploads will follow)
+*xx.06.2018* 
+
+* [new parameter cheat sheet v1.03](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.03.pdf) 
+
+**New feature**: Annotation-based shading is also available for all-to-all dotplots, allowing for many new visualizations. Annotation information will be added to the middle diagonal as in our example below.
+
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_annotation_based_shading_cool.png" width="700">
+
+```
+command will follow
+```
+
 
 ## Version 1.02 
 *09.05.2018*
