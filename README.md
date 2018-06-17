@@ -12,6 +12,15 @@ If you use FlexiDot in your research, please cite us:
 **Kathrin M. Seibt, Thomas Schmidt, and Tony Heitkam** (2018) "FlexiDot: Highly customizable, ambiguity-aware dotplots for visual sequence analyses". *Bioinformatics*, advance article online. doi: 10.1093/bioinformatics/bty395  -  [**Read article**](https://doi.org/10.1093/bioinformatics/bty395)  -  [**LaTeX preprint**](https://www.overleaf.com/read/bkkcmmtpttgn) 
 
 
+## FlexiDot versions and updates
+
+**Current version (17.06.2018): [FlexiDot v1.03](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.03.py)**
+
+For an overview of FlexiDot version updates please see the [code history](https://github.com/molbio-dresden/flexidot/blob/master/code/README.md).
+
+Older versions can be accessed in the [code directory](https://github.com/molbio-dresden/flexidot/tree/master/code). Corresponding [parameter cheat sheets](https://github.com/molbio-dresden/flexidot/tree/master/documentation) are available as well.
+
+
 ## Documentation
 
 * [in depth documentation](https://github.com/molbio-dresden/flexidot/blob/master/documentation/SupplementaryData.pdf) (This readme gives an overview, and more detail is in the documentation.) 
@@ -161,6 +170,26 @@ If you wish to find out more on the gff3 file format used here, Ensembl provides
 ```
 python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
 ```
+
+**[since FlexiDot_v1.03] Annotation-based shading also available for all-to-all dotplots:**   
+Previously only available for self dotplots, we added annotation-based shading to all-to-all dotplots, allowing for many new visualizations. As before, annotation information is provided as general feature file (GFF3). These features are added to the middle diagonal (see our example below).
+
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_annotation_based_shading_cool.png" width="700">
+
+Basic command:
+```
+python flexidotplot_v1.03.py -i test-seqs.fas -g example2.gff3 -G gff_color.config -p 2
+```
+
+Command plus aesthetics as shown here (+ LCS shading, wordsize 10, change of subplot spacing and line width):
+```
+python flexidotplot_v1.03.py -i test-seqs.fas -g example2.gff3 -G gff_color.config -p 2 -x y -k 10 -F 0.06 -A 1.5
+```
+
+The test files used here are provided:
+* [test-seqs.fas](https://github.com/molbio-dresden/flexidot/blob/master/test-data/test-seqs.fas)
+* [example2.gff3](https://github.com/molbio-dresden/flexidot/blob/master/test-data/example2.gff3)
+* [gff_color.config](https://github.com/molbio-dresden/flexidot/blob/master/test-data/gff_color.config)
 
 
 ### Similarity shading
