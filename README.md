@@ -173,9 +173,9 @@ If you wish to find out more on the gff3 file format used here, Ensembl provides
 python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
 ```
 
-### [since FlexiDot_v1.03] Annotation-based shading also available for all-to-all dotplots
+### [since FlexiDot_v1.03] Annotation-based shading also available for all-against-all dotplots
 
-Previously only available for self dotplots, we added annotation-based shading to all-to-all dotplots, allowing for many new visualizations. As before, annotation information is provided as general feature file (GFF3). These features are added to the middle diagonal (see our example below).
+Previously only available for self dotplots, we added annotation-based shading to all-against-all dotplots, allowing for many new visualizations. As before, annotation information is provided as general feature file (GFF3). These features are added to the middle diagonal (see our example below).
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_annotation_based_shading_cool.png" width="700">
 
