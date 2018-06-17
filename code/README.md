@@ -16,12 +16,12 @@ Previously only available for self dotplots, we added annotation-based shading t
 
 Basic command:
 ```
-python flexidotplot_v1.03.py -i test-seqs.fas -g example2.gff3 -G gff_color.config -p 2
+python flexidot.py -i test-seqs.fas -g example2.gff3 -G gff_color.config -p 2
 ```
 
 Command plus aesthetics as shown here (+ LCS shading, wordsize 10, change of subplot spacing and line width):
 ```
-python flexidotplot_v1.03.py -i test-seqs.fas -g example2.gff3 -G gff_color.config -p 2 -x y -k 10 -F 0.06 -A 1.5
+python flexidot.py -i test-seqs.fas -g example2.gff3 -G gff_color.config -p 2 -x y -k 10 -F 0.06 -A 1.5
 ```
 
 The test files used here are provided:
