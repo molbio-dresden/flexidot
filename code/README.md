@@ -9,8 +9,8 @@
 * [new FlexiDot script v1.03](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.03.py)
 
 
-**[New feature] Annotation-based shading also available for all-to-all dotplots:**   
-Previously only available for self dotplots, we added annotation-based shading to all-to-all dotplots, allowing for many new visualizations. As before, annotation information is provided as general feature file (GFF3). These features are added to the middle diagonal (see our example below).
+**[New feature] Annotation-based shading also available for all-against-all dotplots:**   
+Previously only available for self dotplots, we added annotation-based shading to all-against-all dotplots, allowing for many new visualizations. As before, annotation information is provided as general feature file (GFF3). These features are added to the middle diagonal (see our example below).
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_annotation_based_shading_cool.png" width="700">
 
