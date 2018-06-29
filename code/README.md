@@ -10,7 +10,9 @@
 
 
 **[New feature] Graphic formatting options for all-against-all dotplots:**  
-On request we added two parameters: With `-M/--mirror` it is now possible to mirror the middle diagonal.
+On request we added two parameters: 
+
+* With `-M/--mirror` it is now possible to mirror the middle diagonal.
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_Flexi1.04_Para_Mirror.png" width="700">
 
@@ -24,8 +26,9 @@ Command plus aesthetics as shown here (as described in version update 1.03):
 python flexidot.py -i test-seqs.fas -p 2 -M n -g example2.gff3 -G gff_color.config -x y -k 10 -F 0.06 -A 1.5
 python flexidot.py -i test-seqs.fas -p 2 -M y -g example2.gff3 -G gff_color.config -x y -k 10 -F 0.06 -A 1.5
 ```
+<br>
 
-The `-R/--representation` parameter allows partial dotplotting, either printing the complete `-R 0`, the top `-R 1`, or the bottom dotplot `-R 2`. 
+* The `-R/--representation` parameter allows partial dotplotting, either printing the complete `-R 0`, the top `-R 1`, or the bottom dotplot `-R 2`. 
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_Flexi1.04_Para_Representation.png" width="900">
 
@@ -41,11 +44,13 @@ python flexidot.py -i test-seqs.fas -p 2 -R 0 -g example2.gff3 -G gff_color.conf
 python flexidot.py -i test-seqs.fas -p 2 -R 1 -g example2.gff3 -G gff_color.config -x y -k 10 -F 0.06 -A 1.5
 python flexidot.py -i test-seqs.fas -p 2 -R 2 -g example2.gff3 -G gff_color.config -x y -k 10 -F 0.06 -A 1.5
 ```
+<br>
 
 **[Bugfix]:**  
 
 We also fixed a distortion issue in `-p/--plotting_mode 0` (self dotplots).
 
+<br>
 
 ## Version 1.03
 *17.06.2018* 
@@ -74,7 +79,7 @@ The test files used here are provided:
 * [example2.gff3](https://github.com/molbio-dresden/flexidot/blob/master/test-data/example2.gff3)
 * [gff_color.config](https://github.com/molbio-dresden/flexidot/blob/master/test-data/gff_color.config)
 
-
+<br>
 
 ## Version 1.02 
 *09.05.2018*
@@ -88,7 +93,7 @@ Changed handling of `-T` parameter: The character count of the sequence titles h
 -T 20  (the first 20 characters)     
 -T 20E (the last 20 characters)
 ```
-
+<br>
 
 ## Version 1.01 
 *21.04.2018*
@@ -99,7 +104,7 @@ Changed handling of `-T` parameter: The character count of the sequence titles h
 
 minor bugfixing
 
-
+<br>
 
 ## Version 1.00 
 *21.03.2018*
