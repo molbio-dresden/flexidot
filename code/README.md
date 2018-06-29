@@ -2,6 +2,51 @@
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
 
+## Version 1.04
+*29.06.2018* 
+
+* [new parameter cheat sheet v1.04](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.04.pdf) 
+* [new FlexiDot script v1.04](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.04.py)
+
+
+**[New feature] Graphic formatting options for all-against-all dotplots:**  
+On request we added two parameters: With `-M/--mirror` it is now possible to mirror the middle diagonal.
+
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_Flexi1.04_Para_Mirror.png" width="700">
+
+Basic commands:
+```
+python flexidot.py -i test-seqs.fas -p 2 -M n
+python flexidot.py -i test-seqs.fas -p 2 -M y
+```
+Command plus aesthetics as shown here (as described in version update 1.03):
+```
+python flexidot.py -i test-seqs.fas -p 2 -M n -g example2.gff3 -G gff_color.config -x y -k 10 -F 0.06 -A 1.5
+python flexidot.py -i test-seqs.fas -p 2 -M y -g example2.gff3 -G gff_color.config -x y -k 10 -F 0.06 -A 1.5
+```
+
+The `-R/--representation` parameter allows partial dotplotting, either printing the complete `-R 0`, the top `-R 1`, or the bottom dotplot `-R 2`. 
+
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_Flexi1.04_Para_Representation.png" width="900">
+
+Basic commands:
+```
+python flexidot.py -i test-seqs.fas -p 2 -R 0
+python flexidot.py -i test-seqs.fas -p 2 -R 1
+python flexidot.py -i test-seqs.fas -p 2 -R 2
+```
+Command plus aesthetics as shown here (as described in version update 1.03):
+```
+python flexidot.py -i test-seqs.fas -p 2 -R 0 -g example2.gff3 -G gff_color.config -x y -k 10 -F 0.06 -A 1.5
+python flexidot.py -i test-seqs.fas -p 2 -R 1 -g example2.gff3 -G gff_color.config -x y -k 10 -F 0.06 -A 1.5
+python flexidot.py -i test-seqs.fas -p 2 -R 2 -g example2.gff3 -G gff_color.config -x y -k 10 -F 0.06 -A 1.5
+```
+
+**[Bugfix]:**  
+
+We also fixed a distortion issue in `-p/--plotting_mode 0` (self dotplots).
+
+
 ## Version 1.03
 *17.06.2018* 
 
