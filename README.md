@@ -16,7 +16,7 @@ If you use FlexiDot in your research, please cite us:
 
 <img align="right" width="100" height="100" src="https://github.com/molbio-dresden/flexidot/blob/master/images/FlexiLogo.png"> 
 
-**Current version (29.06.2018): [FlexiDot v1.04](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.04.py)**
+**Current version (14.12.2018): [FlexiDot v1.05](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.05.py)**
 
 For an overview of FlexiDot version updates please see the [code history](https://github.com/molbio-dresden/flexidot/blob/master/code/README.md).
 
@@ -26,9 +26,9 @@ Older versions can be accessed in the [code directory](https://github.com/molbio
 ## Documentation
 
 * [in depth documentation](https://github.com/molbio-dresden/flexidot/blob/master/documentation/SupplementaryData.pdf) (This readme gives an overview, and more detail is in the documentation.) 
-* [parameter cheat sheet](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.04.pdf)
+* [parameter cheat sheet](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.05.pdf)
 * [artificial test sequences used for the examples](https://github.com/molbio-dresden/flexidot/tree/master/test-data)
-
+* [example: adding annotation-based shading to a dotplot](https://github.com/molbio-dresden/flexidot/blob/master/documentation/tutorial_add_annotation.md)
 
 ## Implementation
 
@@ -49,7 +49,7 @@ Please note, that the dependency **Biopython** requires a C compiler. In case of
 
 ## Use FlexiDot
 
-Download the [FlexiDot script](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.04.py). With a right click on the field `Raw` you can download the script easily via `Save as`.
+Download the [FlexiDot script](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.05.py). With a right click on the field `Raw` you can download the script easily via `Save as`.
 
 To run FlexiDot, [**Python 2.7**](https://www.python.org/download/releases/2.7/) must be installed on the machine. 
 FlexiDot is started via **command line** in the console. For a brief introduction to the command line interface, check out this nice [tutorial](https://tutorial.djangogirls.org/en/intro_to_command_line/). 
