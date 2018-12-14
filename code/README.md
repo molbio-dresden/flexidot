@@ -2,6 +2,31 @@
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
 
+## Version 1.05
+*14.12.2018* 
+
+* [new parameter cheat sheet v1.05](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.05.pdf) 
+* [new FlexiDot script v1.05](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.05.py)
+
+
+**[Faster run time]:**  
+We modified word match recognition, speeding up FlexiDot's runtime.
+
+
+**[New feature] New option for pairwise dotplot collages:**  
+With the new `-O, --only_vs_first_seq` option, it is now possible to limit the output of the pairwise dotplots. Instead of printing all possible pairwise combinations from a multi-fasta-sequence, only the pairwise comparisons against the first sequence are generated, if switched on (`-O y`). We use this feature to compare a new/unknown sequence against a batch of references. 
+
+
+**[Changed default wordsize]:**  
+The default wordsize has been changed from 7 to 10. 
+
+
+**[Bugfixes]:**  
+
+We fixed a few bugs with the dotplot shading legends. 
+
+<br>
+
 ## Version 1.04
 *29.06.2018* 
 
