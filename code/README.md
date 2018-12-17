@@ -18,7 +18,7 @@ With the new `-O, --only_vs_first_seq` option, it is now possible to limit the o
 
 
 **[Changed default wordsize]:**  
-The default wordsize has been changed from 7 to 10. 
+The default wordsize has been changed from 7 to 10 in order to prevent people from running FlexiDot with small word sizes on large datasets, as this presumably takes a very long time.
 
 
 **[Bugfixes]:**  
