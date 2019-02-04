@@ -29,6 +29,8 @@ Older versions can be accessed in the [code directory](https://github.com/molbio
 * [parameter cheat sheet](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.05.pdf)
 * [artificial test sequences used for the examples](https://github.com/molbio-dresden/flexidot/tree/master/test-data)
 * [example: adding annotation-based shading to a dotplot](https://github.com/molbio-dresden/flexidot/blob/master/documentation/tutorial_add_annotation.md)
+* [presentation slides introducing dotplots and our FlexiDot tool](https://zenodo.org/record/2556736)
+
 
 ## Implementation
 
