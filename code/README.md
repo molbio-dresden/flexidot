@@ -2,6 +2,19 @@
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
 
+## Version 1.06
+*14.04.2019* 
+
+* [new parameter cheat sheet v1.06](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.06.pdf) 
+* [new FlexiDot script v1.06](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.06.py)
+
+
+**[Major bugfixes]:**  
+
+We corrected a few bugs, including a bug introduced in version 1.05. We reverted (for now) to the pattern matching alforithm of version 1.04.
+
+<br>
+
 ## Version 1.05
 *14.12.2018* 
 
