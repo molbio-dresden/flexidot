@@ -11,7 +11,7 @@
 
 **[Major bugfixes]:**  
 
-We corrected a few bugs, including a bug introduced in version 1.05. We reverted (for now) to the pattern matching alforithm of version 1.04.
+We corrected a few bugs, including a bug introduced in version 1.05. We reverted (for now) to the pattern matching algorithm of version 1.04.
 
 <br>
 
