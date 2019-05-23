@@ -1256,9 +1256,9 @@ def read_gffs(input_gff_files, color_dict={"others": ("grey", 1, 0)}, type_nuc=T
         text = "...reading " + input_gff
         logprint(text, start=False, printing=True)
 
-        in_file = open(input_gff, 'rb')
+        in_file = open(input_gff, 'r')
         for line in in_file:
-            if not line.startswith("#") and line.strip() != "":
+            if not line.startswith('#') and line.strip() != "":
                 data = line.strip().split("\t")
                 feat_type = data[2].lower()
                 if data[6] == "-":
