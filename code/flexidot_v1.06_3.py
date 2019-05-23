@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python2.7
 # -*- coding: utf-8 -*-
 
 """
@@ -1014,7 +1014,8 @@ def unicode_name(name):
     replace non-ascii characters in string (e.g. for use in matplotlib)
     """
     unicode_string = eval('u"%s"' % name)
-    return unicodedata.normalize('NFKD', unicode_string).encode('ascii','ignore')
+    return ''.join(char for char in unicode_string if ord(char) < 128)
+    #return unicodedata.normalize('NFKD', unicode_string).encode('UTF-8','ignore')
 
 def check_bools(arg, update_log_txt = True, default=None):
     """
@@ -2099,7 +2100,7 @@ def selfdotplot(input_fasta, wordsize, prefix=None, plot_size=10, label_size=10,
             # P.xticks(tick_locs)
             # P.xlim(0, length_seq+1)
 
-            P.title(shorten_name(name_seq, max_len=title_length, title_clip_pos=title_clip_pos), fontsize=label_size, fontweight='bold')
+            P.title(unicode_name(shorten_name(name_seq, max_len=title_length, title_clip_pos=title_clip_pos)), fontsize=label_size, fontweight='bold')
             # P.title(unicode_name(name_seq), fontsize=label_size*1.3, fontweight='bold')
 
             # save figure and reinitiate if page is full
