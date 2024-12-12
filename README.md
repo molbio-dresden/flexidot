@@ -1,6 +1,6 @@
 # FlexiDot: Highly customizable, ambiguity-aware dotplots for visual sequence analyses
 
-![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
+![alt text](https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
 
 FlexiDot is a cross-platform dotplot suite generating high quality self, pairwise and all-against-all visualizations. To improve dotplot suitability for comparison of consensus and error-prone sequences, FlexiDot harbors routines for strict and relaxed handling of mismatches and ambiguous residues. The custom shading modules facilitate dotplot interpretation and motif identification by adding information on sequence annotations and sequence similarities to the images. Combined with collage-like outputs, FlexiDot supports simultaneous visual screening of a large sequence sets, allowing dotplot use for routine screening.
 
@@ -14,7 +14,7 @@ If you use FlexiDot in your research, please cite us:
 
 ## FlexiDot versions and updates
 
-<img align="right" width="100" height="100" src="https://github.com/molbio-dresden/flexidot/blob/master/images/FlexiLogo.png"> 
+<img align="right" width="100" height="100" src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/FlexiLogo.png"> 
 
 *We are currently working on a new version, including the long requested Python3 support. Please stay tuned.*
 
@@ -105,7 +105,7 @@ with `-p/--plotting_mode 0`
 
 In **self** dotplot mode, each sequence is compared with itself. The resulting dotplots can be combined to form a **collage** [default] or written to separate files.
 
-![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner.png "FlexiDot self dotplots")
+![alt text](https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Selfdotplots_banner.png "FlexiDot self dotplots")
 
 ```
 python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w y -r y -x n -m 6 -P 15 -g example.gff3 -G gff_color.config
@@ -118,7 +118,7 @@ with `-p/--plotting_mode 1`
 
 For **pairwise** dotplots, the collage output is recommended for larger numbers of sequences. The collage output of the 15 pairwise dotplots for the test sequences is shown below. By default, dotplot images are in square format (panel A). This maximizes the visibility of matches, if the compared sequences differ drastically in length. To enable scaling according to the respective sequence lengths, the FlexiDot scaling feature is callable via option `-L/--length_scaling` (panel B). If scaling is enabled, a red line indicates the end of the shorter sequence in the collage output. 
 
-<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/pairwise_low_res.png" width="600">
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/pairwise_low_res.png" width="600">
 
 ```
 Panel A$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -L n 
@@ -132,7 +132,7 @@ with `-p/--plotting_mode 2`
 
 In **all-against-all** mode, FlexiDot compares each pair from a set of input sequences. To enable the identification of long shared subsequences at a glance, FlexiDot offers similarity shading (switched on/off via option `-x/--lcs_shading`) based on the LCS length in all-against-all comparisons (see below). 
 
-<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all.png" width="500">
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/all_against_all.png" width="500">
 
 ```
 python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 0
@@ -151,7 +151,7 @@ Secondly, a defined number of **mismatches** within the window can be allowed wi
 
 Lastly, both mismatch and ambiguity handling can be combined for the analysis.
 
-<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Fig-Suppl-MismatchesWobbles.png" width="600">
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Fig-Suppl-MismatchesWobbles.png" width="600">
 
 ```
 Panel tl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n
@@ -171,7 +171,7 @@ In FlexiDot self dotplots, annotated sequence regions can be highlighted by **sh
 
 If you wish to find out more on the gff3 file format used here, Ensembl provides a [good overview](https://www.ensembl.org/info/website/upload/gff3.html).
 
-<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplot_shaded.png" width="500">
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Selfdotplot_shaded.png" width="500">
 
 ```
 python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
@@ -181,7 +181,7 @@ python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g
 
 Previously only available for self dotplots, we added annotation-based shading to all-against-all dotplots, allowing for many new visualizations. As before, annotation information is provided as general feature file (GFF3). These features are added to the middle diagonal (see our example below).
 
-<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_annotation_based_shading_cool.png" width="700">
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/all_against_all_annotation_based_shading_cool.png" width="700">
 
 Basic command:
 ```
@@ -210,7 +210,7 @@ FlexiDot similarity shading is highly customizable with the following parameters
 
 Shading examples based on sequence orientation (forward, panel A; reverse, panel B; both, panel C) are shown:
 
-![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/all_against_all_shaded_orientation2.png "FlexiDot shaded dotplots")
+![alt text](https://github.com/molbio-dresden/flexidot/blob/master/docs/images/all_against_all_shaded_orientation2.png "FlexiDot shaded dotplots")
 
 ```
 Panel A$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 0
@@ -224,7 +224,7 @@ When comparing related sequences, multiple sequence alignments are frequently ap
 
 In the example, LCS and matrix shading are combined to visualize the relationships between different members of a repeat family. 
 
-<img src="https://github.com/molbio-dresden/flexidot/blob/master/images/Beetle_matrix_shading.png" width="750">
+<img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Beetle_matrix_shading.png" width="750">
 
 ```
 python flexidot.py -i Beetle.fas -p 2 -x y -k 10 -S 1 -r n -u custom_matrix.txt -U y
