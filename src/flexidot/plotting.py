@@ -1152,10 +1152,8 @@ def polydotplot(
     # preparations for background shading
     if lcs_shading or custom_shading:
         # create color range white to grey
-        colors = create_color_list(lcs_shading_num + 1, color_map=None, logging=True)
-        colors_2 = create_color_list(
-            lcs_shading_num + 1, color_map="OrRd", logging=True
-        )
+        colors = create_color_list(lcs_shading_num + 1, color_map=None)
+        colors_2 = create_color_list(lcs_shading_num + 1, color_map="OrRd")
 
         if custom_shading:
             text = "Custom Matrix Colors: " + ", ".join(colors_2)
