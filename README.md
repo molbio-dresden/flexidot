@@ -16,13 +16,12 @@ If you use FlexiDot in your research, please cite us:
 
 <img align="right" width="100" height="100" src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/FlexiLogo.png"> 
 
-*We are currently working on a new version, including the long requested Python3 support. Please stay tuned.*
 
-**Current version (14.04.2019): [FlexiDot v1.06](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.06.py)**
+**Current version (Dec 2024): [FlexiDot v2.0.0](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.06.py)**
 
-For an overview of FlexiDot version updates please see the [code history](https://github.com/molbio-dresden/flexidot/blob/master/code/README.md).
+For an overview of FlexiDot version updates please see the [code history](https://github.com/molbio-dresden/flexidot/blob/master/CHANGELOG.md).
 
-Older versions can be accessed in the [code directory](https://github.com/molbio-dresden/flexidot/tree/master/code). Corresponding [parameter cheat sheets](https://github.com/molbio-dresden/flexidot/tree/master/documentation) are available as well.
+Corresponding [parameter cheat sheets](https://github.com/molbio-dresden/flexidot/tree/master/documentation) are available as well.
 
 
 ## Documentation
@@ -36,7 +35,7 @@ Older versions can be accessed in the [code directory](https://github.com/molbio
 
 ## Implementation
 
-FlexiDot is implemented in [Python 2.7](https://www.python.org/), using 
+FlexiDot is implemented in [Python 3](https://www.python.org/), with dependencies:
 
 * [numpy](https://pypi.python.org/pypi/numpy)
 * [matplotlib](https://pypi.python.org/pypi/matplotlib)
@@ -46,96 +45,97 @@ FlexiDot is implemented in [Python 2.7](https://www.python.org/), using
 * [easydev](https://pypi.python.org/pypi/easydev) (required for colormap)
 * [colour](https://pypi.python.org/pypi/colour)
 
-Upon **first starting FlexiDot**, the program calls all needed modules. If absent, it installs them automatically using Python’s install manager pip. If this fails, please try again with **administrator** privileges. 
 
-Please note, that the dependency **Biopython** requires a C compiler. In case of errors during Biopython installation, installing Microsoft Visual C++ Compiler (Windows), GCC (Linux) or Apple’s XCode suite (Mac OS) may help.
+You can create a Conda environment with these dependencies using the YAML file in this repo.
 
+```bash
+conda env create -f environment.yml
+
+conda activate flexidot
+```
+
+After activating the flexidot environment you can use pip to install the latest version of Flexidot.
+
+## Installing Flexidot
+
+Installation options:  
+
+pip install the latest development version directly from this repo.
+
+```bash
+% pip install git+https://github.com/molbio-dresden/flexidot.git
+```
+
+Flexidot is not currently available via PyPi or Bioconda. Watch this space.
+     
 
 ## Use FlexiDot
 
-Download the [FlexiDot script](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.06.py). With a right click on the field `Raw` you can download the script easily via `Save as`.
+Flexidot accepts one or more uncompressed fasta files as input. The files can contain multiple sequences.
 
-To run FlexiDot, [**Python 2.7**](https://www.python.org/download/releases/2.7/) must be installed on the machine. 
-FlexiDot is started via **command line** in the console. For a brief introduction to the command line interface, check out this nice [tutorial](https://tutorial.djangogirls.org/en/intro_to_command_line/). 
+```bash
+# Use individual fasta file (can contain multiple sequences)
+flexidot -i input.fasta [optional arguments]
 
-In brief, the console can be started the following way:
+# Use multiple fasta files
+flexidot -i input1.fasta input2.fasta [optional arguments]
 
-* **Windows** 
-     * start console: WINDOWS key + type `CMD` + ENTER (Shift + ENTER starts console as administrator)
-     * prepare directory
-          * select directory and add python script "flexidot.py" and sequence files   
-          * copy userpath from address bar (e.g.: C:\Users\Documents\Test)
-     * navigate to directory in console: type `cd userpath` + ENTER (paste userpath using right click)
-     * start Flexidot with the command below (with your specific fasta file name)
-* **Linux/MacOS**
-     * start console: Applications → Utilities [Linux] or Accessories [MacOS] → Terminal
-     * prepare directory (see above, e.g. /Users/Documents/Test)
-     * navigate to directory in console: type `cd userpath` + ENTER (paste userpath using right click)
-     * start Flexidot with the command below (with your specific fasta file name)
-     
-The general FlexiDot command depends on whether one or multiple fasta files are used as input via:
-
-```
-# use individual fasta file (can contain multiple sequences)
-python flexidot.py -i input.fas [optional arguments]
-
-# use multiple fasta files
-python flexidot.py -i input1.fas,input2.fas [optional arguments]
-
-# use all fasta files in current directory
-python flexidot.py -a [optional arguments]
+# Use all fasta files in current directory
+flexidot -i *.fasta [optional arguments]
 ```
 
-Optional arguments are explained below and in detail in the [**usage**](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.06.pdf). Importantly, `-k` defines the word size (e.g. `-k 10`) and `-t` specifies the sequence type (`-t y` for DNA [default]; `-t n` for proteins). The plotting mode is chosen via `-p` and described below.
+Optional arguments are explained below and in detail in the [**usage**](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.06.pdf). Importantly, `-k` defines the word size (e.g. `-k 10`) and `-t` specifies the sequence type (`-t nuc` for DNA [default]; `-t aa` for proteins). The plotting mode is chosen via `-m` and described below.
 
 
 
 ## Plotting modes
 
-FlexiDot allows sequence investigation in three run modes via the option `-p/--plotting_mode`: 
+FlexiDot allows sequence investigation in three run modes via the option `-m/--mode`: 
 
-`-p 0`    self sequence comparison 
-`-p 1`    pairwise sequence comparison
-`-p 2`    all-to-all sequence comparison
+`-m 0`    self sequence comparison 
+`-m 1`    pairwise sequence comparison
+`-m 2`    all-to-all sequence comparison
 
+To run multiple plotting modes, call the option multiple times i.e. `-m 0 -m 1 -m 2`.
 
 ### Self dotplots
 
-with `-p/--plotting_mode 0`
+with `-m/--mode 0`
 
-In **self** dotplot mode, each sequence is compared with itself. The resulting dotplots can be combined to form a **collage** [default] or written to separate files.
+In **self** dotplot mode, each sequence is compared with itself. The resulting dotplots can be combined to form a **collage** (with `--collage`) or written to separate files.
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Selfdotplots_banner.png "FlexiDot self dotplots")
 
+```bash
+flexidot -i test-seqs.fas -m 0 -D top -f pdf -k 10 -w -x --n_col 6 -P 15 -g example.gff3 -G gff_color.config
 ```
-python flexidot.py -i test-seqs.fas -p 0 -D y -f 1 -k 10 -w y -r y -x n -m 6 -P 15 -g example.gff3 -G gff_color.config
-```
-
 
 ### Pairwise comparisons
 
-with `-p/--plotting_mode 1`
+with `-m/--mode 1`
 
 For **pairwise** dotplots, the collage output is recommended for larger numbers of sequences. The collage output of the 15 pairwise dotplots for the test sequences is shown below. By default, dotplot images are in square format (panel A). This maximizes the visibility of matches, if the compared sequences differ drastically in length. To enable scaling according to the respective sequence lengths, the FlexiDot scaling feature is callable via option `-L/--length_scaling` (panel B). If scaling is enabled, a red line indicates the end of the shorter sequence in the collage output. 
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/pairwise_low_res.png" width="600">
 
-```
-Panel A$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -L n 
-Panel B$ python flexidot.py -i test-seqs.fas -p 1 -D y -f 0 -k 10 -w y -r y -m 5 -c y -L y
+```bash
+#Panel A
+flexidot -i test-seqs.fas -p 1 -D top -f png -k 10 -w --n_col 5 -c  
+#Panel B
+flexidot -i test-seqs.fas -p 1 -D top -f png -k 10 -w --n_col 5 -c -L
 ```
 
 
 ### All-against-all comparisons
 
-with `-p/--plotting_mode 2`
+with `-m/--mode 2`
 
 In **all-against-all** mode, FlexiDot compares each pair from a set of input sequences. To enable the identification of long shared subsequences at a glance, FlexiDot offers similarity shading (switched on/off via option `-x/--lcs_shading`) based on the LCS length in all-against-all comparisons (see below). 
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/all_against_all.png" width="500">
 
-```
-python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 0
+```bash
+flexidot -i test-seqs.fasta -m 2 -D top -f png -t nuc -k 10 -w -x -y 0
 ```
 
 
@@ -143,9 +143,9 @@ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w y -r y -x y -y 
 
 ### Mismatch and ambiguity handling
 
-In diverged or distantly related sequences matches may be interrupted by mismatches or residues might be represented as ambiguities to refer to frequent variants or mutations. Similarly, relaxed matching is helpful when analyzing error-prone sequences like SMRT reads. The achieved relaxation of the matching conditions thus increases sensitivity, while decreasing specificity. 
+In diverged or distantly related sequences matches may be interrupted by mismatches, or residues might be represented as ambiguities to refer to frequent variants or mutations. Similarly, relaxed matching is helpful when analyzing error-prone sequences like SMRT reads. Relaxation of the matching conditions thus increases sensitivity, while decreasing specificity. 
 
-Firstly, FlexiDot handles **ambiguous residues**, often found in consensus sequences. This allows the comparison of species-specific representations of multigene or repeat families as well as common variants or sequence subfamilies. The ambiguity handling is controlled via`-w/--wobble_conversion Y/N`.
+Firstly, FlexiDot handles **ambiguous residues**, often found in consensus sequences. This allows the comparison of species-specific representations of multigene or repeat families as well as common variants or sequence subfamilies. The ambiguity handling is controlled via`-w/--wobble_conversion`.
 
 Secondly, a defined number of **mismatches** within the window can be allowed with `-S/--substitution_count [number of allowed mismatches (substitutions)]`. This is even less stringent than the ambiguity handling. Please note, that only substitution mutations are allowed but not indels. 
 
@@ -153,13 +153,19 @@ Lastly, both mismatch and ambiguity handling can be combined for the analysis.
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Fig-Suppl-MismatchesWobbles.png" width="600">
 
-```
-Panel tl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n
-Panel tm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n -S 1
-Panel tr$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w n -r y -x n -S 2
-Panel bl$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n
-Panel bm$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n -S 1
-Panel br$ python flexidot.py -i Seq4.fas,Seq1.fas -p 1 -D n -f 0 -c n -k 10 -w y -r y -x n -S 2
+```bash
+#Panel tl
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10
+#Panel tm
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -S 1
+#Panel tr
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -S 2
+#Panel bl
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -w y
+#Panel bm
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -w y -S 1
+#Panel br
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -w y -S 2
 ```
 
 
@@ -173,8 +179,8 @@ If you wish to find out more on the gff3 file format used here, Ensembl provides
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Selfdotplot_shaded.png" width="500">
 
-```
-python flexidot.py -i Seq2.fas -p 0 -D y -f 0 -k 10 -w y -r y -x n -m 12 -P 5 -g example.gff3 -G gff_color.config
+```bash
+flexidot -i Seq2.fasta -m 0 -D top -f png -k 10 -w --n_col 12 -P 5 -g example.gff3 -G gff_color.config
 ```
 
 ### [since FlexiDot_v1.03] Annotation-based shading also available for all-against-all dotplots
@@ -184,19 +190,19 @@ Previously only available for self dotplots, we added annotation-based shading t
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/all_against_all_annotation_based_shading_cool.png" width="700">
 
 Basic command:
-```
-python flexidot.py -i test-seqs.fas -g example2.gff3 -G gff_color.config -p 2
+```bash
+flexidot -i test-seqs.fas -g example2.gff3 -G gff_color.config -m 2
 ```
 
 Command plus aesthetics as shown here (+ LCS shading, wordsize 10, change of subplot spacing and line width):
-```
-python flexidot.py -i test-seqs.fas -g example2.gff3 -G gff_color.config -p 2 -x y -k 10 -F 0.06 -A 1.5
+```bash
+flexidot -i test-seqs.fas -g example2.gff3 -G gff_color.config -m 2 -x -k 10 -F 0.06 -A 1.5
 ```
 
 The test files used here are provided:
-* [test-seqs.fas](https://github.com/molbio-dresden/flexidot/blob/master/test-data/test-seqs.fas)
-* [example2.gff3](https://github.com/molbio-dresden/flexidot/blob/master/test-data/example2.gff3)
-* [gff_color.config](https://github.com/molbio-dresden/flexidot/blob/master/test-data/gff_color.config)
+* [test-seqs.fas](https://github.com/molbio-dresden/flexidot/blob/master/tests/test-data/test-seqs.fas)
+* [example2.gff3](https://github.com/molbio-dresden/flexidot/blob/master/tests/test-data/example2.gff3)
+* [gff_color.config](https://github.com/molbio-dresden/flexidot/blob/master/tests/test-data/gff_color.config)
 
 
 ### Similarity shading
@@ -213,20 +219,23 @@ Shading examples based on sequence orientation (forward, panel A; reverse, panel
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/docs/images/all_against_all_shaded_orientation2.png "FlexiDot shaded dotplots")
 
 ```
-Panel A$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 0
-Panel B$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 1
-Panel C$ python flexidot.py -i test-seqs.fas -p 2 -D y -f 0 -t y -k 10 -w n -r y -x y -y 0 -z 2
+#Panel A
+flexidot -i test-seqs.fas -m 2 -D top -f png -t nuc -k 10 -x -y 0 -z 0
+#Panel B
+flexidot -i test-seqs.fas -m 2 -D top -f png -t nuc -k 10 -x -y 0 -z 1
+#Panel C
+flexidot -i test-seqs.fas -m 2 -D top -f png -t nuc -k 10 -x -y 0 -z 2
 ```
 
 ### Custom matrix shading
 
-When comparing related sequences, multiple sequence alignments are frequently applied. The resulting pairwise **sequence similarities** can be integrated in the FlexiDot images by providing a **matrix file** via `-u/--input_user_matrix_file <matrix.txt>`. This allows a shading of the upper right triangle according to the matrix (here orange). With `-U/--user_matrix_print y` the matrix values can be printed into the respective fields. Besides, also **text** information can be provided in the matrix, but then shading is suppressed.
+When comparing related sequences, multiple sequence alignments are frequently applied. The resulting pairwise **sequence similarities** can be integrated in the FlexiDot images by providing a **matrix file** via `-u/--user_matrix_file <matrix.txt>`. This allows a shading of the upper right triangle according to the matrix (here orange). With `-U/--user_matrix_print` the matrix values can be printed into the respective fields. Besides, also **text** information can be provided in the matrix, but then shading is suppressed.
 
 In the example, LCS and matrix shading are combined to visualize the relationships between different members of a repeat family. 
 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Beetle_matrix_shading.png" width="750">
 
-```
-python flexidot.py -i Beetle.fas -p 2 -x y -k 10 -S 1 -r n -u custom_matrix.txt -U y
+```bash
+flexidot -i Beetle.fas -m 2 -x -k 10 -S 1 -r -u custom_matrix.txt -U
 ```
 
