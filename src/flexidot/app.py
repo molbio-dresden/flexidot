@@ -108,7 +108,7 @@ def parse_args():
         "-m",
         "--mode",
         action="append",
-        choices=['0', '1', '2'],
+        choices=["0", "1", "2"],
         help="Mode of FlexiDot dotplotting. 0 = self [default], 1 = paired, 2 = poly (matrix with all-against-all dotplots). Call -m multiple times to run multiple modes.",
     )
     parser.add_argument(
@@ -417,9 +417,9 @@ def main():
     mode_text = []
     for item in modes:
         mode_text.append(str(item))
-    
+
     logging.info("Requested plotting modes: %s" % (", ".join(mode_text)))
-    
+
     # create dotplots
     ##########################################
     # Init empty list for image file names
@@ -427,7 +427,7 @@ def main():
 
     # self dotplots
     t1 = time.time()
-    if '0' in modes:
+    if "0" in modes:
         logging.info("Calling selfdotplot")
         list_of_png_names = selfdotplot(
             seq_list,
@@ -461,7 +461,7 @@ def main():
         print(50 * "=")
 
     # paired dotplots
-    if '1' in modes:
+    if "1" in modes:
         if multi:
             logging.info("Calling pairdotplot with collage")
             list_of_png_names = pairdotplot(
@@ -492,8 +492,10 @@ def main():
             t1 = time_track(t1)
         else:
             if not length_scaling:
-                logging.info("Pairwise dotplot with individual output files scaled by sequence length automatically.")
-            
+                logging.info(
+                    "Pairwise dotplot with individual output files scaled by sequence length automatically."
+                )
+
             logging.info("Calling pairdotplot")
             list_of_png_names = pairdotplot(
                 seq_list,
@@ -528,7 +530,7 @@ def main():
         print(50 * "=")
 
     # all-against-all dotplot
-    if '2' in modes:
+    if "2" in modes:
         list_of_png_names = polydotplot(
             seq_list,
             wordsize,

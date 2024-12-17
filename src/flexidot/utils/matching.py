@@ -153,12 +153,24 @@ def find_match_pos_diag(
     t1 = time_track(t1)
 
     if not report_lcs:
-        return np.array([np.array(x) for x in x1], dtype=object), np.array([np.array(y) for y in y1], dtype=object), np.array([np.array(x) for x in x2], dtype=object), np.array([np.array(y) for y in y2], dtype=object)
+        return (
+            np.array([np.array(x) for x in x1], dtype=object),
+            np.array([np.array(y) for y in y1], dtype=object),
+            np.array([np.array(x) for x in x2], dtype=object),
+            np.array([np.array(y) for y in y2], dtype=object),
+        )
     else:
         # get length of longest common substring based on match lengths
         lcs_for = lcs_from_x_values(x1)
         lcs_rev = lcs_from_x_values(x2)
-        return np.array([np.array(x) for x in x1], dtype=object), np.array([np.array(y) for y in y1], dtype=object), np.array([np.array(x) for x in x2], dtype=object), np.array([np.array(y) for y in y2], dtype=object), lcs_for, lcs_rev
+        return (
+            np.array([np.array(x) for x in x1], dtype=object),
+            np.array([np.array(y) for y in y1], dtype=object),
+            np.array([np.array(x) for x in x2], dtype=object),
+            np.array([np.array(y) for y in y2], dtype=object),
+            lcs_for,
+            lcs_rev,
+        )
 
 
 def find_match_pos_regex(
@@ -301,9 +313,21 @@ def find_match_pos_regex(
     t1 = time_track(t1)
 
     if not report_lcs:
-        return np.array([np.array(x) for x in x1], dtype=object), np.array([np.array(y) for y in y1], dtype=object), np.array([np.array(x) for x in x2], dtype=object), np.array([np.array(y) for y in y2], dtype=object)
+        return (
+            np.array([np.array(x) for x in x1], dtype=object),
+            np.array([np.array(y) for y in y1], dtype=object),
+            np.array([np.array(x) for x in x2], dtype=object),
+            np.array([np.array(y) for y in y2], dtype=object),
+        )
     else:
         # get length of longest common substring based on match lengths
         lcs_for = lcs_from_x_values(x1)
         lcs_rev = lcs_from_x_values(x2)
-        return np.array([np.array(x) for x in x1], dtype=object), np.array([np.array(y) for y in y1], dtype=object), np.array([np.array(x) for x in x2], dtype=object), np.array([np.array(y) for y in y2], dtype=object), lcs_for, lcs_rev
+        return (
+            np.array([np.array(x) for x in x1], dtype=object),
+            np.array([np.array(y) for y in y1], dtype=object),
+            np.array([np.array(x) for x in x2], dtype=object),
+            np.array([np.array(y) for y in y2], dtype=object),
+            lcs_for,
+            lcs_rev,
+        )

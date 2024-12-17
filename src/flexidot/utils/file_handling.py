@@ -4,7 +4,8 @@ import os
 import matplotlib.colors as mcolors
 import pylab as P
 
-#TODO: Check line reading with CRLF and LF
+# TODO: Check line reading with CRLF and LF
+
 
 def read_seq(input_fasta):
     """
