@@ -17,7 +17,7 @@ If you use FlexiDot in your research, please cite us:
 <img align="right" width="100" height="100" src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/FlexiLogo.png"> 
 
 
-**Current version (Dec 2024): [FlexiDot v2.0.0](https://github.com/molbio-dresden/flexidot/blob/master/code/flexidot_v1.06.py)**
+**Current version (Dec 2024): FlexiDot v2.0.0**
 
 For an overview of FlexiDot version updates please see the [code history](https://github.com/molbio-dresden/flexidot/blob/master/CHANGELOG.md).
 
