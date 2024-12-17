@@ -1,6 +1,5 @@
 import logging
 import time
-import unicodedata
 
 from colormap import rgb2hex
 from colour import Color
@@ -70,10 +69,11 @@ def unicode_name(name):
     replace non-ascii characters in string (e.g. for use in matplotlib)
     """
     unicode_string = eval('u"%s"' % name)
-    return unicodedata.normalize("NFKD", unicode_string).encode("ascii", "ignore")
+    return "".join(char for char in unicode_string if ord(char) < 128)
+    # return unicodedata.normalize("NFKD", unicode_string).encode("ascii", "ignore")
 
 
-def create_color_list(number, color_map=None, logging=False, max_grey="#595959"):
+def create_color_list(number, color_map=None, max_grey="#595959"):
     """
     create color list with given number of entries
     grey by default, matplotlib color_map can be provided
@@ -112,9 +112,7 @@ def create_color_list(number, color_map=None, logging=False, max_grey="#595959")
                 # print colors[idx]
                 colors[idx] = colors[idx] + colors[idx][-(7 - len(colors[idx])) :]
 
-    text = "%d Colors: %s" % (len(colors), ", ".join(colors))
-    if logging:
-        logging.info(text, start=False, printing=True)
+    logging.info("%d Colors: %s" % (len(colors), ", ".join(colors)))
 
     if len(colors) < number:
         logging.info(
