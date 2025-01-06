@@ -5,7 +5,7 @@ import matplotlib.colors as mcolors
 import pylab as P
 
 # TODO: Check line reading with CRLF and LF
-
+# TODO: Check fasta for duplicate names
 
 def read_seq(input_fasta):
     """

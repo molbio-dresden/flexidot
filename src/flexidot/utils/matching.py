@@ -66,7 +66,7 @@ def find_match_pos_diag(
         data_list = [
             (str(seq_one), kmer_pos_dict_one),
             (str(seq_two), kmer_pos_dict_two),
-            (str(seq_one), kmer_pos_dict_three),
+            (str(seq_one), kmer_pos_dict_three), # TODO: Should this be revcomped too??
             (str(seq_two.reverse_complement()), kmer_pos_dict_four),
         ]
     else:

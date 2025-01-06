@@ -4,7 +4,8 @@ import time
 from colormap import rgb2hex
 from colour import Color
 
-
+# TODO: Remove internal logging message. Return delta time instead of printing it.
+# Check if "now" value is used elsewhere.
 def time_track(starting_time, show=True):
     """
     calculate time passed since last time measurement
