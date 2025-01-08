@@ -1,5 +1,8 @@
+import sys
 import logging
 import time
+import pylab as P
+from matplotlib import colormaps
 
 from colormap import rgb2hex
 from colour import Color
@@ -74,36 +77,40 @@ def unicode_name(name):
     # return unicodedata.normalize("NFKD", unicode_string).encode("ascii", "ignore")
 
 
-def create_color_list(number, color_map=None, max_grey="#595959"):
+def create_color_list(number: int, color_map: str = "Greys", max_grey: str = "#595959") -> list:
     """
-    create color list with given number of entries
+    Create color list with given number of entries
     grey by default, matplotlib color_map can be provided
     """
-
+    if color_map not in list(colormaps):
+        logging.warning(
+            f"Invalid color_map {color_map} provided! - Examples: {list(colormaps)}.")
+        logging.warning("See https://matplotlib.org/users/colormaps.html\n")
+    
     try:
         # create pylab colormap
         cmap = eval("P.cm." + color_map)
+        
         # get descrete color list from pylab
         cmaplist = [cmap(i) for i in range(cmap.N)]  # extract colors from map
+        
         # determine positions for number of colors required
-        steps = (len(cmaplist) - 1) / (number)
-        numbers = list(range(0, len(cmaplist), steps))
-
-        # extract color and convert to hex code
+        steps = round((len(cmaplist) - 1) / (number))
+        numbers = list(range(0, len(cmaplist), int(steps)))
+        
+        # extract RGB color and convert to hex code
         colors = []
         for idx in numbers[:-1]:
-            rgb_color = cmaplist[idx]
-            col = rgb2hex(rgb_color[0] * 255, rgb_color[1] * 255, rgb_color[2] * 255)
+            rgba_color = cmaplist[idx]
+            rgb_color = rgba_color[:3]            
+            col = rgb2hex(int(rgb_color[0] * 255), int(rgb_color[1] * 255), int(rgb_color[2] * 255))
             colors.append(col)
+            
+    # Default to Greys color scheme if an error occurs
+    except Exception as e:
+        logging.warning(f"An error occurred: {e}")
+        logging.warning("Using grey color scheme instead.")
 
-    # grey
-    except:
-        if color_map is not None:
-            logging.warning(
-                "Invalid color_map (%s) provided! - Examples: jet, Blues, OrRd, bwr,..."
-                % color_map
-            )
-            logging.warning("See https://matplotlib.org/users/colormaps.html\n")
         old_max_grey = "#373737"
         old_max_grey = "#444444"
         colors = list(Color("#FFFFFF").range_to(Color(max_grey), number))  # grey
