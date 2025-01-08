@@ -98,7 +98,14 @@ In **self** dotplot mode, each sequence is compared with itself. The resulting d
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Selfdotplots_banner.png "FlexiDot self dotplots")
 
 ```bash
-flexidot -i test-seqs.fas -m 0 -D top -f pdf -k 10 -w -x --n_col 6 -P 15 -g example.gff3 -G gff_color.config
+# A single sequence compared to itself
+flexidot -i Seq2.fasta -m 0 -k 10 -P 15 
+
+# With annotations
+flexidot -i Seq2.fasta -m 0 -k 10 -P 15 -g example.gff3 -G gff_color.config
+
+# Collage of 6 sequences each compared to themselves
+flexidot -i test-seqs.fas -m 0 -k 10 --n_col 6 -P 15 -g example2.gff3 -G gff_color.config --collage
 ```
 
 ### Pairwise comparisons
@@ -111,9 +118,9 @@ For **pairwise** dotplots, the collage output is recommended for larger numbers 
 
 ```bash
 #Panel A
-flexidot -i test-seqs.fas -p 1 -D top -f png -k 10 -w --n_col 5 -c  
-#Panel B
-flexidot -i test-seqs.fas -p 1 -D top -f png -k 10 -w --n_col 5 -c -L
+flexidot -i test-seqs.fas -m 1 -k 10 --n_col 5 -c  
+#Panel B (with length scaling)
+flexidot -i test-seqs.fas -m 1 -k 10 --n_col 5 -c -L
 ```
 
 ### All-against-all comparisons
@@ -125,7 +132,8 @@ In **all-against-all** mode, FlexiDot compares each pair from a set of input seq
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/all_against_all.png" width="500">
 
 ```bash
-flexidot -i test-seqs.fasta -m 2 -D top -f png -t nuc -k 10 -w -x -y 0
+# All-by-all plot, LCS shading using maximal LCS length 
+flexidot -i test-seqs.fas -m 2 -k 10 -x -y 0 -g example2.gff3 -G gff_color.config
 ```
 
 ## Major features
@@ -143,18 +151,21 @@ Lastly, both mismatch and ambiguity handling can be combined for the analysis.
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Fig-Suppl-MismatchesWobbles.png" width="600">
 
 ```bash
+# Mismatch tolerance -S
 #Panel tl
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10
 #Panel tm
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -S 1
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -S 1
 #Panel tr
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -S 2
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -S 2
+
+# Wobble -w (tolerate ambiguities)
 #Panel bl
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -w y
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -w
 #Panel bm
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -w y -S 1
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -w -S 1
 #Panel br
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -D top -f png -k 10 -w y -S 2
+flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -w -S 2
 ```
 
 ### Annotation-based shading
@@ -168,7 +179,7 @@ If you wish to find out more on the gff3 file format used here, Ensembl provides
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Selfdotplot_shaded.png" width="500">
 
 ```bash
-flexidot -i Seq2.fasta -m 0 -D top -f png -k 10 -w --n_col 12 -P 5 -g example.gff3 -G gff_color.config
+flexidot -i Seq2.fasta -m 0 -k 10 -w --n_col 12 -P 5 -g example.gff3 -G gff_color.config
 ```
 
 ### [since FlexiDot_v1.03] Annotation-based shading also available for all-against-all dotplots
@@ -209,13 +220,13 @@ Shading examples based on sequence orientation (forward, panel A; reverse, panel
 
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/docs/images/all_against_all_shaded_orientation2.png "FlexiDot shaded dotplots")
 
-```
+```bash
 #Panel A
-flexidot -i test-seqs.fas -m 2 -D top -f png -t nuc -k 10 -x -y 0 -z 0
+flexidot -i test-seqs.fas -m 2 -k 10 -x -y 0 -z 0
 #Panel B
-flexidot -i test-seqs.fas -m 2 -D top -f png -t nuc -k 10 -x -y 0 -z 1
+flexidot -i test-seqs.fas -m 2 -k 10 -x -y 0 -z 1
 #Panel C
-flexidot -i test-seqs.fas -m 2 -D top -f png -t nuc -k 10 -x -y 0 -z 2
+flexidot -i test-seqs.fas -m 2 -k 10 -x -y 0 -z 2
 ```
 
 ### Custom matrix shading
