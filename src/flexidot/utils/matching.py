@@ -35,7 +35,7 @@ def find_match_pos_diag(
     t1 = time.time()  # timer
 
     # look for Ns in DNA or Xs in proeins (minimum word size)
-    if type_nuc == True:
+    if type_nuc:
         any_residue = "N"
     else:
         any_residue = "X"
