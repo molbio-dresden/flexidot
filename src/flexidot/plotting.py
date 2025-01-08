@@ -133,9 +133,7 @@ def selfdotplot(
 
     print(
         "\n%s\n\nCreating %s selfdotplot images\n%s\n\n=>"
-        % (50 * "=", len(sequences), 28 * "-"),
-        end=" ",
-    )
+        % (50 * "=", len(sequences), 28 * "-"))
     log_txt = "\n%s\n\nCreating %s selfdotplot images\n%s\n\n=>" % (
         50 * "=",
         len(sequences),
@@ -171,7 +169,7 @@ def selfdotplot(
 
     counter = 0
     for seq_name in sequences:
-        print(seq_name, end=" ")
+        print(seq_name)
         log_txt += " " + seq_name
 
         counter += 1
@@ -613,12 +611,12 @@ def pairdotplot(
     )
 
     counter, seq_counter = 0, 0
-    print("Drawing pairwise dotplot...", end=" ")
+    print("Drawing pairwise dotplot...\n")
     log_txt = "Drawing pairwise dotplot..."
 
     seq_text = ""
     for idx in range(len(sequences) - 1):
-        logging.debug("\n%d\t%s vs." % ((seq_counter + 1), sequences[idx]), end=" ")
+        logging.debug("\n%d\t%s vs." % ((seq_counter + 1), sequences[idx]))
         seq_text += "\n%d\t%s vs." % ((seq_counter + 1), sequences[idx])
 
         rec_two = seq_dict[sequences[idx]]
@@ -635,11 +633,11 @@ def pairdotplot(
             counter += 1
             seq_counter += 1
 
-            logging.debug(sequences[jdx], end=" ")
+            logging.debug(sequences[jdx])
             seq_text += " " + sequences[jdx]
 
             if not seq_counter % 25:
-                print(seq_counter, end=" ")
+                print(seq_counter)
                 log_txt += " " + str(seq_counter)
 
             # get positions of matches
@@ -1152,7 +1150,7 @@ def polydotplot(
     # preparations for background shading
     if lcs_shading or custom_shading:
         # create color range white to grey
-        colors = create_color_list(lcs_shading_num + 1, color_map=None)
+        colors = create_color_list(lcs_shading_num + 1, color_map="Greys")
         colors_2 = create_color_list(lcs_shading_num + 1, color_map="OrRd")
 
         if custom_shading:
@@ -1190,9 +1188,8 @@ def polydotplot(
     text += "\nTotal calculations: %d" % (len(sequences) * (len(sequences) + 1) / 2)
     logging.info(text)
 
-    print(
-        "\nCalculating shared regions and lengths of longest_common_substring...",
-        end=" ",
+    logging.info(
+        "\nCalculating shared regions and lengths of longest_common_substring..."
     )
     log_txt = "\nCalculating shared regions and lengths of longest_common_substring..."
     # determine  matches and length of lcs by comparing all sequence pairs
@@ -1232,7 +1229,7 @@ def polydotplot(
                 )
             else:
                 if not counter % 25:
-                    print(counter, end=" ")
+                    print(counter)
                     log_txt += str(counter)
 
             # Get positions of matches &  length of longest common substring based on match lengths
@@ -1282,7 +1279,6 @@ def polydotplot(
                 + "\n"
             )
 
-    print(len(sequences) * (len(sequences) + 1) / 2, " done\n")
     log_txt += str(len(sequences) * (len(sequences) + 1) / 2) + " done\n"
 
     logging.info(log_txt)
@@ -1397,7 +1393,6 @@ def polydotplot(
             "\nAttention: For triangular output LCS shading for both orientations is combined to max of both orientations!\n"
         )
 
-    print("\nDrawing polydotplot...", end=" ")
     log_txt = "\nDrawing polydotplot..."
 
     # draw subplots
@@ -1451,7 +1446,7 @@ def polydotplot(
 
     counter, seq_counter = 0, 0
     for idx in range(len(sequences)):
-        logging.debug("\n%d\t%s vs." % ((seq_counter + 1), sequences[idx]), end=" ")
+        logging.debug("\n%d\t%s vs." % ((seq_counter + 1), sequences[idx]))
         seq_text += "\n%d\t%s vs." % ((seq_counter + 1), sequences[idx])
 
         rec_two = seq_dict[sequences[idx]]
@@ -1466,11 +1461,11 @@ def polydotplot(
             counter += 1
             seq_counter += 1
 
-            logging.debug(sequences[jdx], end=" ")
+            logging.debug(sequences[jdx])
             seq_text += " " + sequences[jdx]
 
             if not seq_counter % 25:
-                print(seq_counter, end=" ")
+                print(seq_counter)
                 log_txt += str(seq_counter)
 
             # optional shade background according to length of LCS and/or user matrix
@@ -1638,7 +1633,7 @@ def polydotplot(
             if len(counters) == 2:
                 seq_counter += 1
                 if not seq_counter % 25:
-                    print(seq_counter, end=" ")
+                    print(seq_counter)
                     log_txt += str(seq_counter)
 
             x_lists, y_lists, x_lists_rc, y_lists_rc = data_dict[(idx, jdx)]
