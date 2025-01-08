@@ -1,6 +1,5 @@
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 import logging
-import sys
 import time
 
 from matplotlib import rc as mplrc
@@ -9,9 +8,10 @@ import pylab as P
 
 from flexidot._version import __version__
 from flexidot.plotting import selfdotplot, pairdotplot, polydotplot
+from flexidot.utils.checks import print_summary, check_kmer_length
 from flexidot.utils.logs import init_logging
 from flexidot.utils.file_handling import read_gff_color_config
-from flexidot.utils.utils import time_track
+#from flexidot.utils.utils import time_track
 
 # Matplotlib settings
 P.switch_backend(
@@ -317,18 +317,12 @@ def main():
 
     # Set up logging
     init_logging(loglevel=args.loglevel, logfile=args.logfile)
+    
+    # Print summary of arguments
+    print_summary(args)
 
-    # If loglevel is DEBUG, print arguments
-    if args.loglevel == "DEBUG":
-        logging.debug(args)
-
-    # Log command line arguments
-    logging.info("cmd: {0}".format(" ".join(sys.argv)))
-
-    # TODO: Check if files in seq list exist
-    # args.infiles
-    # TODO: Check if GFF files exist
-    # TODO: Check valid kmer length
+    # Check valid kmer length
+    check_kmer_length(args.wordsize)
 
     # Set up variables
     alphabetic_sorting = args.sort
@@ -363,9 +357,6 @@ def main():
     wordsize = args.wordsize
     line_col_rev = args.line_col_rev
     line_col_for = args.line_col_for
-
-    # TODO: Unaccounted for arguments
-    # commandline
     line_width = args.line_width
 
     # Set True if nucleotide sequence
@@ -388,16 +379,10 @@ def main():
     #        ambiq_res = "X"
 
     # read gff color config file if provided
-    # TODO: Figure out if this is necessary
     if args.gff:
         if gff_color_config_file:
-            text = "\n%s\n\nReading GFF color configuration file\n%s\n\n=> %s\n" % (
-                50 * "=",
-                28 * "-",
-                gff_color_config_file,
-            )
-            logging.info(text)
-        gff_feat_colors = read_gff_color_config(gff_color_config_file)
+            logging.info(f"Reading GFF color configuration file: {gff_color_config_file}")
+            gff_feat_colors = read_gff_color_config(gff_color_config_file)
     else:
         gff_feat_colors = {}
         if gff_color_config_file:
@@ -453,7 +438,7 @@ def main():
             type_nuc=type_nuc,
             line_width=line_width,
         )
-        t1 = time_track(t1)
+        #t1 = time_track(t1)
         if list_of_png_names:
             logging.info("-> Image file(s): %s\n" % ", ".join(list_of_png_names))
         else:
@@ -489,7 +474,7 @@ def main():
                 x_label_pos_top=x_label_pos_top,
                 line_width=line_width,
             )
-            t1 = time_track(t1)
+            #t1 = time_track(t1)
         else:
             if not length_scaling:
                 logging.info(
@@ -521,7 +506,7 @@ def main():
                 type_nuc=type_nuc,
                 line_width=line_width,
             )
-            t1 = time_track(t1)
+            #t1 = time_track(t1)
         if list_of_png_names:
             logging.info("-> Image file(s): %s\n" % ", ".join(list_of_png_names))
         else:
@@ -561,13 +546,11 @@ def main():
             user_matrix_print=user_matrix_print,
             line_width=line_width,
         )
-        t1 = time_track(t1)
+        #t1 = time_track(t1)
         if list_of_png_names:
-            logging.info("-> Image file(s): %s\n" % ", ".join(list_of_png_names))
+            logging.info("\n-> Image file(s): %s\n" % ",\n".join(list_of_png_names))
         else:
             logging.info("No image files were created!")
-
-        print(50 * "=")
 
     logging.info("Thank you for using FlexiDot.")
 
