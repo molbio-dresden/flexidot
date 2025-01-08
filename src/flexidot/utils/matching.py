@@ -8,7 +8,7 @@ import time
 import regex
 import numpy as np
 
-from flexidot.utils.utils import time_track
+#from flexidot.utils.utils import time_track
 from flexidot.utils.alphabets import alphabets
 from flexidot.utils.analysis import (
     wobble_replacement,
@@ -150,7 +150,7 @@ def find_match_pos_diag(
             y_values = split_diagonals(factor - x_values, -1)
             y2.extend(y_values)
 
-    t1 = time_track(t1)
+    #t1 = time_track(t1)
 
     if not report_lcs:
         return (
@@ -310,7 +310,7 @@ def find_match_pos_regex(
             y_values = split_diagonals(factor - x_values, -1)
             y2.extend(y_values)
 
-    t1 = time_track(t1)
+    #t1 = time_track(t1)
 
     if not report_lcs:
         return (
