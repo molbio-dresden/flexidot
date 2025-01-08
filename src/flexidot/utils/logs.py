@@ -66,7 +66,7 @@ def init_logging(loglevel="DEBUG", logfile=None):
         raise ValueError(f"Invalid log level: {loglevel}")
 
     # Define log message format
-    fmt = "%(asctime)s | %(levelname)s | %(message)s"
+    fmt = "%(asctime)s | %(levelname)s | %(module)s | %(funcName)s | %(lineno)d | %(message)s"
 
     # Create a StreamHandler to output log messages to stderr
     handler_sh = logging.StreamHandler(sys.stderr)
