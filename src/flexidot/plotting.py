@@ -443,7 +443,6 @@ def selfdotplot(
 
         list_of_png_names.append(fig_name)
 
-    print("\n\nDrawing selfdotplots done")
     log_txt += "\n\nDrawing selfdotplots done"
     logging.info(log_txt)
 
@@ -1320,7 +1319,7 @@ def polydotplot(
             max_lcs = None
 
     if max_lcs:
-        text = "Maximum LCS:          %d %s" % (max_lcs, aa_bp_unit)
+        text = "Maximum LCS: %d %s" % (max_lcs, aa_bp_unit)
         logging.info(text)
     if custom_shading:
         text = "Maximum custom value: %d\n" % custom_max
@@ -1465,7 +1464,7 @@ def polydotplot(
             seq_text += " " + sequences[jdx]
 
             if not seq_counter % 25:
-                print(seq_counter)
+                #print(seq_counter)
                 log_txt += str(seq_counter)
 
             # optional shade background according to length of LCS and/or user matrix
@@ -1633,7 +1632,7 @@ def polydotplot(
             if len(counters) == 2:
                 seq_counter += 1
                 if not seq_counter % 25:
-                    print(seq_counter)
+                    #print(seq_counter)
                     log_txt += str(seq_counter)
 
             x_lists, y_lists, x_lists_rc, y_lists_rc = data_dict[(idx, jdx)]
@@ -1896,7 +1895,6 @@ def polydotplot(
                     else:
                         ax.axes.get_yaxis().set_visible(False)
 
-    print("\n%d done" % seq_counter)
     log_txt += "\n%d done" % seq_counter
     logging.info(log_txt)
 
