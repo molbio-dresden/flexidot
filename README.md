@@ -106,8 +106,8 @@ flexidot -i Seq2.fasta -m 0 -k 10 -P 15
 # Single sequence with annotations
 flexidot -i Seq2.fasta -m 0 -k 10 -P 15 -g example.gff3 -G gff_color.config
 
-# Collage of 6 sequences each compared to themselves with annotations (shown above)
-flexidot -i test-seqs.fasta -m 0 -k 10 --n_col 6 -P 15 -g example2.gff3 -G gff_color.config --collage
+# Collage of 6 sequences each compared to themselves with Seq2 annotated (shown above)
+flexidot -i test-seqs.fasta -m 0 -k 10 --n_col 6 -P 15 -g example.gff3 -G gff_color.config --collage
 ```
 
 ### Pairwise comparisons
@@ -204,7 +204,7 @@ Command plus aesthetics as shown here (+ LCS shading, wordsize 10, change of sub
 flexidot -i test-seqs.fasta -g example2.gff3 -G gff_color.config -m 2 -x -k 10 -F 0.06 -A 1.5
 ```
 
-The test files used here are provided:
+The test files used here are [provided](https://github.com/molbio-dresden/flexidot/tree/master/test-data):
 
 * [test-seqs.fasta](https://github.com/molbio-dresden/flexidot/blob/master/tests/test-data/test-seqs.fasta)
 * [example2.gff3](https://github.com/molbio-dresden/flexidot/blob/master/tests/test-data/example2.gff3)
