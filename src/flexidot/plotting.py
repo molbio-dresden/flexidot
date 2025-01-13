@@ -52,7 +52,7 @@ def selfdotplot(
     # read sequences
     seq_dict, sequences = read_seq(input_fasta)
     if seq_dict == {}:
-        logging.warning("\nFailed to load sequences")
+        logging.warning("Failed to load sequences.")
         return []
 
     if type_nuc:
@@ -129,11 +129,6 @@ def selfdotplot(
             filetype=filetype,
         )
 
-    global t1
-
-    print(
-        "\n%s\n\nCreating %s selfdotplot images\n%s\n\n=>"
-        % (50 * "=", len(sequences), 28 * "-"))
     log_txt = "\n%s\n\nCreating %s selfdotplot images\n%s\n\n=>" % (
         50 * "=",
         len(sequences),
@@ -169,8 +164,7 @@ def selfdotplot(
 
     counter = 0
     for seq_name in sequences:
-        print(seq_name)
-        log_txt += " " + seq_name
+        log_txt += "\n- " + seq_name
 
         counter += 1
         if not multi:
@@ -445,7 +439,7 @@ def selfdotplot(
 
         list_of_png_names.append(fig_name)
 
-    log_txt += "\n\nDrawing selfdotplots done"
+    log_txt += "\n\nDrawing selfdotplots done.\n"
     logging.info(log_txt)
 
     return list_of_png_names
@@ -484,7 +478,7 @@ def pairdotplot(
     # read sequences
     seq_dict, sequences = read_seq(input_fasta)
     if seq_dict == {}:
-        logging.info("\nFailed to load sequences")
+        logging.warning("Failed to load sequences.")
         return []
 
     if type_nuc:
@@ -541,13 +535,13 @@ def pairdotplot(
             len(sequences) * (len(sequences) - 1) / 2,
             36 * "-",
         )
-        text += ", ".join(sequences) + "\n"
+        text += ",\n".join(sequences) + "\n"
     else:
         text = (
             "\n%s\n\nCreating %d paired dotplot images against 1st sequence '%s':\n%s\n\n=>"
             % (50 * "=", len(sequences) - 1, sequences[0], 36 * "-")
         )
-        text += ", ".join(sequences[1:]) + "\n"
+        text += ",\n".join(sequences[1:]) + "\n"
     logging.info(text)
 
     if multi and not (nrows == 1 and ncols == 1) and plot_size <= label_size / 2:
@@ -612,8 +606,7 @@ def pairdotplot(
     )
 
     counter, seq_counter = 0, 0
-    print("Drawing pairwise dotplot...\n")
-    log_txt = "Drawing pairwise dotplot..."
+    log_txt = "\nDrawing pairwise dotplots"
 
     seq_text = ""
     for idx in range(len(sequences) - 1):
@@ -638,7 +631,6 @@ def pairdotplot(
             seq_text += " " + sequences[jdx]
 
             if not seq_counter % 25:
-                print(seq_counter)
                 log_txt += " " + str(seq_counter)
 
             # get positions of matches
@@ -924,7 +916,7 @@ def pairdotplot(
         list_of_png_names.append(fig_name)
 
     log_txt += "\n%d done" % seq_counter
-    logging.debug(log_txt)
+    logging.info(log_txt)
 
     logging.debug(seq_text)
 
@@ -979,7 +971,7 @@ def polydotplot(
     # read sequences
     seq_dict, sequences = read_seq(input_fasta)
     if seq_dict == {}:
-        logging.warning("\nFailed to load sequences")
+        logging.warning("Failed to load sequences.")
         return []
 
     if type_nuc:
@@ -1217,11 +1209,7 @@ def polydotplot(
             seq_text += " " + sequences[jdx]
 
             if len(sequences) < 5:
-                print(
-                    "\t%s (%d %s), %s (%d %s)"
-                    % (name_one, len_one, aa_bp_unit, name_two, len_two, aa_bp_unit)
-                )
-                log_txt += "\t%s (%d %s), %s (%d %s)\n" % (
+                log_txt += "\n\t%s (%d %s), %s (%d %s)" % (
                     name_one,
                     len_one,
                     aa_bp_unit,
@@ -1281,7 +1269,7 @@ def polydotplot(
                 + "\n"
             )
 
-    log_txt += str(len(sequences) * (len(sequences) + 1) / 2) + " done\n"
+    log_txt += "\n" + str(len(sequences) * (len(sequences) + 1) / 2) + " done"
 
     logging.info(log_txt)
 
