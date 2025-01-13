@@ -71,6 +71,7 @@ def print_summary(args):
     sys.stderr.write(f"  Modes [-m]: {', '.join(modes)}\n")
     sys.stderr.write(f"  Sequence type [-t]: {args.type_seq}\n")
     sys.stderr.write(f"  Wobble conversion [-w]: {args.wobble_conversion}\n")
+    sys.stderr.write(f"  Maximum 'N' percentage [-n_max]: {args.max_n}%\n")
     sys.stderr.write(f"  Substitution count [-S]: {args.substitution_count}\n")
     sys.stderr.write(f"  No reverse complementary matches [-r]: {args.norev}\n")
     sys.stderr.write(f"  Only vs first sequence [-O]: {args.only_vs_first_seq}\n\n")
@@ -105,7 +106,7 @@ def print_summary(args):
         
     # Longest Common Subsequence (LCS) shading
     sys.stderr.write(
-        f"{heading_color}Longest Common Subsequence (LCS) Shading:{reset_color}\n"
+        f"\n{heading_color}Longest Common Subsequence (LCS) Shading:{reset_color}\n"
     )
     sys.stderr.write(f"  LCS shading [-x]: {args.lcs_shading}\n")
     sys.stderr.write(f"  LCS shading intervals [-X]: {args.lcs_shading_num}\n")
