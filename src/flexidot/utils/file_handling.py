@@ -4,35 +4,31 @@ import os
 import matplotlib.colors as mcolors
 import pylab as P
 
-# TODO: Check line reading with CRLF and LF
-# TODO: Check fasta for duplicate names
-
 def read_seq(input_fasta):
     """
     Read fasta sequences from (all) file(s)
     """
 
-    # check if file provided
+    # Check if file provided
     if input_fasta == [] or input_fasta == "":
-        text = "Attention: No valid file names provided: >%s<" % input_fasta
-        logging.info(text)
-        return {}, []
+        raise ValueError("No file names provided: %s" % input_fasta)
 
-    # combine sequence files, if required
+    # Combine sequence files, if required
     if type(input_fasta) is list:
-        # concatenate fasta files
+        # Concatenate fasta files
         if len(input_fasta) > 1:
-            logging.info("concatenating fastas...")
+            logging.info("Concatenating sequences from multiple files: {}".format(input_fasta))
             input_fasta_combi = concatenate_files(input_fasta)
-            logging.info("done")
         else:
             input_fasta_combi = input_fasta[0]
     else:
+        # Single fasta file
         input_fasta_combi = input_fasta
 
     # read sequences
-    logging.info("reading fasta...")
+    logging.info(f"Reading sequences from {input_fasta_combi}")
     try:
+        # SeqIO.index returns a dictionary with the sequence id as key and the sequence as value
         seq_dict = SeqIO.index(input_fasta_combi, "fasta")
     except ValueError as e:
         logging.error(f"ValueError: {e} - please check input files, e.g. for duplicate names!")
@@ -44,10 +40,9 @@ def read_seq(input_fasta):
         logging.error(f"Unexpected error: {e} - please check input files!")
         return {}, []
 
-    for seq in seq_dict:
-        if "-" in seq_dict[seq].seq:
-            # ungapped = seq_dict[seq].seq.ungap("-") # cannot be assigned back to sequence record
-            logging.warning("\nSequences must be degapped prior to analysis!")
+    for seq_id in seq_dict:
+        if "-" in seq_dict[seq_id].seq:
+            logging.warning("Gaps detected in sequence: %s" % seq_id)
             return read_seq(degap_fasta(input_fasta))
 
     # Get ordered sequence names
@@ -88,15 +83,15 @@ def read_gff_color_config(gff_color_config_file=""):
         "misc": ("grey", 0.3, 0),
         "others": ("grey", 0.5, 0),
     }
-    if gff_color_config_file in ["", None] or not os.path.exists(
+    if not gff_color_config_file or not os.path.exists(
         str(gff_color_config_file)
     ):
+        logging.info("No custom GFF color configuration found. Using defaults.")
         return gff_feat_colors
 
-    text = "Updating GFF color configuration with custom specifications\n"
-    logging.info(text)
+    logging.info("Updating GFF color configuration with custom specifications.")
 
-    # read custom gff_color_config_file
+    # Read custom gff_color_config_file
     in_file = open(gff_color_config_file, "r")
     overwritten = set([])
     for line in in_file:
@@ -105,7 +100,7 @@ def read_gff_color_config(gff_color_config_file=""):
             feat = data[0].lower()
             color = data[1].lower()
 
-            # check, if settings are valid
+            # Check, if settings are valid
             if not mcolors.is_color_like(color):
                 color = "grey"
                 text = "Invalid color specified for %s: %s - default grey" % (
@@ -132,18 +127,19 @@ def read_gff_color_config(gff_color_config_file=""):
                 )
                 logging.info(text)
 
-            # track changes of predefined settings
+            # Track changes of predefined settings
             if feat in list(gff_feat_colors.keys()):
                 overwritten.add(data[0].lower())
 
             gff_feat_colors[feat] = (color, alpha, zoom)
+            
     in_file.close()
 
-    # default coloring for unknown annotations
+    # Default coloring for unknown annotations
     if "others" not in list(gff_feat_colors.keys()):
         gff_feat_colors["others"] = ("grey", 0.5, 0)
 
-    # print configuration
+    # Print configuration
     text = "\n\nGFF color specification:\n%s\n" % (60 * ".")
     for item in sorted(gff_feat_colors.keys()):
         text += "%-30s\t%-10s\t%-5s\t%s\n" % (
@@ -177,13 +173,13 @@ def read_gffs(
     filetype="png",
 ):
     """
-    create feature dictionary from input_gff
+    Create feature dictionary from input_gff
     sequence name as key and (feature type, start, stop) as value
     """
     if type(input_gff_files) is not list:
         input_gff_files = [input_gff_files]
 
-    # create dictionary with seq_name as key and (type, start and stop) as value
+    # Create dictionary with seq_name as key and (type, start and stop) as value
     unknown_feats = set([])
     used_feats = set([])
     feat_dict = {}
@@ -356,9 +352,9 @@ def concatenate_files(file_list, combi_filename="temp_combined.fasta"):
 
 def degap_fasta(input_fasta):
     """
-    remove gaps from fasta - new degapped sequence file created
+    Remove gaps from fasta - Write new degapped fasta.
     """
-
+    logging.info("Removing gaps from fasta files: %s" % input_fasta)
     # degap all sequence files
     output_fastas = []
     if type(input_fasta) is not list:
