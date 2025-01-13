@@ -28,6 +28,15 @@ def check_input(filename):
         raise FileNotFoundError(f"Input sequence file '{filename}' does not exist.")
     sys.stderr.write(f"\033[92m  Input file found: {filename}\033[0m\n")
 
+def check_output_dir(outdir):
+    """
+    Check if the output directory exists
+    """
+    # Check if the output directory exists
+    if not os.path.isdir(outdir):
+        logging.error("Output directory does not exist. Quitting.")
+        raise FileNotFoundError(f"Output directory '{outdir}' does not exist.")
+    sys.stderr.write(f"\033[92m  Output directory found: {outdir}\033[0m\n\n")
 
 def print_summary(args):
     """
@@ -47,7 +56,9 @@ def print_summary(args):
     sys.stderr.write(f"  Input files [-i]: {args.infiles}\n")
     for infile in args.infiles:
         check_input(infile)
-    sys.stderr.write(f"  Output prefix [-o]: {args.output_prefix}\n\n")
+    sys.stderr.write(f"  Output prefix [-o]: {args.output_prefix}\n")
+    sys.stderr.write(f"  Output directory [--outdir]: {args.outdir}\n")
+    check_output_dir(args.outdir)
 
     # Collage arguments
     sys.stderr.write(f"{heading_color}Collage Arguments:{reset_color}\n")
