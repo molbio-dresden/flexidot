@@ -4,18 +4,18 @@
 
 import logging
 
-import pylab as P
-import numpy as np
-import matplotlib.patches as patches
 import matplotlib.collections as cllct
 import matplotlib.gridspec as gridspec
+import matplotlib.patches as patches
+import numpy as np
+import pylab as P
 
 from flexidot.utils.file_handling import read_seq, read_gffs, legend_figure, read_matrix
 from flexidot.utils.utils import (
     calc_fig_ratio,
+    create_color_list,
     shorten_name,
     unicode_name,
-    create_color_list,
 )
 from flexidot.utils.matching import find_match_pos_regex, find_match_pos_diag
 
@@ -32,7 +32,7 @@ def selfdotplot(
     line_col_for="#000000",  # defalut black
     line_col_rev="#009243",  # default green
     line_width=1,
-    max_N_percentage=49,
+    max_N_percentage=10,
     mirror_y_axis=False,
     multi=True,
     ncols=4,
@@ -243,6 +243,7 @@ def selfdotplot(
                 (x_lists_rc, y_lists_rc, line_col_rev),
                 (x_lists, y_lists, line_col_for),
             ]:
+                # If color is not white, add lines to plot
                 if col != "white":
                     for ldx in range(len(x_lines)):
                         lines.append(
@@ -291,9 +292,9 @@ def selfdotplot(
                 # finalize layout - margins & spacing between plots
                 try:
                     P.tight_layout(h_pad=0.02, w_pad=0.02)
-                except:
+                except Exception as e:
                     logging.info(
-                        "Attention - pylab.tight_layout failed! Please check sequence names and layout settings!"
+                        "Attention - pylab.tight_layout failed! Please check sequence names and layout settings! Error: %s" % str(e)
                     )
                 P.subplots_adjust(
                     hspace=0.5, wspace=0.5
@@ -357,6 +358,7 @@ def selfdotplot(
                 (x_lists_rc, y_lists_rc, line_col_rev),
                 (x_lists, y_lists, line_col_for),
             ]:
+                # If color is not white, add lines to plot
                 if col != "white":
                     for ldx in range(len(x_lines)):
                         lines.append(
@@ -460,7 +462,7 @@ def pairdotplot(
     line_col_for="#000000",  # defalut black
     line_col_rev="#009243",  # default green
     line_width=1,
-    max_N_percentage=49,
+    max_N_percentage=10,
     mirror_y_axis=False,
     multi=True,
     ncols=4,
@@ -708,6 +710,7 @@ def pairdotplot(
                 (x2, y2, line_col_rev),
                 (x1, y1, line_col_for),
             ]:
+                # If color is not white, add lines to plot
                 if col != "white":
                     for ldx in range(len(x_lines)):
                         lines.append(
@@ -946,7 +949,7 @@ def polydotplot(
     line_col_for="#000000",  # defalut black
     line_col_rev="#009243",  # default green
     line_width=1,
-    max_N_percentage=49,
+    max_N_percentage=10,
     mirror_y_axis=False,
     plot_size=10,
     prefix=None,
@@ -1711,6 +1714,7 @@ def polydotplot(
                             (x2, y2, line_col_rev),
                             (x1, y1, line_col_for),
                         ]:
+                            # If color is not white, add lines to plot
                             if col != "white":
                                 for ldx in range(len(x_lines)):
                                     lines.append(
