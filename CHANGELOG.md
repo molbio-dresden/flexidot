@@ -1,6 +1,39 @@
 # FlexiDot version changes
 
-![alt text](https://github.com/molbio-dresden/flexidot/blob/master/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
+![alt text](https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Selfdotplots_banner4.png "FlexiDot self dotplots")
+
+## Version 2.0.0
+*Jan 2025*
+
+This release is a major refactor of the Flexidot codebase that migrates to Python 3 and a modern package structure.
+
+**[Faster run time]:**  
+- When comparing a sequence to an identical sequence `find_match_pos_diag()` will recycle kmer counts from the first seq. Saves 33% runtime.
+
+**[New features]:**
+
+- Flexidot and its dependancies are now pip installable - uses Hatch and pyproject.toml
+- Versioning is now managed dynamically using git tags
+- Some basic tests for the core `find_match_pos_diag()` function have been added
+- cmd line options are now managed with argparse
+- Repo includes env yaml to set up conda env for flexidot
+- Check that input files exist
+- Auto cleanup temp files
+- Add action to run pytests
+- Add action to format code with Rust
+- Uses logging module to manage status logging (removed time logging)
+
+**[Changed defaults]:**
+- Several cmd line options have been renamed or have changes to their expected input formatting. See --help.
+- If not using the `--wobble_conversion` option then kmers containing any Ns will be skipped by default.
+- If `--wobble_conversion` is set then `--max_n` determines the max percentage of Ns that will be tolerated in a kmer. Default changed to 10% from hard coded 49%.
+
+**[Bugfixes]:**  
+- Fix depreciation issue with numpy creating an ndarray from ragged nested sequences in `find_match_pos_diag()` Closes issue #15
+- Read files with r instead of rb
+- Fix unicode issue referenced in #10
+
+<br>
 
 ## Version 1.06
 *14.04.2019* 
