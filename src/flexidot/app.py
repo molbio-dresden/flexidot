@@ -33,6 +33,14 @@ rcParams["font.sans-serif"] = [
     "Arial",
 ]
 
+__citation__ = (
+    "Please remember to cite FlexiDot as follows:\n\n"
+    "Kathrin M Seibt, Thomas Schmidt, Tony Heitkam,\n"
+    "FlexiDot: highly customizable, ambiguity-aware dotplots for visual sequence analyses,\n"
+    "Bioinformatics, Volume 34, Issue 20, October 2018, Pages 3575–3577,\n"
+    "https://doi.org/10.1093/bioinformatics/bty395"
+)
+
 ###############################
 #        Function Call        #
 ###############################
@@ -286,7 +294,7 @@ def main():
         else:
             logging.warning(f"No image files were created!\n\n{50 * '='}\n")
 
-    logging.info("Finished. Thank you for using FlexiDot.")
+    logging.info(f"\nFinished! Thank you for using FlexiDot.\n\n{__citation__}")
 
 
 ######################
