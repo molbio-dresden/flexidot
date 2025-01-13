@@ -13,6 +13,9 @@ def read_seq(input_fasta, degap=False):
     if input_fasta == [] or input_fasta == "":
         raise ValueError("No file names provided: %s" % input_fasta)
 
+    # Initialize variables
+    concat_created = False
+    
     # Combine sequence files, if required
     if type(input_fasta) is list:
         # Concatenate fasta files
