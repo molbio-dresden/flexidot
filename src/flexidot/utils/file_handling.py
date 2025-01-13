@@ -344,7 +344,7 @@ def read_matrix(matrix_file_name, delim="\t", symmetric=True, recursion=False):
             logging.info(log_txt)
         logging.info("Using value from bottom left triangle!")
 
-    logging.debug("\nMatrix information for Sequences named: " % ", ".join(names))
+    logging.debug(f"Matrix information: {", ".join(names)}")
 
     return info_dict
 
