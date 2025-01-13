@@ -14,7 +14,7 @@ If you use FlexiDot in your research, please cite us:
 
 <img align="right" width="100" height="100" src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/FlexiLogo.png">
 
-**Current version (Dec 2024): FlexiDot v2.0.0**
+**Current version (Jan 2025): FlexiDot v2.0.0**
 
 For an overview of FlexiDot version updates please see the [code history](https://github.com/molbio-dresden/flexidot/blob/master/CHANGELOG.md).
 
@@ -77,7 +77,9 @@ flexidot -i input1.fasta input2.fasta [optional arguments]
 flexidot -i *.fasta [optional arguments]
 ```
 
-Optional arguments are explained below and in detail in the [**usage**](https://github.com/molbio-dresden/flexidot/blob/master/documentation/usage_v1.06.pdf). Importantly, `-k` defines the word size (e.g. `-k 10`) and `-t` specifies the sequence type (`-t nuc` for DNA [default]; `-t aa` for proteins). The plotting mode is chosen via `-m` and described below.
+Optional arguments are explained below and in detail with the `--help` option.
+
+Importantly, `-k` defines the word size (e.g. `-k 10`) and `-t` specifies the sequence type (`-t nuc` for DNA [default]; `-t aa` for proteins). The plotting mode is chosen via `-m` and described below.
 
 ## Plotting modes
 
@@ -101,11 +103,11 @@ In **self** dotplot mode, each sequence is compared with itself. The resulting d
 # A single sequence compared to itself
 flexidot -i Seq2.fasta -m 0 -k 10 -P 15 
 
-# With annotations
+# Single sequence with annotations
 flexidot -i Seq2.fasta -m 0 -k 10 -P 15 -g example.gff3 -G gff_color.config
 
-# Collage of 6 sequences each compared to themselves
-flexidot -i test-seqs.fas -m 0 -k 10 --n_col 6 -P 15 -g example2.gff3 -G gff_color.config --collage
+# Collage of 6 sequences each compared to themselves with annotations (shown above)
+flexidot -i test-seqs.fasta -m 0 -k 10 --n_col 6 -P 15 -g example2.gff3 -G gff_color.config --collage
 ```
 
 ### Pairwise comparisons
@@ -117,10 +119,10 @@ For **pairwise** dotplots, the collage output is recommended for larger numbers 
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/pairwise_low_res.png" width="600">
 
 ```bash
-#Panel A
-flexidot -i test-seqs.fas -m 1 -k 10 --n_col 5 -c  
-#Panel B (with length scaling)
-flexidot -i test-seqs.fas -m 1 -k 10 --n_col 5 -c -L
+# Panel A
+flexidot -i test-seqs.fasta -m 1 -k 10 --n_col 3 -c  
+# Panel B (with length scaling)
+flexidot -i test-seqs.fasta -m 1 -k 10 --n_col 3 -c -L
 ```
 
 ### All-against-all comparisons
@@ -133,7 +135,9 @@ In **all-against-all** mode, FlexiDot compares each pair from a set of input seq
 
 ```bash
 # All-by-all plot, LCS shading using maximal LCS length 
-flexidot -i test-seqs.fas -m 2 -k 10 -x -y 0 -g example2.gff3 -G gff_color.config
+# -y/--lcs_shading_ref: 0 = maximal LCS length
+# -x/--lcs_shading
+flexidot -i test-seqs.fasta -m 2 -k 10 -y 0 -x
 ```
 
 ## Major features
@@ -153,19 +157,19 @@ Lastly, both mismatch and ambiguity handling can be combined for the analysis.
 ```bash
 # Mismatch tolerance -S
 #Panel tl
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10
+flexidot -i Seq1.fasta Seq4.fasta -m 1 -k 10
 #Panel tm
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -S 1
+flexidot -i Seq1.fasta Seq4.fasta -m 1 -k 10 -S 1
 #Panel tr
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -S 2
+flexidot -i Seq1.fasta Seq4.fasta -m 1 -k 10 -S 2
 
 # Wobble -w (tolerate ambiguities)
 #Panel bl
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -w
+flexidot -i Seq1.fasta Seq4.fasta -m 1 -k 10 -w
 #Panel bm
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -w -S 1
+flexidot -i Seq1.fasta Seq4.fasta -m 1 -k 10 -w -S 1
 #Panel br
-flexidot -i Seq4.fasta Seq1.fasta -m 1 -k 10 -w -S 2
+flexidot -i Seq1.fasta Seq4.fasta -m 1 -k 10 -w -S 2
 ```
 
 ### Annotation-based shading
@@ -179,7 +183,7 @@ If you wish to find out more on the gff3 file format used here, Ensembl provides
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Selfdotplot_shaded.png" width="500">
 
 ```bash
-flexidot -i Seq2.fasta -m 0 -k 10 -w --n_col 12 -P 5 -g example.gff3 -G gff_color.config
+flexidot -i Seq2.fasta -m 0 -k 10 -w -P 5 -g example.gff3 -G gff_color.config
 ```
 
 ### [since FlexiDot_v1.03] Annotation-based shading also available for all-against-all dotplots
@@ -191,18 +195,18 @@ Previously only available for self dotplots, we added annotation-based shading t
 Basic command:
 
 ```bash
-flexidot -i test-seqs.fas -g example2.gff3 -G gff_color.config -m 2
+flexidot -i test-seqs.fasta -g example2.gff3 -G gff_color.config -m 2
 ```
 
 Command plus aesthetics as shown here (+ LCS shading, wordsize 10, change of subplot spacing and line width):
 
 ```bash
-flexidot -i test-seqs.fas -g example2.gff3 -G gff_color.config -m 2 -x -k 10 -F 0.06 -A 1.5
+flexidot -i test-seqs.fasta -g example2.gff3 -G gff_color.config -m 2 -x -k 10 -F 0.06 -A 1.5
 ```
 
 The test files used here are provided:
 
-* [test-seqs.fas](https://github.com/molbio-dresden/flexidot/blob/master/tests/test-data/test-seqs.fas)
+* [test-seqs.fasta](https://github.com/molbio-dresden/flexidot/blob/master/tests/test-data/test-seqs.fasta)
 * [example2.gff3](https://github.com/molbio-dresden/flexidot/blob/master/tests/test-data/example2.gff3)
 * [gff_color.config](https://github.com/molbio-dresden/flexidot/blob/master/tests/test-data/gff_color.config)
 
@@ -221,12 +225,12 @@ Shading examples based on sequence orientation (forward, panel A; reverse, panel
 ![alt text](https://github.com/molbio-dresden/flexidot/blob/master/docs/images/all_against_all_shaded_orientation2.png "FlexiDot shaded dotplots")
 
 ```bash
-#Panel A
-flexidot -i test-seqs.fas -m 2 -k 10 -x -y 0 -z 0
-#Panel B
-flexidot -i test-seqs.fas -m 2 -k 10 -x -y 0 -z 1
-#Panel C
-flexidot -i test-seqs.fas -m 2 -k 10 -x -y 0 -z 2
+#Panel A - lcs_shading_ori: 0 = forward
+flexidot -i test-seqs.fasta -m 2 -k 10 -x -y 0 -z 0
+#Panel B - lcs_shading_ori: 1 = reverse
+flexidot -i test-seqs.fasta -m 2 -k 10 -x -y 0 -z 1
+#Panel C - lcs_shading_ori: 2 = both
+flexidot -i test-seqs.fasta -m 2 -k 10 -x -y 0 -z 2
 ```
 
 ### Custom matrix shading
@@ -238,5 +242,9 @@ In the example, LCS and matrix shading are combined to visualize the relationshi
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/Beetle_matrix_shading.png" width="750">
 
 ```bash
-flexidot -i Beetle.fas -m 2 -x -k 10 -S 1 -r -u custom_matrix.txt -U
+# Beetle TE plot
+flexidot -i Beetle.fas -m 2 -k 10 -S 1 -r -x -u custom_matrix.txt -U
+
+# Example with test dataset
+flexidot -i test-seqs.fasta -m 2 -k 10 -S 1 -x -u custom_matrix.txt -U
 ```
