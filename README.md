@@ -116,6 +116,8 @@ with `-m/--mode 1`
 
 For **pairwise** dotplots, the collage output is recommended for larger numbers of sequences. The collage output of the 15 pairwise dotplots for the test sequences is shown below. By default, dotplot images are in square format (panel A). This maximizes the visibility of matches, if the compared sequences differ drastically in length. To enable scaling according to the respective sequence lengths, the FlexiDot scaling feature is callable via option `-L/--length_scaling` (panel B). If scaling is enabled, a red line indicates the end of the shorter sequence in the collage output.
 
+Pairwise comparisons can be limited to only pairs that contain the first sequence in a fasta file using `--only_vs_first_seq`.
+
 <img src="https://github.com/molbio-dresden/flexidot/blob/master/docs/images/pairwise_low_res.png" width="600">
 
 ```bash
