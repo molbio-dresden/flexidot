@@ -17,7 +17,7 @@ def time_track(starting_time, show=True):
     delta = now - starting_time
     if show:
         logging.info(f"{delta} seconds")
-    return now
+    return delta
 
 
 def calc_fig_ratio(ncols, nrows, plot_size):
