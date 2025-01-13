@@ -9,7 +9,7 @@ import pylab as P
 
 def read_seq(input_fasta):
     """
-    read fasta sequences from (all) file(s)
+    Read fasta sequences from (all) file(s)
     """
 
     # check if file provided
@@ -34,25 +34,23 @@ def read_seq(input_fasta):
     logging.info("reading fasta...")
     try:
         seq_dict = SeqIO.index(input_fasta_combi, "fasta")
-    except ValueError:
-        logging.info(
-            "Error reading fasta sequences - please check input files, e.g. for duplicate names!"
-        )
+    except ValueError as e:
+        logging.error(f"ValueError: {e} - please check input files, e.g. for duplicate names!")
         return {}, []
-    except:
-        logging.info("Error reading fasta sequences - please check input files!")
+    except FileNotFoundError as e:
+        logging.error(f"FileNotFoundError: {e} - please check if the file exists!")
         return {}, []
-
-    logging.info("done")
+    except Exception as e:
+        logging.error(f"Unexpected error: {e} - please check input files!")
+        return {}, []
 
     for seq in seq_dict:
         if "-" in seq_dict[seq].seq:
             # ungapped = seq_dict[seq].seq.ungap("-") # cannot be assigned back to sequence record
-            text = "\nSequences degapped prior Analysis!!!"
-            logging.info(text)
+            logging.warning("\nSequences must be degapped prior to analysis!")
             return read_seq(degap_fasta(input_fasta))
 
-    # get ordered sequence names
+    # Get ordered sequence names
     sequences = []
     for item in SeqIO.parse(input_fasta_combi, "fasta"):
         sequences.append(item.id)
