@@ -3,13 +3,15 @@
 ###############################
 
 import logging
-import time
 
 import regex
 import numpy as np
+from typing import Tuple, Union
+from Bio.Seq import Seq
 
-#from flexidot.utils.utils import time_track
+# from flexidot.utils.utils import time_track
 from flexidot.utils.alphabets import alphabets
+from collections import defaultdict
 from flexidot.utils.analysis import (
     wobble_replacement,
     split_diagonals,
@@ -18,27 +20,39 @@ from flexidot.utils.analysis import (
 
 
 def find_match_pos_diag(
-    seq1,
-    seq2,
-    wordsize,
-    report_lcs=False,
-    rc_option=True,
-    convert_wobbles=False,
-    max_N_percentage=49,
-    type_nuc=True,
-):
+    seq1: Union[str, Seq],
+    seq2: Union[str, Seq],
+    wordsize: int,
+    report_lcs: bool = False,
+    rc_option: bool = True,
+    convert_wobbles: bool = False,
+    max_N_percentage: float = 0,
+    type_nuc: bool = True,
+) -> Union[
+    Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray],
+    Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, int, int]
+]:
     """
-    find all matching positions with matches >= wordsize
+    Find all matching positions with matches >= wordsize
     convert matching points into lines of the length of the match
     (+ optional handling of ambiguities)
     """
-    t1 = time.time()  # timer
-
-    # look for Ns in DNA or Xs in proeins (minimum word size)
-    if type_nuc:
-        any_residue = "N"
+    # TODO: check if seq1 and se2 are the same sequence (e.g. in case of self-alignment)
+    # If so, then can skip counting the fwd kmers for seq2 and recycle the results from seq1
+    if seq1 == seq2:
+        logging.debug("Self-alignment detected. Recycling results from seq1 for seq2.")
+        self_alignment = True
     else:
-        any_residue = "X"
+        self_alignment = False
+
+    # Look for Ns in DNA or Xs in proeins (minimum word size)
+    if type_nuc:
+        unknown_residue = "N"
+    else:
+        unknown_residue = "X"
+
+    # Calculate the maximum number of Ns allowed in a kmer
+    max_N_count = (max_N_percentage / 100.0) * wordsize
 
     # read sequences
     seq_one = seq1.upper()
@@ -46,92 +60,126 @@ def find_match_pos_diag(
     seq_two = seq2.upper()
     len_two = len(seq_two)
 
-    # set ambiguity code for wobble replacement
+    # Set ambiguity code for wobble replacement
     general_ambiguity_code = alphabets(type_nuc)[
         2
     ]  # nucleotide_ambiguity_code or aminoacid_ambiguity_code
 
-    # forward
+    # Forward
     #################################
-    kmer_pos_dict_one = {}
-    kmer_pos_dict_two = {}  # dictionaries for both sequences
+    kmer_pos_dict_one = defaultdict(list) #Seq1
+    kmer_pos_dict_two = defaultdict(list) #Seq2
 
-    # reverse complement
+    # Reverse complement
     #################################
-    kmer_pos_dict_three = {}
-    kmer_pos_dict_four = {}  # dictionaries for both sequences
+    kmer_pos_dict_three = defaultdict(list) #Seq1
+    kmer_pos_dict_four = defaultdict(list) #Seq2
 
-    # create dictionaries with kmers (wordsize) and there position(s) in the sequence
-    if rc_option:
+    # Create dictionaries to index kmer (wordsize) positions in the sequence
+    if self_alignment and rc_option:
+        # Compare seq1 forward to self and self reverse
+        data_list = [
+            (str(seq_one), kmer_pos_dict_one),
+            (str(seq_one.reverse_complement()), kmer_pos_dict_three),
+        ]
+    elif self_alignment and not rc_option:
+        # Compare seq1 forward to self only
+        data_list = [
+            (str(seq_one), kmer_pos_dict_one),
+        ]
+    elif rc_option:
+        # Compare seq1 forward to seq2 forward and reverse
         data_list = [
             (str(seq_one), kmer_pos_dict_one),
             (str(seq_two), kmer_pos_dict_two),
-            (str(seq_one), kmer_pos_dict_three), # TODO: Should this be revcomped too??
+            # (str(seq_one), kmer_pos_dict_three), #TODO: Check if this is needed
             (str(seq_two.reverse_complement()), kmer_pos_dict_four),
         ]
     else:
+        # Compare seq1 and seq2 forward only
         data_list = [
             (str(seq_one), kmer_pos_dict_one),
             (str(seq_two), kmer_pos_dict_two),
         ]
+
+    # Step through each sequence and add kmers to dictionary
     for seq, kmer_pos_dict in data_list:
+        # Track number of kmers skipped due to Ns > max_N_count
+        skipped_Ns = 0
+        # Step through sequence and add kmer positions to dictionary
         for i in range(len(seq) - wordsize + 1):
+            # Extract kmer
             kmer = seq[i : i + wordsize]
-            # discard kmer, if too many Ns included
-            if kmer.count(any_residue) * 100.0 / wordsize <= max_N_percentage:
+            # Count Ns in kmer
+            Ns_in_kmer = kmer.count(unknown_residue)
+            # Discard kmer, if too many Ns included
+            if Ns_in_kmer <= max_N_count:
                 if not convert_wobbles:
-                    try:
+                    if Ns_in_kmer == 0:
+                        # Add kmer to dictionary if no Ns.
                         kmer_pos_dict[kmer].append(i)
-                    except KeyError:
-                        kmer_pos_dict[kmer] = [i]
-                else:
-                    wobbles = False
-                    for item in list(general_ambiguity_code.keys()):
-                        if item in kmer:
-                            wobbles = True
-                            break
-                    if not wobbles:
-                        try:
-                            kmer_pos_dict[kmer].append(i)
-                        except KeyError:
-                            kmer_pos_dict[kmer] = [i]
                     else:
+                        # Skip kmers with Ns
+                        skipped_Ns += 1
+                else:  # Deal with ambiguous characters
+                    # Set as True if any wobble characters are present in the kmer
+                    has_wobbles = any(
+                        item in kmer for item in general_ambiguity_code.keys()
+                    )
+                    if not has_wobbles:
+                        kmer_pos_dict[kmer].append(i)
+                    else:
+                        # Replace wobble characters with all possible variants
                         kmer_variants = wobble_replacement(kmer, general_ambiguity_code)
                         for new_kmer in kmer_variants:
-                            # print "\t", new_kmer
-                            try:
-                                kmer_pos_dict[new_kmer].append(i)
-                            except KeyError:
-                                kmer_pos_dict[new_kmer] = [i]
+                            kmer_pos_dict[new_kmer].append(i)
+            else:
+                skipped_Ns += 1
+                
+        # Log number of skipped kmers
+        if skipped_Ns > 0:
+            if convert_wobbles:
+                logging.debug("Skipped %i kmers due to {unknown_residue}s > %i" % (skipped_Ns, max_N_count))
+            else:
+                logging.debug("Skipped %i kmers containing {unknown_residue}s" % (skipped_Ns))
+    
+    # If self alignment, duplicate self fwd and rev dictionaries
+    if self_alignment:
+        # If self alignment, copy kmer_pos_dict_one to kmer_pos_dict_two
+        kmer_pos_dict_two = kmer_pos_dict_one.copy()
+        # Copy kmer_pos_dict_three to kmer_pos_dict_four
+        kmer_pos_dict_four = kmer_pos_dict_three.copy()
+        
+    # Find kmers shared between both sequences in forward orientation
+    matches_for = set(kmer_pos_dict_one).intersection(kmer_pos_dict_two)
+    
+    # Find kmers shared between Seq1 forward and Seq2 reverse orientation
+    matches_rc = set(kmer_pos_dict_one).intersection(kmer_pos_dict_four)
+    
+    
+    # TODO: Check if above is correct. Do we gain any extra kmers over set(matches_for, matches_rc) if we also check the seq1_rc?
+    # print("matches_for: ", type(matches_for) ,matches_for)
+    # print("matches_rc: ", matches_rc) 
 
-    # find kmers shared between both sequences
-    matches_for = set(kmer_pos_dict_one).intersection(kmer_pos_dict_two)  # forward
-    matches_rc = set(kmer_pos_dict_three).intersection(
-        kmer_pos_dict_four
-    )  # reverse complement
+    logging.debug("[matches: %i forward; %i reverse]" % (len(matches_for), len(matches_rc)))
 
-    text = "[matches: %i for; %.i rc]" % (len(matches_for), len(matches_rc))
-    logging.debug(text)
+    # Create lists of x and y coordinates for scatter plot
+    # Keep all coordinates of all shared kmers (may match multiple times)
+    diag_dict_for = defaultdict(set)
+    diag_dict_rc = defaultdict(set)
 
-    # create lists of x and y co-ordinates for scatter plot
-    # keep all coordinates of all shared kmers (may match multiple times)
-    diag_dict_for = {}
-    diag_dict_rc = {}
     for match_list, pos_dict1, pos_dict2, diag_dict in [
         (matches_for, kmer_pos_dict_one, kmer_pos_dict_two, diag_dict_for),
-        (matches_rc, kmer_pos_dict_three, kmer_pos_dict_four, diag_dict_rc),
+        (matches_rc, kmer_pos_dict_one, kmer_pos_dict_four, diag_dict_rc),
     ]:
         for kmer in match_list:
             for i in pos_dict1[kmer]:
                 for j in pos_dict2[kmer]:
                     diag = i - j
                     points = set(range(i + 1, i + wordsize + 1))
-                    if diag not in list(diag_dict.keys()):
-                        diag_dict[diag] = points
-                    else:
-                        diag_dict[diag].update(points)
+                    diag_dict[diag].update(points)
 
-    # convert coordinate points to line start and stop positions
+    # Convert coordinate points to line start and stop positions
     x1 = []  # x values reverse
     y1 = []  # y values forward
     for diag in list(diag_dict_for.keys()):
@@ -150,17 +198,19 @@ def find_match_pos_diag(
             y_values = split_diagonals(factor - x_values, -1)
             y2.extend(y_values)
 
-    #t1 = time_track(t1)
-
     if not report_lcs:
         return (
+            # x values forward matches
             np.array([np.array(x) for x in x1], dtype=object),
+            # y values forward matches
             np.array([np.array(y) for y in y1], dtype=object),
+            # x values rc (ascending)
             np.array([np.array(x) for x in x2], dtype=object),
+            # y values rc (descending)
             np.array([np.array(y) for y in y2], dtype=object),
         )
     else:
-        # get length of longest common substring based on match lengths
+        # Get length of longest common substring based on match lengths
         lcs_for = lcs_from_x_values(x1)
         lcs_rev = lcs_from_x_values(x2)
         return (
@@ -181,7 +231,7 @@ def find_match_pos_regex(
     report_lcs=False,
     rc_option=True,
     convert_wobbles=False,
-    max_N_percentage=49,
+    max_N_percentage=0,
     type_nuc=True,
 ):
     """
@@ -190,7 +240,6 @@ def find_match_pos_regex(
     convert matching points into lines of the length of the match
     (+ optional handling of ambiguities)
     """
-    global t1  # timer
 
     # read sequences
     seq_one = seq1.upper()
@@ -207,7 +256,7 @@ def find_match_pos_regex(
     ambiq_residues = "[%s]" % "".join(list(general_ambiguity_code.keys()))
 
     # look for Ns in DNA or Xs in proeins (minimum word size)
-    if type_nuc == True:
+    if type_nuc:
         any_residue = "N"
     else:
         any_residue = "X"
@@ -309,8 +358,6 @@ def find_match_pos_regex(
             x2.extend(split_diagonals(x_values))
             y_values = split_diagonals(factor - x_values, -1)
             y2.extend(y_values)
-
-    #t1 = time_track(t1)
 
     if not report_lcs:
         return (
