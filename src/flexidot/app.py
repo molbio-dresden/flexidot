@@ -78,7 +78,7 @@ def main():
     nrows = args.n_row
     only_vs_first_seq = args.only_vs_first_seq
     plot_size = args.plot_size
-    prefix = args.output_prefix
+    prefix = f"{args.outdir}/{args.output_prefix}"
     norevcomp = args.norev
     seq_list = args.infiles
     spacing = args.spacing

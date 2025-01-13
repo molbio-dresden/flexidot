@@ -23,7 +23,12 @@ def parse_args():
         default="flexidot_output",
         help="File prefix to be added to the generated filenames.",
     )
-
+    parser.add_argument(
+        "--outdir",
+        default=".",
+        help="Output directory. Default: current directory.",
+    )
+    
     # Collage arguments
     parser.add_argument(
         "-c",
