@@ -4,7 +4,7 @@ import os
 import matplotlib.colors as mcolors
 import pylab as P
 
-def read_seq(input_fasta):
+def read_seq(input_fasta, degap=False):
     """
     Read fasta sequences from (all) file(s)
     """
@@ -19,6 +19,7 @@ def read_seq(input_fasta):
         if len(input_fasta) > 1:
             logging.info("Concatenating sequences from multiple files: {}".format(input_fasta))
             input_fasta_combi = concatenate_files(input_fasta)
+            concat_created = True
         else:
             input_fasta_combi = input_fasta[0]
     else:
@@ -43,12 +44,27 @@ def read_seq(input_fasta):
     for seq_id in seq_dict:
         if "-" in seq_dict[seq_id].seq:
             logging.warning("Gaps detected in sequence: %s" % seq_id)
-            return read_seq(degap_fasta(input_fasta))
+            return read_seq(degap_fasta(input_fasta),degap=True)
 
-    # Get ordered sequence names
+    # Get sequence names for sorting
     sequences = []
     for item in SeqIO.parse(input_fasta_combi, "fasta"):
         sequences.append(item.id)
+    
+    # If degap=True remove input file after processing
+    if degap and type(input_fasta) is list:
+        logging.info("Removing temp degapped input fasta files: {}".format(input_fasta))
+        for item in input_fasta:
+            os.remove(item)
+    elif degap:
+        logging.info("Removing temp degapped input fasta file: {}".format(input_fasta))
+        os.remove(input_fasta)
+    
+    # If concatenation was required, remove combined file
+    if concat_created:
+        logging.info("Removing concatenated tempfile: {}".format(input_fasta_combi))
+        os.remove(input_fasta_combi)
+    
     return seq_dict, sequences
 
 
