@@ -82,7 +82,7 @@ def main():
     seq_list = args.infiles
     spacing = args.spacing
     substitution_count = args.substitution_count
-    title_clip_pos = "B"  # TODO: Was processed out of title_length in old args
+    title_clip_pos = "B"  # Note: This was processed out of title_length in previouis versions
     title_length = args.title_length
     user_matrix_print = args.user_matrix_print
     wordsize = args.wordsize
@@ -115,20 +115,22 @@ def main():
             )
 
     # If color is set to white, reverse complementary matches are skipped
-    # TODO: Figure out if "white" actually stops reverse complement calculations
     if norevcomp:  # if norev is set
         line_col_rev = "white"  # reverse matches not calculated
-    elif not type_nuc:
+    
+    if not type_nuc and not norevcomp:
         logging.warning("Reverse complement deactivated for proteins.")
         line_col_rev = "white"  # reverse matches not calculated
+    elif not type_nuc:
+        line_col_rev = "white"
 
-    # TODO: Log mode types by name
+    # Log plotting modes
     mode_text = []
     mode_names = {"0": "self", "1": "paired", "2": "poly"}
     for item in modes:
-        mode_text.append("\n" + str(item) + ": " + mode_names[item])
+        mode_text.append(str(item) + ": " + mode_names[item])
 
-    logging.info("\nRequested plotting modes: %s" % (", ".join(mode_text)))
+    logging.info(f"Requested plotting modes: {", ".join(mode_text)}\n\n{50 * '='}")
 
     # Create dotplots
     ##########################################
@@ -163,12 +165,10 @@ def main():
             type_nuc=type_nuc,
             line_width=line_width,
         )
-        #t1 = time_track(t1)
         if list_of_png_names:
-            logging.info("-> Image file(s): %s\n" % ", ".join(list_of_png_names))
+            logging.info(f"\n-> Image file(s):\t{",\n\t\t\t".join(list_of_png_names)}\n\n{50 * "="}")
         else:
-            logging.info("No image files were created!\n")
-        print(50 * "=")
+            logging.warning(f"No image files were created!\n\n{50 * "="}\n")
 
     # paired dotplots
     if "1" in modes:
@@ -231,16 +231,14 @@ def main():
                 type_nuc=type_nuc,
                 line_width=line_width,
             )
-            #t1 = time_track(t1)
         if list_of_png_names:
-            logging.info("-> Image file(s): %s\n" % ", ".join(list_of_png_names))
+            logging.info(f"\n-> Image file(s):\t{",\n\t\t\t".join(list_of_png_names)}\n\n{50 * "="}")
         else:
-            logging.info("No image files were created!\n")
-
-        print(50 * "=")
+            logging.warning(f"No image files were created!\n\n{50 * "="}\n")
 
     # all-against-all dotplot
     if "2" in modes:
+        logging.info("Calling polydotplot")
         list_of_png_names = polydotplot(
             seq_list,
             wordsize,
@@ -271,11 +269,11 @@ def main():
             user_matrix_print=user_matrix_print,
             line_width=line_width,
         )
-        #t1 = time_track(t1)
+        
         if list_of_png_names:
-            logging.info("\n-> Image file(s): %s\n" % ",\n".join(list_of_png_names))
+            logging.info(f"\n-> Image file(s):\t{",\n\t\t\t".join(list_of_png_names)}\n\n{50 * "="}")
         else:
-            logging.info("No image files were created!")
+            logging.warning(f"No image files were created!\n\n{50 * "="}\n")
 
     logging.info("Finished. Thank you for using FlexiDot.")
 
