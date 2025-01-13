@@ -15,7 +15,7 @@ from flexidot.utils.logs import init_logging
 # Matplotlib settings
 
 # Switch to non-interactive backend to avoid _tkinter.TclError on CentOs 7 servers see Github Issue #5
-P.switch_backend("agg") 
+P.switch_backend("agg")
 
 # Font settings
 mplrc("pdf", fonttype=42, compression=0)
@@ -37,13 +37,14 @@ rcParams["font.sans-serif"] = [
 #        Function Call        #
 ###############################
 
+
 def main():
     # Parse command line arguments
     args = parse_args()
 
     # Set up logging
     init_logging(loglevel=args.loglevel, logfile=args.logfile)
-    
+
     # Print summary of arguments
     print_summary(args)
 
@@ -51,7 +52,7 @@ def main():
     logging.debug("FlexiDot version: %s" % __version__)
     logging.debug("  ${0}\n\n".format(" ".join(sys.argv)))
     logging.debug("Command line arguments: %s" % args)
-    
+
     # Check valid kmer length
     check_kmer_length(args.wordsize)
 
@@ -82,7 +83,9 @@ def main():
     seq_list = args.infiles
     spacing = args.spacing
     substitution_count = args.substitution_count
-    title_clip_pos = "B"  # Note: This was processed out of title_length in previouis versions
+    title_clip_pos = (
+        "B"  # Note: This was processed out of title_length in previouis versions
+    )
     title_length = args.title_length
     user_matrix_print = args.user_matrix_print
     wordsize = args.wordsize
@@ -105,7 +108,9 @@ def main():
     # Read gff color config file if provided
     if args.gff:
         if gff_color_config_file:
-            logging.info(f"Reading GFF color configuration file: {gff_color_config_file}")
+            logging.info(
+                f"Reading GFF color configuration file: {gff_color_config_file}"
+            )
             gff_feat_colors = read_gff_color_config(gff_color_config_file)
     else:
         gff_feat_colors = {}
@@ -117,7 +122,7 @@ def main():
     # If color is set to white, reverse complementary matches are skipped
     if norevcomp:  # if norev is set
         line_col_rev = "white"  # reverse matches not calculated
-    
+
     if not type_nuc and not norevcomp:
         logging.warning("Reverse complement deactivated for proteins.")
         line_col_rev = "white"  # reverse matches not calculated
@@ -130,11 +135,11 @@ def main():
     for item in modes:
         mode_text.append(str(item) + ": " + mode_names[item])
 
-    logging.info(f"Requested plotting modes: {", ".join(mode_text)}\n\n{50 * '='}")
+    logging.info(f"Requested plotting modes: {', '.join(mode_text)}\n\n{50 * '='}")
 
     # Create dotplots
     ##########################################
-    
+
     # Init empty list for image file names
     list_of_png_names = list()
 
@@ -166,9 +171,11 @@ def main():
             line_width=line_width,
         )
         if list_of_png_names:
-            logging.info(f"\n-> Image file(s):\t{",\n\t\t\t".join(list_of_png_names)}\n\n{50 * "="}")
+            logging.info(
+                f"\n-> Image file(s):\t{',\n\t\t\t'.join(list_of_png_names)}\n\n{50 * '='}"
+            )
         else:
-            logging.warning(f"No image files were created!\n\n{50 * "="}\n")
+            logging.warning(f"No image files were created!\n\n{50 * '='}\n")
 
     # paired dotplots
     if "1" in modes:
@@ -199,7 +206,7 @@ def main():
                 x_label_pos_top=x_label_pos_top,
                 line_width=line_width,
             )
-            #t1 = time_track(t1)
+            # t1 = time_track(t1)
         else:
             if not length_scaling:
                 logging.info(
@@ -232,9 +239,11 @@ def main():
                 line_width=line_width,
             )
         if list_of_png_names:
-            logging.info(f"\n-> Image file(s):\t{",\n\t\t\t".join(list_of_png_names)}\n\n{50 * "="}")
+            logging.info(
+                f"\n-> Image file(s):\t{',\n\t\t\t'.join(list_of_png_names)}\n\n{50 * '='}"
+            )
         else:
-            logging.warning(f"No image files were created!\n\n{50 * "="}\n")
+            logging.warning(f"No image files were created!\n\n{50 * '='}\n")
 
     # all-against-all dotplot
     if "2" in modes:
@@ -269,11 +278,13 @@ def main():
             user_matrix_print=user_matrix_print,
             line_width=line_width,
         )
-        
+
         if list_of_png_names:
-            logging.info(f"\n-> Image file(s):\t{",\n\t\t\t".join(list_of_png_names)}\n\n{50 * "="}")
+            logging.info(
+                f"\n-> Image file(s):\t{',\n\t\t\t'.join(list_of_png_names)}\n\n{50 * '='}"
+            )
         else:
-            logging.warning(f"No image files were created!\n\n{50 * "="}\n")
+            logging.warning(f"No image files were created!\n\n{50 * '='}\n")
 
     logging.info("Finished. Thank you for using FlexiDot.")
 

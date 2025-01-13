@@ -4,15 +4,19 @@ import sys
 
 from flexidot._version import __version__
 
+
 def check_kmer_length(kmer_length):
     """
     Logs a warning if the kmer length is less than 10.
-    
+
     Parameters:
     kmer_length (int): The kmer length to check.
     """
     if kmer_length < 10:
-        logging.warning("Kmer length is less than 10. This may result in less accurate dotplots.")
+        logging.warning(
+            "Kmer length is less than 10. This may result in less accurate dotplots."
+        )
+
 
 def check_input(filename):
     """
@@ -103,7 +107,7 @@ def print_summary(args):
         sys.stderr.write(f"  GFF color config [-G]: {args.gff_color_config}\n")
         check_input(args.gff_color_config)
         sys.stderr.write("\n")
-        
+
     # Longest Common Subsequence (LCS) shading
     sys.stderr.write(
         f"\n{heading_color}Longest Common Subsequence (LCS) Shading:{reset_color}\n"

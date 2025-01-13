@@ -1,6 +1,7 @@
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from flexidot._version import __version__
 
+
 def parse_args():
     parser = ArgumentParser(
         prog="flexidot",

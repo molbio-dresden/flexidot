@@ -4,6 +4,7 @@ import os
 import matplotlib.colors as mcolors
 import pylab as P
 
+
 def read_seq(input_fasta, degap=False):
     """
     Read fasta sequences from (all) file(s)
@@ -15,12 +16,14 @@ def read_seq(input_fasta, degap=False):
 
     # Initialize variables
     concat_created = False
-    
+
     # Combine sequence files, if required
     if type(input_fasta) is list:
         # Concatenate fasta files
         if len(input_fasta) > 1:
-            logging.info("Concatenating sequences from multiple files: {}".format(input_fasta))
+            logging.info(
+                "Concatenating sequences from multiple files: {}".format(input_fasta)
+            )
             input_fasta_combi = concatenate_files(input_fasta)
             concat_created = True
         else:
@@ -35,7 +38,9 @@ def read_seq(input_fasta, degap=False):
         # SeqIO.index returns a dictionary with the sequence id as key and the sequence as value
         seq_dict = SeqIO.index(input_fasta_combi, "fasta")
     except ValueError as e:
-        logging.error(f"ValueError: {e} - please check input files, e.g. for duplicate names!")
+        logging.error(
+            f"ValueError: {e} - please check input files, e.g. for duplicate names!"
+        )
         return {}, []
     except FileNotFoundError as e:
         logging.error(f"FileNotFoundError: {e} - please check if the file exists!")
@@ -47,13 +52,13 @@ def read_seq(input_fasta, degap=False):
     for seq_id in seq_dict:
         if "-" in seq_dict[seq_id].seq:
             logging.warning("Gaps detected in sequence: %s" % seq_id)
-            return read_seq(degap_fasta(input_fasta),degap=True)
+            return read_seq(degap_fasta(input_fasta), degap=True)
 
     # Get sequence names for sorting
     sequences = []
     for item in SeqIO.parse(input_fasta_combi, "fasta"):
         sequences.append(item.id)
-    
+
     # If degap=True remove input file after processing
     if degap and type(input_fasta) is list:
         logging.info("Removing temp degapped input fasta files: {}".format(input_fasta))
@@ -62,12 +67,12 @@ def read_seq(input_fasta, degap=False):
     elif degap:
         logging.info("Removing temp degapped input fasta file: {}".format(input_fasta))
         os.remove(input_fasta)
-    
+
     # If concatenation was required, remove combined file
     if concat_created:
         logging.info("Removing concatenated tempfile: {}".format(input_fasta_combi))
         os.remove(input_fasta_combi)
-    
+
     return seq_dict, sequences
 
 
@@ -102,9 +107,7 @@ def read_gff_color_config(gff_color_config_file=""):
         "misc": ("grey", 0.3, 0),
         "others": ("grey", 0.5, 0),
     }
-    if not gff_color_config_file or not os.path.exists(
-        str(gff_color_config_file)
-    ):
+    if not gff_color_config_file or not os.path.exists(str(gff_color_config_file)):
         logging.info("No custom GFF color configuration found. Using defaults.")
         return gff_feat_colors
 
@@ -151,7 +154,7 @@ def read_gff_color_config(gff_color_config_file=""):
                 overwritten.add(data[0].lower())
 
             gff_feat_colors[feat] = (color, alpha, zoom)
-            
+
     in_file.close()
 
     # Default coloring for unknown annotations
@@ -344,7 +347,7 @@ def read_matrix(matrix_file_name, delim="\t", symmetric=True, recursion=False):
             logging.info(log_txt)
         logging.info("Using value from bottom left triangle!")
 
-    logging.debug(f"Matrix information: {", ".join(names)}")
+    logging.debug(f"Matrix information: {', '.join(names)}")
 
     return info_dict
 

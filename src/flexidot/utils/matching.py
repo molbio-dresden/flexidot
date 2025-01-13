@@ -30,7 +30,7 @@ def find_match_pos_diag(
     type_nuc: bool = True,
 ) -> Union[
     Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray],
-    Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, int, int]
+    Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, int, int],
 ]:
     """
     Find all matching positions with matches >= wordsize
@@ -67,13 +67,13 @@ def find_match_pos_diag(
 
     # Forward
     #################################
-    kmer_pos_dict_one = defaultdict(list) #Seq1
-    kmer_pos_dict_two = defaultdict(list) #Seq2
+    kmer_pos_dict_one = defaultdict(list)  # Seq1
+    kmer_pos_dict_two = defaultdict(list)  # Seq2
 
     # Reverse complement
     #################################
-    kmer_pos_dict_three = defaultdict(list) #Seq1
-    kmer_pos_dict_four = defaultdict(list) #Seq2
+    kmer_pos_dict_three = defaultdict(list)  # Seq1
+    kmer_pos_dict_four = defaultdict(list)  # Seq2
 
     # Create dictionaries to index kmer (wordsize) positions in the sequence
     if self_alignment and rc_option:
@@ -135,33 +135,39 @@ def find_match_pos_diag(
                             kmer_pos_dict[new_kmer].append(i)
             else:
                 skipped_Ns += 1
-                
+
         # Log number of skipped kmers
         if skipped_Ns > 0:
             if convert_wobbles:
-                logging.debug("Skipped %i kmers due to {unknown_residue}s > %i" % (skipped_Ns, max_N_count))
+                logging.debug(
+                    "Skipped %i kmers due to {unknown_residue}s > %i"
+                    % (skipped_Ns, max_N_count)
+                )
             else:
-                logging.debug("Skipped %i kmers containing {unknown_residue}s" % (skipped_Ns))
-    
+                logging.debug(
+                    "Skipped %i kmers containing {unknown_residue}s" % (skipped_Ns)
+                )
+
     # If self alignment, duplicate self fwd and rev dictionaries
     if self_alignment:
         # If self alignment, copy kmer_pos_dict_one to kmer_pos_dict_two
         kmer_pos_dict_two = kmer_pos_dict_one.copy()
         # Copy kmer_pos_dict_three to kmer_pos_dict_four
         kmer_pos_dict_four = kmer_pos_dict_three.copy()
-        
+
     # Find kmers shared between both sequences in forward orientation
     matches_for = set(kmer_pos_dict_one).intersection(kmer_pos_dict_two)
-    
+
     # Find kmers shared between Seq1 forward and Seq2 reverse orientation
     matches_rc = set(kmer_pos_dict_one).intersection(kmer_pos_dict_four)
-    
-    
+
     # TODO: Check if above is correct. Do we gain any extra kmers over set(matches_for, matches_rc) if we also check the seq1_rc?
     # print("matches_for: ", type(matches_for) ,matches_for)
-    # print("matches_rc: ", matches_rc) 
+    # print("matches_rc: ", matches_rc)
 
-    logging.debug("[matches: %i forward; %i reverse]" % (len(matches_for), len(matches_rc)))
+    logging.debug(
+        "[matches: %i forward; %i reverse]" % (len(matches_for), len(matches_rc))
+    )
 
     # Create lists of x and y coordinates for scatter plot
     # Keep all coordinates of all shared kmers (may match multiple times)

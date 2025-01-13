@@ -288,7 +288,8 @@ def selfdotplot(
                     P.tight_layout(h_pad=0.02, w_pad=0.02)
                 except Exception as e:
                     logging.info(
-                        "Attention - pylab.tight_layout failed! Please check sequence names and layout settings! Error: %s" % str(e)
+                        "Attention - pylab.tight_layout failed! Please check sequence names and layout settings! Error: %s"
+                        % str(e)
                     )
                 P.subplots_adjust(
                     hspace=0.5, wspace=0.5
@@ -1455,7 +1456,7 @@ def polydotplot(
             seq_text += " " + sequences[jdx]
 
             if not seq_counter % 25:
-                #print(seq_counter)
+                # print(seq_counter)
                 log_txt += str(seq_counter)
 
             # optional shade background according to length of LCS and/or user matrix
@@ -1623,7 +1624,7 @@ def polydotplot(
             if len(counters) == 2:
                 seq_counter += 1
                 if not seq_counter % 25:
-                    #print(seq_counter)
+                    # print(seq_counter)
                     log_txt += str(seq_counter)
 
             x_lists, y_lists, x_lists_rc, y_lists_rc = data_dict[(idx, jdx)]
