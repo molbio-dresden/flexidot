@@ -108,7 +108,7 @@ def parse_args():
         "--max_n",
         type=float,
         default=10,
-        help="Maximum percentage of Ns allowed in a kmer window. Applies only if --wobble_conversion is set, else kmers with Ns are skipped. Default: 10%",
+        help="Maximum percentage of Ns allowed in a kmer window. Applies only if --wobble_conversion is set, else kmers with Ns are skipped. Default: 10",
     )
     parser.add_argument(
         "-r",
