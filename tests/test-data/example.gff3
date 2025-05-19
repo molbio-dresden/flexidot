@@ -1,0 +1,6 @@
+Seq2	manual_annotations	Spacer1	1	15	.	-	.	ID=0001
+Seq2	manual_annotations	repeat_region	16	76	.	+	.	ID=0001
+Seq2	manual_annotations	SpacerZoom	77	95	.	+	.	ID=0001
+Seq2	manual_annotations	Spacer2	77	95	.	+	.	ID=0001
+Seq2	manual_annotations	repeat_region	96	197	.	-	.	ID=0002
+Seq2	manual_annotations	Spacer3	198	210	.	+	.	ID=0001

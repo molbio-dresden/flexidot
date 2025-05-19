@@ -1,0 +1,75 @@
+# Build system configuration
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+# Project metadata
+[project]
+name = "flexidot"
+description = "Flexible dotplotting of genomic sequences."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "GNU Lesser General Public License v3 (LGPLv3)"}
+authors = [
+    { name = "Kathrin M. Seibt"},
+    { name = "Thomas Schmidt"},
+    { name = "Tony Heitkam"},
+]
+
+# Classifiers for project categorization
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+]
+
+# Project dependencies
+dependencies = [
+  "biopython",
+  "colormap",
+  "colour",
+  "easydev",
+  "matplotlib",
+  "numpy",
+  "regex",
+]
+
+# Dynamic versioning
+dynamic = ["version"]
+
+# Project URLs
+[project.urls]
+homepage = "https://github.com/molbio-dresden/flexidot"
+documentation = "https://github.com/molbio-dresden/flexidot"
+repository = "https://github.com/molbio-dresden/flexidot"
+
+# Command-line script entry point
+[project.scripts]
+flexidot="flexidot.app:main"
+
+# Hatch build configuration
+[tool.hatch.build]
+source = "src"
+
+# Exclude files and directories from the build
+exclude = [
+    "environment.yml",
+]
+
+# Hatch versioning configuration
+[tool.hatch.version]
+source = "vcs"
+
+# Version control system (VCS) versioning
+[tool.hatch.version.vcs]
+tag-pattern = "v*"  # Git tags starting with 'v' will be used for versioning
+fallback-version = "0.0.0"
+
+# Version file location for VCS
+[tool.hatch.build.hooks.vcs]
+version-file = "src/flexidot/_version.py"
+
+# Optional dependencies for testing and development
+[project.optional-dependencies]
+tests = ["pytest", "pytest-cov", "hatch"]
