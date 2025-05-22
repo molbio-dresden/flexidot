@@ -1,84 +1,68 @@
+"""
+Logging configuration for the Flexidot package.
+
+This module provides functionality to initialize and configure logging with rich
+formatting for better readability in terminal output. It uses the 'rich' library
+to create visually enhanced log messages.
+"""
+
 import logging
-import sys
+from typing import Optional
+
+from rich.console import Console
+from rich.logging import RichHandler
 
 
-class CustomFormatter(logging.Formatter):
+def init_logging(loglevel: str = 'DEBUG', logfile: Optional[str] = None) -> None:
     """
-    Custom logging formatter to add color to log messages based on their severity level.
-    """
+    Initialize root logger with specified log level and rich formatting.
 
-    # ANSI escape codes for colors
-    grey = "\x1b[38;21m"
-    blue = "\x1b[38;5;39m"
-    yellow = "\x1b[38;5;226m"
-    red = "\x1b[38;5;196m"
-    bold_red = "\x1b[31;1m"
-    reset = "\x1b[0m"
+    Configures the global logging system with rich formatting for all modules
+    that use the standard logging calls.
 
-    def __init__(self, fmt):
-        """
-        Initializes the CustomFormatter with a specified format string.
+    Parameters
+    ----------
+    loglevel : str, optional
+        The log level to use (e.g., "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"),
+        by default "DEBUG".
+    logfile : str, optional
+        Path to a file where logs should be written. If provided, logging output
+        will be sent to both the console and this file. If None, logs will only
+        be displayed in the console, by default None.
 
-        Parameters:
-        fmt (str): The format string for log messages.
-        """
-        super().__init__()
-        self.fmt = fmt
-        self.FORMATS = {
-            logging.DEBUG: self.grey + self.fmt + self.reset,
-            logging.INFO: self.blue + self.fmt + self.reset,
-            logging.WARNING: self.yellow + self.fmt + self.reset,
-            logging.ERROR: self.red + self.fmt + self.reset,
-            logging.CRITICAL: self.bold_red + self.fmt + self.reset,
-        }
+    Returns
+    -------
+    None
+        This function configures the global logging system and doesn't return a value.
 
-    def format(self, record):
-        """
-        Formats a log record with the appropriate color based on its severity level.
-
-        Parameters:
-        record (logging.LogRecord): The log record to format.
-
-        Returns:
-        str: The formatted log message.
-        """
-        log_fmt = self.FORMATS.get(record.levelno)
-        formatter = logging.Formatter(log_fmt)
-        return formatter.format(record)
-
-
-def init_logging(loglevel="DEBUG", logfile=None):
-    """
-    Initializes the logging system with a specified log level and custom formatter.
-
-    Parameters:
-    loglevel (str): The log level to use (e.g., "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL").
-                    Defaults to "DEBUG".
-    logfile (str, optional): The file to which log messages should be written. If None, log messages
-                             will only be output to stderr. Defaults to None.
-
-    Raises:
-    ValueError: If the provided log level is invalid.
+    Raises
+    ------
+    ValueError
+        If the provided log level is invalid.
     """
     # Convert log level string to numeric value
     numeric_level = getattr(logging, loglevel.upper(), None)
     if not isinstance(numeric_level, int):
-        raise ValueError(f"Invalid log level: {loglevel}")
+        raise ValueError(f'Invalid log level: {loglevel}')
 
-    # Define log message format
-    fmt = "%(asctime)s | %(levelname)s | %(module)s | %(funcName)s | %(lineno)d | %(message)s"
+    # Get the root logger
+    root_logger = logging.getLogger()
 
-    # Create a StreamHandler to output log messages to stderr
-    handler_sh = logging.StreamHandler(sys.stderr)
-    handler_sh.setFormatter(CustomFormatter(fmt))
+    # Clear existing handlers if any are present
+    if root_logger.hasHandlers():
+        root_logger.handlers.clear()
 
-    # Configure the logging system
-    if logfile is not None:
-        # Create a FileHandler to output log messages to a file
-        handler_fh = logging.FileHandler(logfile)
-        handler_fh.setFormatter(logging.Formatter(fmt))
-        logging.basicConfig(
-            format=fmt, level=numeric_level, handlers=[handler_sh, handler_fh]
+    # Add rich handler that outputs to stderr for better visibility in scripts
+    root_logger.addHandler(RichHandler(console=Console(stderr=True)))
+
+    # Add file handler if logfile is specified
+    if logfile:
+        file_handler = logging.FileHandler(logfile)
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
-    else:
-        logging.basicConfig(format=fmt, level=numeric_level, handlers=[handler_sh])
+        file_handler.setFormatter(formatter)
+        root_logger.addHandler(file_handler)
+
+    # Set the logger's level according to specified loglevel
+    root_logger.setLevel(numeric_level)

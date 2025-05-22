@@ -2,20 +2,20 @@
 #     Matching Functions      #
 ###############################
 
+from collections import defaultdict
 import logging
-
-import regex
-import numpy as np
 from typing import Tuple, Union
+
 from Bio.Seq import Seq
+import numpy as np
+import regex
 
 # from flexidot.utils.utils import time_track
 from flexidot.utils.alphabets import alphabets
-from collections import defaultdict
 from flexidot.utils.analysis import (
-    wobble_replacement,
-    split_diagonals,
     lcs_from_x_values,
+    split_diagonals,
+    wobble_replacement,
 )
 
 
@@ -40,23 +40,23 @@ def find_match_pos_diag(
     # TODO: check if seq1 and se2 are the same sequence (e.g. in case of self-alignment)
     # If so, then can skip counting the fwd kmers for seq2 and recycle the results from seq1
     if seq1 == seq2:
-        logging.debug("Self-alignment detected. Recycling results from seq1 for seq2.")
+        logging.debug('Self-alignment detected. Recycling results from seq1 for seq2.')
         self_alignment = True
     else:
         self_alignment = False
 
     # Look for Ns in DNA or Xs in proeins (minimum word size)
     if type_nuc:
-        unknown_residue = "N"
+        unknown_residue = 'N'
     else:
-        unknown_residue = "X"
+        unknown_residue = 'X'
 
     # Calculate the maximum number of Ns allowed in a kmer
     max_N_count = (max_N_percentage / 100.0) * wordsize
 
     # read sequences
     seq_one = seq1.upper()
-    len_one = len(seq_one)
+    # len_one = len(seq_one)
     seq_two = seq2.upper()
     len_two = len(seq_two)
 
@@ -140,12 +140,12 @@ def find_match_pos_diag(
         if skipped_Ns > 0:
             if convert_wobbles:
                 logging.debug(
-                    "Skipped %i kmers due to {unknown_residue}s > %i"
+                    'Skipped %i kmers due to {unknown_residue}s > %i'
                     % (skipped_Ns, max_N_count)
                 )
             else:
                 logging.debug(
-                    "Skipped %i kmers containing {unknown_residue}s" % (skipped_Ns)
+                    'Skipped %i kmers containing {unknown_residue}s' % (skipped_Ns)
                 )
 
     # If self alignment, duplicate self fwd and rev dictionaries
@@ -166,7 +166,7 @@ def find_match_pos_diag(
     # print("matches_rc: ", matches_rc)
 
     logging.debug(
-        "[matches: %i forward; %i reverse]" % (len(matches_for), len(matches_rc))
+        '[matches: %i forward; %i reverse]' % (len(matches_for), len(matches_rc))
     )
 
     # Create lists of x and y coordinates for scatter plot
@@ -249,7 +249,7 @@ def find_match_pos_regex(
 
     # read sequences
     seq_one = seq1.upper()
-    len_one = len(seq_one)
+    # len_one = len(seq_one)
     seq_two = seq2.upper()
     len_two = len(seq_two)
 
@@ -259,18 +259,18 @@ def find_match_pos_regex(
     ]  # nucleotide_ambiguity_code or aminoacid_ambiguity_code
     ambiguity_match_dict = alphabets(type_nuc)[3]
 
-    ambiq_residues = "[%s]" % "".join(list(general_ambiguity_code.keys()))
+    ambiq_residues = '[%s]' % ''.join(list(general_ambiguity_code.keys()))
 
     # look for Ns in DNA or Xs in proeins (minimum word size)
     if type_nuc:
-        any_residue = "N"
+        any_residue = 'N'
     else:
-        any_residue = "X"
+        any_residue = 'X'
 
     # check for wobble presence
     if not (
-        regex.search(ambiq_residues, str(seq_one)) == None
-        and regex.search(ambiq_residues, str(seq_two)) == None
+        regex.search(ambiq_residues, str(seq_one)) is None
+        and regex.search(ambiq_residues, str(seq_two)) is None
     ):
         wobble_found = True
     else:
@@ -302,7 +302,7 @@ def find_match_pos_regex(
             if kmer.count(any_residue) * 100.0 / wordsize <= max_N_percentage:
                 #  convert kmer to regular expression for wobble_matching
                 if convert_wobbles and wobble_found:
-                    kmer_string = ""
+                    kmer_string = ''
                     # replace each residue with matching residues or wobbles
                     for jdx in range(len(kmer)):
                         kmer_string += ambiguity_match_dict[kmer[jdx]]
@@ -311,14 +311,14 @@ def find_match_pos_regex(
 
                 # convert to regular expression tolerating substitution errors
                 if type(substitution_count) is int and substitution_count != 0:
-                    kmer_string = "(%s){s<=%d}" % (kmer_string, substitution_count)
+                    kmer_string = '(%s){s<=%d}' % (kmer_string, substitution_count)
 
                 # search for regular expression in target sequence
                 kdx = 0
-                start = True
-                if regex.search(kmer_string, seq_target[kdx:]) != None:
+                # start = True
+                if regex.search(kmer_string, seq_target[kdx:]) is not None:
                     counter[counter_pos] += 1
-                    while regex.search(kmer_string, seq_target[kdx:]) != None:
+                    while regex.search(kmer_string, seq_target[kdx:]) is not None:
                         # search for regular expression pattern in target sequence
                         result = regex.search(kmer_string, seq_target[kdx:])
 
@@ -339,11 +339,11 @@ def find_match_pos_regex(
                         kdx += result.start() + 1
                         if kdx >= len(seq_target):
                             break
-                        elif regex.search(kmer_string, seq_target[kdx:]) != None:
+                        elif regex.search(kmer_string, seq_target[kdx:]) is not None:
                             counter[counter_pos] += 1
 
-    text = "%5.i \tforward matches" % counter[0]
-    text += "\n%5.i \treverse complementary matches" % counter[1]
+    text = '%5.i \tforward matches' % counter[0]
+    text += '\n%5.i \treverse complementary matches' % counter[1]
     logging.debug(text)
 
     # convert coordinate points to line start and stop positions

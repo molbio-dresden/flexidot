@@ -6,39 +6,39 @@ from matplotlib import rcParams
 import pylab as P
 
 from flexidot._version import __version__
-from flexidot.plotting import selfdotplot, pairdotplot, polydotplot
+from flexidot.plotting import pairdotplot, polydotplot, selfdotplot
 from flexidot.utils.args import parse_args
-from flexidot.utils.checks import print_summary, check_kmer_length
+from flexidot.utils.checks import check_kmer_length, print_summary
 from flexidot.utils.file_handling import read_gff_color_config
 from flexidot.utils.logs import init_logging
 
 # Matplotlib settings
 
 # Switch to non-interactive backend to avoid _tkinter.TclError on CentOs 7 servers see Github Issue #5
-P.switch_backend("agg")
+P.switch_backend('agg')
 
 # Font settings
-mplrc("pdf", fonttype=42, compression=0)
+mplrc('pdf', fonttype=42, compression=0)
 
-rcParams["font.family"] = "sans-serif"
-rcParams["font.sans-serif"] = [
-    "Helvetica",
-    "Verdana",
-    "Tahoma",
-    "DejaVu Sans",
-    "Droid Sans Mono",
-    "Sans",
-    "Liberation",
-    "Ubuntu",
-    "Arial",
+rcParams['font.family'] = 'sans-serif'
+rcParams['font.sans-serif'] = [
+    'Helvetica',
+    'Verdana',
+    'Tahoma',
+    'DejaVu Sans',
+    'Droid Sans Mono',
+    'Sans',
+    'Liberation',
+    'Ubuntu',
+    'Arial',
 ]
 
 __citation__ = (
-    "Please remember to cite FlexiDot as follows:\n\n"
-    "Kathrin M Seibt, Thomas Schmidt, Tony Heitkam,\n"
-    "FlexiDot: highly customizable, ambiguity-aware dotplots for visual sequence analyses,\n"
-    "Bioinformatics, Volume 34, Issue 20, October 2018, Pages 3575–3577,\n"
-    "https://doi.org/10.1093/bioinformatics/bty395"
+    'Please remember to cite FlexiDot as follows:\n\n'
+    'Kathrin M Seibt, Thomas Schmidt, Tony Heitkam,\n'
+    'FlexiDot: highly customizable, ambiguity-aware dotplots for visual sequence analyses,\n'
+    'Bioinformatics, Volume 34, Issue 20, October 2018, Pages 3575–3577,\n'
+    'https://doi.org/10.1093/bioinformatics/bty395'
 )
 
 ###############################
@@ -57,9 +57,9 @@ def main():
     print_summary(args)
 
     # Log version and command line arguments if debug is enabled
-    logging.debug("FlexiDot version: %s" % __version__)
-    logging.debug("  ${0}\n\n".format(" ".join(sys.argv)))
-    logging.debug("Command line arguments: %s" % args)
+    logging.debug('FlexiDot version: %s' % __version__)
+    logging.debug('  ${0}\n\n'.format(' '.join(sys.argv)))
+    logging.debug('Command line arguments: %s' % args)
 
     # Check valid kmer length
     check_kmer_length(args.wordsize)
@@ -86,13 +86,13 @@ def main():
     nrows = args.n_row
     only_vs_first_seq = args.only_vs_first_seq
     plot_size = args.plot_size
-    prefix = f"{args.outdir}/{args.output_prefix}"
+    prefix = f'{args.outdir}/{args.output_prefix}'
     norevcomp = args.norev
     seq_list = args.infiles
     spacing = args.spacing
     substitution_count = args.substitution_count
     title_clip_pos = (
-        "B"  # Note: This was processed out of title_length in previouis versions
+        'B'  # Note: This was processed out of title_length in previouis versions
     )
     title_length = args.title_length
     user_matrix_print = args.user_matrix_print
@@ -102,58 +102,58 @@ def main():
     line_width = args.line_width
 
     # Set True if nucleotide sequence
-    if args.type_seq == "nuc":
+    if args.type_seq == 'nuc':
         type_nuc = True
-    elif args.type_seq == "aa":
+    elif args.type_seq == 'aa':
         type_nuc = False
 
     # Set x label position
-    if args.x_label_pos == "top":
+    if args.x_label_pos == 'top':
         x_label_pos_top = True
-    elif args.x_label_pos == "bottom":
+    elif args.x_label_pos == 'bottom':
         x_label_pos_top = False
 
     # Read gff color config file if provided
     if args.gff:
         if gff_color_config_file:
             logging.info(
-                f"Reading GFF color configuration file: {gff_color_config_file}"
+                f'Reading GFF color configuration file: {gff_color_config_file}'
             )
             gff_feat_colors = read_gff_color_config(gff_color_config_file)
     else:
         gff_feat_colors = {}
         if gff_color_config_file:
             logging.warning(
-                f"Provide GFF annotation files to use configuration file: {gff_color_config_file}"
+                f'Provide GFF annotation files to use configuration file: {gff_color_config_file}'
             )
 
     # If color is set to white, reverse complementary matches are skipped
     if norevcomp:  # if norev is set
-        line_col_rev = "white"  # reverse matches not calculated
+        line_col_rev = 'white'  # reverse matches not calculated
 
     if not type_nuc and not norevcomp:
-        logging.warning("Reverse complement deactivated for proteins.")
-        line_col_rev = "white"  # reverse matches not calculated
+        logging.warning('Reverse complement deactivated for proteins.')
+        line_col_rev = 'white'  # reverse matches not calculated
     elif not type_nuc:
-        line_col_rev = "white"
+        line_col_rev = 'white'
 
     # Log plotting modes
     mode_text = []
-    mode_names = {"0": "self", "1": "paired", "2": "poly"}
+    mode_names = {'0': 'self', '1': 'paired', '2': 'poly'}
     for item in modes:
-        mode_text.append(str(item) + ": " + mode_names[item])
+        mode_text.append(str(item) + ': ' + mode_names[item])
 
-    logging.info(f"Requested plotting modes: {', '.join(mode_text)}\n\n{50 * '='}")
+    logging.info(f'Requested plotting modes: {", ".join(mode_text)}\n\n{50 * "="}')
 
     # Create dotplots
     ##########################################
 
     # Init empty list for image file names
-    list_of_png_names = list()
+    list_of_png_names = []
 
     # self dotplots
-    if "0" in modes:
-        logging.info("Calling selfdotplot")
+    if '0' in modes:
+        logging.info('Calling selfdotplot')
         list_of_png_names = selfdotplot(
             seq_list,
             wordsize,
@@ -180,15 +180,15 @@ def main():
         )
         if list_of_png_names:
             logging.info(
-                f"\n-> Image file(s):\t{',\n\t\t\t'.join(list_of_png_names)}\n\n{50 * '='}"
+                f'\n-> Image file(s):\t{",\n\t\t\t".join(list_of_png_names)}\n\n{50 * "="}'
             )
         else:
-            logging.warning(f"No image files were created!\n\n{50 * '='}\n")
+            logging.warning(f'No image files were created!\n\n{50 * "="}\n')
 
     # paired dotplots
-    if "1" in modes:
+    if '1' in modes:
         if multi:
-            logging.info("Calling pairdotplot with collage")
+            logging.info('Calling pairdotplot with collage')
             list_of_png_names = pairdotplot(
                 seq_list,
                 wordsize,
@@ -218,10 +218,10 @@ def main():
         else:
             if not length_scaling:
                 logging.info(
-                    "Pairwise dotplot with individual output files scaled by sequence length automatically."
+                    'Pairwise dotplot with individual output files scaled by sequence length automatically.'
                 )
 
-            logging.info("Calling pairdotplot")
+            logging.info('Calling pairdotplot')
             list_of_png_names = pairdotplot(
                 seq_list,
                 wordsize,
@@ -248,14 +248,14 @@ def main():
             )
         if list_of_png_names:
             logging.info(
-                f"\n-> Image file(s):\t{',\n\t\t\t'.join(list_of_png_names)}\n\n{50 * '='}"
+                f'\n-> Image file(s):\t{",\n\t\t\t".join(list_of_png_names)}\n\n{50 * "="}'
             )
         else:
-            logging.warning(f"No image files were created!\n\n{50 * '='}\n")
+            logging.warning(f'No image files were created!\n\n{50 * "="}\n')
 
     # all-against-all dotplot
-    if "2" in modes:
-        logging.info("Calling polydotplot")
+    if '2' in modes:
+        logging.info('Calling polydotplot')
         list_of_png_names = polydotplot(
             seq_list,
             wordsize,
@@ -289,16 +289,16 @@ def main():
 
         if list_of_png_names:
             logging.info(
-                f"\n-> Image file(s):\t{',\n\t\t\t'.join(list_of_png_names)}\n\n{50 * '='}"
+                f'\n-> Image file(s):\t{",\n\t\t\t".join(list_of_png_names)}\n\n{50 * "="}'
             )
         else:
-            logging.warning(f"No image files were created!\n\n{50 * '='}\n")
+            logging.warning(f'No image files were created!\n\n{50 * "="}\n')
 
-    logging.info(f"\nFinished! Thank you for using FlexiDot.\n\n{__citation__}")
+    logging.info(f'\nFinished! Thank you for using FlexiDot.\n\n{__citation__}')
 
 
 ######################
 # FlexiDot Execution #
 ######################
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

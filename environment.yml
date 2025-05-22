@@ -11,10 +11,9 @@ dependencies:
   - matplotlib
   - numpy
   - regex
+  - rich
   - pip
   - pip:
       - pytest
       - pytest-cov
       - hatch
-
-

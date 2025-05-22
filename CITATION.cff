@@ -1,0 +1,57 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "flexidot"
+version: 2.0.0
+date-released: 2025-22-05
+authors:
+  - family-names: Seibt
+    given-names: Kathrin M
+    orcid: https://orcid.org/0000-0002-5435-2381
+    affiliation: "Technische Universität Dresden"
+  - family-names: Schmidt
+    given-names: Thomas
+    orcid: https://orcid.org/0000-0001-7259-415X
+    affiliation: "Technische Universität Dresden"
+  - family-names: Heitkam
+    given-names: Tony
+    orcid: https://orcid.org/0000-0003-0168-8428
+    affiliation: "RWTH Aachen University"
+repository-code: "https://github.com/flexidot-bio/flexidot"
+license: MIT
+abstract: >-
+  FlexiDot is a cross-platform dotplot suite generating high quality self,
+  pairwise and all-against-all visualizations. To improve dotplot suitability
+  for comparison of consensus and error-prone sequences, FlexiDot harbors
+  routines for strict and relaxed handling of mismatches and ambiguous
+  residues. The custom shading modules facilitate dotplot interpretation and
+  motif identification by adding information on sequence annotations and
+  sequence similarities to the images. Combined with collage-like outputs,
+  FlexiDot supports simultaneous visual screening of a large sequence sets,
+  allowing dotplot use for routine screening.
+keywords:
+  - genomics
+  - bioinformatics
+preferred-citation:
+  type: software
+  authors:
+    - family-names: Seibt
+      given-names: Kathrin M
+      orcid: https://orcid.org/0000-0002-5435-2381
+      affiliation: "Technische Universität Dresden"
+    - family-names: Schmidt
+      given-names: Thomas
+      orcid: https://orcid.org/0000-0001-7259-415X
+      affiliation: "Technische Universität Dresden"
+    - family-names: Heitkam
+      given-names: Tony
+      orcid: https://orcid.org/0000-0003-0168-8428
+      affiliation: "RWTH Aachen University"
+  title: "FlexiDot: highly customizable, ambiguity-aware dotplots for visual sequence analyses"
+  year: 2018
+  journal: Bioinformatics
+  volume: 34
+  issue: 20
+  pages: 3575-3577
+  url: "https://doi.org/10.1093/bioinformatics/bty395"
+  doi: "10.1093/bioinformatics/bty353"
+  repository-code: "https://github.com/flexidot-bio/flexidot"

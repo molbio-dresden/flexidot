@@ -1,0 +1,37 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        exclude: ^tests/test-data/
+      #- id: check-added-large-files
+      #  args: [--maxkb=500, --enforce-all]
+      - id: check-ast
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-executables-have-shebangs
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: name-tests-test
+        args: [--pytest-test-first]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.4
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix, --show-fixes, --config=pyproject.toml]
+      - id: ruff-format
+        args: [--config=pyproject.toml]
+
+## Activate this after adding docstrings to all functions
+#  - repo: https://github.com/numpy/numpydoc
+#    rev: v1.8.0
+#    hooks:
+#      - id: numpydoc-validation
+#        exclude: (tests/|docs/).*

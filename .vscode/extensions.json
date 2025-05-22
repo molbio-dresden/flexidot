@@ -1,0 +1,19 @@
+{
+    "recommendations": [
+        "aaron-bond.better-comments",
+        "bierner.markdown-mermaid",
+        "charliermarsh.ruff",
+        "eamodio.gitlens",
+        "github.copilot",
+        "janisdd.vscode-edit-csv",
+        "mechatroner.rainbow-csv",
+        "meezilla.json",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-vscode-remote.remote-containers",
+        "oderwat.indent-rainbow",
+        "quarto.quarto",
+        "tamasfe.even-better-toml"
+    ]
+}

@@ -10,14 +10,14 @@ import matplotlib.patches as patches
 import numpy as np
 import pylab as P
 
-from flexidot.utils.file_handling import read_seq, read_gffs, legend_figure, read_matrix
+from flexidot.utils.file_handling import legend_figure, read_gffs, read_matrix, read_seq
+from flexidot.utils.matching import find_match_pos_diag, find_match_pos_regex
 from flexidot.utils.utils import (
     calc_fig_ratio,
     create_color_list,
     shorten_name,
     unicode_name,
 )
-from flexidot.utils.matching import find_match_pos_regex, find_match_pos_diag
 
 
 def selfdotplot(
@@ -25,12 +25,12 @@ def selfdotplot(
     wordsize,
     alphabetic_sorting=False,
     convert_wobbles=False,
-    filetype="png",
-    gff_color_dict={"others": ("grey", 1, 0)},
-    gff_files=[],
+    filetype='png',
+    gff_color_dict=None,
+    gff_files=None,
     label_size=10,
-    line_col_for="#000000",  # defalut black
-    line_col_rev="#009243",  # default green
+    line_col_for='#000000',  # defalut black
+    line_col_rev='#009243',  # default green
     line_width=1,
     max_N_percentage=10,
     mirror_y_axis=False,
@@ -40,8 +40,8 @@ def selfdotplot(
     plot_size=10,
     prefix=None,
     substitution_count=0,
-    title_clip_pos="B",
-    title_length=float("Inf"),
+    title_clip_pos='B',
+    title_length=float('Inf'),
     type_nuc=True,
 ):
     """
@@ -49,32 +49,38 @@ def selfdotplot(
     partially from biopython cookbook
     """
 
+    # Initialize default gff_color_dict if None
+    if gff_color_dict is None:
+        gff_color_dict = {'others': ('grey', 1, 0)}
+
     # read sequences
+    if gff_files is None:
+        gff_files = []
     seq_dict, sequences = read_seq(input_fasta)
     if seq_dict == {}:
-        logging.warning("Failed to load sequences.")
+        logging.warning('Failed to load sequences.')
         return []
 
     if type_nuc:
-        aa_bp_unit = "bp"
+        aa_bp_unit = 'bp'
     else:
-        aa_bp_unit = "aa"
+        aa_bp_unit = 'aa'
 
     if alphabetic_sorting:
         sequences = sorted(sequences)
 
     # check if at least one input sequence
     if len(sequences) == 0:
-        text = "\n%s\n\nCreating %s selfdotplot images\n%s\n\n=>" % (
-            50 * "=",
+        text = '\n%s\n\nCreating %s selfdotplot images\n%s\n\n=>' % (
+            50 * '=',
             len(sequences),
-            28 * "-",
+            28 * '-',
         )
-        text += " No sequences provided for selfdotplot!\n\nTerminating polydotplot!"
+        text += ' No sequences provided for selfdotplot!\n\nTerminating polydotplot!'
         logging.info(text)
         return
     elif len(sequences) == 1 and multi:
-        text = "\n\nCreating collage output for single selfdotplot!"
+        text = '\n\nCreating collage output for single selfdotplot!'
         text += "\nRecommendation: Change to individual mode by using '--collage_output n'!\n\n"
         logging.info(text)
 
@@ -82,7 +88,7 @@ def selfdotplot(
         ncols = max(ncols, 1)
         nrows = max(nrows, 1)
         text = (
-            "\n\nSelfdotplot Collage: Invalid collage - correcting number of rows and columns:\n\tncols=%d, nrows=%d\n"
+            '\n\nSelfdotplot Collage: Invalid collage - correcting number of rows and columns:\n\tncols=%d, nrows=%d\n'
             % (ncols, nrows)
         )
         logging.info(text)
@@ -91,36 +97,40 @@ def selfdotplot(
         ncols = len(sequences)
         nrows = 1
         text = (
-            "\n\nSelfdotplot Collage: Few sequences - correcting number of rows and columns:\n\tncols=%d, nrows=%d\n"
+            '\n\nSelfdotplot Collage: Few sequences - correcting number of rows and columns:\n\tncols=%d, nrows=%d\n'
             % (ncols, nrows)
         )
         logging.info(text)
     elif multi and ncols * (nrows - 1) > len(sequences):
         nrows = ((len(sequences) - 1) // ncols) + 1
         text = (
-            "\n\nSelfdotplot Collage: Few sequences - correcting number of rows:\n\tncols=%d, nrows=%d\n"
+            '\n\nSelfdotplot Collage: Few sequences - correcting number of rows:\n\tncols=%d, nrows=%d\n'
             % (ncols, nrows)
         )
         logging.info(text)
 
     if multi and not (nrows == 1 and ncols == 1) and plot_size <= label_size / 2:
         label_size = plot_size * 3 // 2
-        text = "Reducing label size for better visualization to %d\n" % label_size
+        text = 'Reducing label size for better visualization to %d\n' % label_size
         logging.info(text)
+
+    # Initialize gff_files if None
+    if gff_files is None:
+        gff_files = []
 
     # read gff annotation data if provided for shading
     if gff_files:
-        text = "\n%s\n\nReading %s GFF annotation files\n%s\n\n=> %s\n" % (
-            50 * "=",
+        text = '\n%s\n\nReading %s GFF annotation files\n%s\n\n=> %s\n' % (
+            50 * '=',
             len(gff_files),
-            28 * "-",
-            ", ".join(gff_files),
+            28 * '-',
+            ', '.join(gff_files),
         )
         logging.info(text)
         if prefix:
-            legend_prefix = prefix + "-Selfdotplot"
+            legend_prefix = prefix + '-Selfdotplot'
         else:
-            legend_prefix = "Selfdotplot"
+            legend_prefix = 'Selfdotplot'
         feat_dict = read_gffs(
             gff_files,
             color_dict=gff_color_dict,
@@ -129,26 +139,26 @@ def selfdotplot(
             filetype=filetype,
         )
 
-    log_txt = "\n%s\n\nCreating %s selfdotplot images\n%s\n\n=>" % (
-        50 * "=",
+    log_txt = '\n%s\n\nCreating %s selfdotplot images\n%s\n\n=>' % (
+        50 * '=',
         len(sequences),
-        28 * "-",
+        28 * '-',
     )
 
     # preparations for file name
-    name_graph = "Selfdotplots"
+    name_graph = 'Selfdotplots'
     if prefix:
-        if not prefix[-1] == "-":
-            prefix = prefix + "-"
+        if not prefix[-1] == '-':
+            prefix = prefix + '-'
     else:
-        prefix = ""
-    suffix = ""
+        prefix = ''
+    suffix = ''
     if convert_wobbles:
-        suffix += "_wobbles"
+        suffix += '_wobbles'
     if substitution_count != 0:
-        suffix += "_S%d" % substitution_count
+        suffix += '_S%d' % substitution_count
     if multi:
-        suffix += "_collage"
+        suffix += '_collage'
 
     # calculate fig ratios
     if not multi:
@@ -158,13 +168,13 @@ def selfdotplot(
 
     P.cla()  # clear any prior graph
     if multi:
-        fig = P.figure(figsize=(figsize_x, figsize_y))
+        P.figure(figsize=(figsize_x, figsize_y))
         page_counter = 1
     list_of_png_names = []
 
     counter = 0
     for seq_name in sequences:
-        log_txt += "\n- " + seq_name
+        log_txt += '\n- ' + seq_name
 
         counter += 1
         if not multi:
@@ -238,7 +248,7 @@ def selfdotplot(
                 (x_lists, y_lists, line_col_for),
             ]:
                 # If color is not white, add lines to plot
-                if col != "white":
+                if col != 'white':
                     for ldx in range(len(x_lines)):
                         lines.append(
                             [
@@ -255,15 +265,15 @@ def selfdotplot(
 
             # format axes
             # print P.xticks()[0], P.yticks()[0]
-            P.axis("scaled")  # make images quadratic
+            P.axis('scaled')  # make images quadratic
             P.xlim(0, length_seq + 1)
             if mirror_y_axis:
                 P.ylim(0, length_seq + 1)  # rotate y axis (point upwards)
             else:
                 P.ylim(length_seq + 1, 0)  # rotate y axis (point downwards)
-            P.xlabel("[%s]" % aa_bp_unit, fontsize=label_size)
-            P.ylabel("[%s]" % aa_bp_unit, fontsize=label_size)
-            P.tick_params(axis="both", which="major", labelsize=label_size * 0.9)
+            P.xlabel('[%s]' % aa_bp_unit, fontsize=label_size)
+            P.ylabel('[%s]' % aa_bp_unit, fontsize=label_size)
+            P.tick_params(axis='both', which='major', labelsize=label_size * 0.9)
 
             # # use same tick labels for x and y axis
             # tick_locs, tick_labels = P.yticks()
@@ -277,7 +287,7 @@ def selfdotplot(
                     )
                 ),
                 fontsize=label_size,
-                fontweight="bold",
+                fontweight='bold',
             )
             # P.title(unicode_name(name_seq), fontsize=label_size*1.3, fontweight='bold')
 
@@ -288,7 +298,7 @@ def selfdotplot(
                     P.tight_layout(h_pad=0.02, w_pad=0.02)
                 except Exception as e:
                     logging.info(
-                        "Attention - pylab.tight_layout failed! Please check sequence names and layout settings! Error: %s"
+                        'Attention - pylab.tight_layout failed! Please check sequence names and layout settings! Error: %s'
                         % str(e)
                     )
                 P.subplots_adjust(
@@ -296,7 +306,7 @@ def selfdotplot(
                 )  # space between rows - def 0.4
 
                 # name and create output files (names derived from SEQNAME)
-                fig_name = "%s%s_wordsize%i%s-%.3d.%s" % (
+                fig_name = '%s%s_wordsize%i%s-%.3d.%s' % (
                     prefix,
                     name_graph,
                     wordsize,
@@ -304,7 +314,7 @@ def selfdotplot(
                     page_counter,
                     filetype,
                 )
-                P.savefig(fig_name, bbox_inches="tight")
+                P.savefig(fig_name, bbox_inches='tight')
                 P.close()
                 P.cla()
 
@@ -313,13 +323,11 @@ def selfdotplot(
                 counter = 0
                 page_counter += 1
 
-                fig = P.figure(figsize=(figsize_x, figsize_y))
+                P.figure(figsize=(figsize_x, figsize_y))
 
         # plotting separate figure files
         else:  # not multi
-            fig = P.figure(
-                figsize=(plot_size, plot_size)
-            )  # figure size needs to be a square
+            P.figure(figsize=(plot_size, plot_size))  # figure size needs to be a square
             ax = P.subplot(1, 1, 1)  # rows, columns, plotnumber
 
             # shade annotated regions
@@ -347,14 +355,13 @@ def selfdotplot(
 
             # collect lines
             lines = []
-            number = 0
             color_list = []
             for x_lines, y_lines, col in [
                 (x_lists_rc, y_lists_rc, line_col_rev),
                 (x_lists, y_lists, line_col_for),
             ]:
                 # If color is not white, add lines to plot
-                if col != "white":
+                if col != 'white':
                     for ldx in range(len(x_lines)):
                         lines.append(
                             [
@@ -371,15 +378,15 @@ def selfdotplot(
             ax.add_collection(lc)
 
             # format axes
-            P.axis("scaled")  # make images quadratic
+            P.axis('scaled')  # make images quadratic
             P.xlim(0, length_seq + 1)
             if mirror_y_axis:
                 P.ylim(0, length_seq + 1)  # rotate y axis (point upwards)
             else:
                 P.ylim(length_seq + 1, 0)  # rotate y axis (point downwards)
-            P.xlabel("[%s]" % aa_bp_unit, fontsize=label_size)
-            P.ylabel("[%s]" % aa_bp_unit, fontsize=label_size)
-            P.tick_params(axis="both", which="major", labelsize=label_size * 0.9)
+            P.xlabel('[%s]' % aa_bp_unit, fontsize=label_size)
+            P.ylabel('[%s]' % aa_bp_unit, fontsize=label_size)
+            P.tick_params(axis='both', which='major', labelsize=label_size * 0.9)
 
             # # use same tick labels for x and y axis
             # tick_locs, tick_labels = P.yticks()
@@ -393,11 +400,11 @@ def selfdotplot(
                     )
                 ),
                 fontsize=label_size * 1.3,
-                fontweight="bold",
+                fontweight='bold',
             )
 
             # name and create output files (names derived from SEQNAME)
-            fig_name = "%s%s-%d_%s_wordsize%i%s.%s" % (
+            fig_name = '%s%s-%d_%s_wordsize%i%s.%s' % (
                 prefix,
                 name_graph,
                 counter,
@@ -408,7 +415,7 @@ def selfdotplot(
                 suffix,
                 filetype,
             )
-            P.savefig(fig_name, bbox_inches="tight")
+            P.savefig(fig_name, bbox_inches='tight')
 
             P.close()
             P.cla()  # clear any prior graph
@@ -419,14 +426,14 @@ def selfdotplot(
         # finalize layout - margins & spacing between plots
         try:
             P.tight_layout(h_pad=0.02, w_pad=0.02)
-        except:
+        except Exception:
             logging.info(
-                "Attention - pylab.tight_layout failed! Please check sequence names and layout settings!"
+                'Attention - pylab.tight_layout failed! Please check sequence names and layout settings!'
             )
         P.subplots_adjust(hspace=0.5, wspace=0.5)  # space between rows - def 0.4
 
         # name and create output files (names derived from SEQNAME)
-        fig_name = "%s%s_wordsize%i%s-%.3d.%s" % (
+        fig_name = '%s%s_wordsize%i%s-%.3d.%s' % (
             prefix,
             name_graph,
             wordsize,
@@ -434,13 +441,13 @@ def selfdotplot(
             page_counter,
             filetype,
         )
-        P.savefig(fig_name, bbox_inches="tight")
+        P.savefig(fig_name, bbox_inches='tight')
         P.close()
         P.cla()  # clear any prior graph
 
         list_of_png_names.append(fig_name)
 
-    log_txt += "\n\nDrawing selfdotplots done.\n"
+    log_txt += '\n\nDrawing selfdotplots done.\n'
     logging.info(log_txt)
 
     return list_of_png_names
@@ -451,11 +458,11 @@ def pairdotplot(
     wordsize,
     alphabetic_sorting=False,
     convert_wobbles=False,
-    filetype="png",
+    filetype='png',
     label_size=10,
     length_scaling=True,
-    line_col_for="#000000",  # defalut black
-    line_col_rev="#009243",  # default green
+    line_col_for='#000000',  # defalut black
+    line_col_rev='#009243',  # default green
     line_width=1,
     max_N_percentage=10,
     mirror_y_axis=False,
@@ -465,10 +472,10 @@ def pairdotplot(
     only_vs_first_seq=False,
     plot_size=10,
     prefix=None,
-    scale_delim_col="red",
+    scale_delim_col='red',
     substitution_count=0,
-    title_clip_pos="B",
-    title_length=float("Inf"),
+    title_clip_pos='B',
+    title_length=float('Inf'),
     type_nuc=True,
     x_label_pos_top=True,
 ):
@@ -479,29 +486,29 @@ def pairdotplot(
     # read sequences
     seq_dict, sequences = read_seq(input_fasta)
     if seq_dict == {}:
-        logging.warning("Failed to load sequences.")
+        logging.warning('Failed to load sequences.')
         return []
 
     if type_nuc:
-        aa_bp_unit = "bp"
+        aa_bp_unit = 'bp'
     else:
-        aa_bp_unit = "aa"
+        aa_bp_unit = 'aa'
 
     if alphabetic_sorting:
         sequences = sorted(sequences)
 
     # check if at least two input sequences
     if len(sequences) < 2:
-        text = "\n%s\n\nCreating %d paired dotplot image \n%s\n\n=>" % (
-            50 * "=",
+        text = '\n%s\n\nCreating %d paired dotplot image \n%s\n\n=>' % (
+            50 * '=',
             len(sequences) * (len(sequences) - 1) / 2,
-            36 * "-",
+            36 * '-',
         )
-        text += " Please provide at least two sequences for pairdotplot!\n\nTerminating paired dotplot!"
+        text += ' Please provide at least two sequences for pairdotplot!\n\nTerminating paired dotplot!'
         logging.info(text)
         return
     elif len(sequences) == 2 and multi:
-        text = "\n\nCreating collage output for single pairdotplot!"
+        text = '\n\nCreating collage output for single pairdotplot!'
         text += "\nRecommendation: Change to individual mode by using '--collage_output n'!\n\n"
         logging.info(text)
 
@@ -509,7 +516,7 @@ def pairdotplot(
         ncols = max(ncols, 1)
         nrows = max(nrows, 1)
         text = (
-            "\n\nPairdotplot Collage: Invalid collage settings - correcting number of rows and columns:\n\tncols=%d, nrows=%d\n"
+            '\n\nPairdotplot Collage: Invalid collage settings - correcting number of rows and columns:\n\tncols=%d, nrows=%d\n'
             % (ncols, nrows)
         )
         logging.info(text)
@@ -518,59 +525,59 @@ def pairdotplot(
         ncols = len(sequences)
         nrows = 1
         text = (
-            "\n\nPairdotplot Collage: Few sequences - correcting number of rows and columns:\n\tncols=%d, nrows=%d\n"
+            '\n\nPairdotplot Collage: Few sequences - correcting number of rows and columns:\n\tncols=%d, nrows=%d\n'
             % (ncols, nrows)
         )
         logging.info(text)
     elif multi and ncols * (nrows - 1) > len(sequences) * (len(sequences) - 1):
         nrows = ((len(sequences) - 1) // ncols) + 1
         text = (
-            "\n\nPairdotplot Collage: Few sequences - correcting number of rows:\n\tncols=%d, nrows=%d\n"
+            '\n\nPairdotplot Collage: Few sequences - correcting number of rows:\n\tncols=%d, nrows=%d\n'
             % (ncols, nrows)
         )
         logging.info(text)
 
     if not only_vs_first_seq:
-        text = "\n%s\n\nCreating %d paired dotplot image for\n%s\n\n=>" % (
-            50 * "=",
+        text = '\n%s\n\nCreating %d paired dotplot image for\n%s\n\n=>' % (
+            50 * '=',
             len(sequences) * (len(sequences) - 1) / 2,
-            36 * "-",
+            36 * '-',
         )
-        text += ",\n".join(sequences) + "\n"
+        text += ',\n'.join(sequences) + '\n'
     else:
         text = (
             "\n%s\n\nCreating %d paired dotplot images against 1st sequence '%s':\n%s\n\n=>"
-            % (50 * "=", len(sequences) - 1, sequences[0], 36 * "-")
+            % (50 * '=', len(sequences) - 1, sequences[0], 36 * '-')
         )
-        text += ",\n".join(sequences[1:]) + "\n"
+        text += ',\n'.join(sequences[1:]) + '\n'
     logging.info(text)
 
     if multi and not (nrows == 1 and ncols == 1) and plot_size <= label_size / 2:
         label_size = plot_size * 3 // 2
-        text = "Reducing label size for better visualization to %d\n" % label_size
+        text = 'Reducing label size for better visualization to %d\n' % label_size
         logging.info(text)
 
-    y_label_rotation = "vertical"
+    y_label_rotation = 'vertical'
     # for cartesian coordinate system with mirrored y-axis: plot x labels below plot
     if mirror_y_axis:
         x_label_pos_top = False
 
     # preparations for file name
-    name_graph = "Pairdotplot"
+    name_graph = 'Pairdotplot'
     if prefix:
-        if not prefix[-1] == "-":
-            prefix = prefix + "-"
+        if not prefix[-1] == '-':
+            prefix = prefix + '-'
     else:
-        prefix = ""
-    suffix = ""
+        prefix = ''
+    suffix = ''
     if convert_wobbles:
-        suffix += "_wobbles"
+        suffix += '_wobbles'
     if substitution_count != 0:
-        suffix += "_S%d" % substitution_count
+        suffix += '_S%d' % substitution_count
     if length_scaling:
-        suffix += "_scaled"
+        suffix += '_scaled'
     if multi:
-        suffix += "_collage"
+        suffix += '_collage'
 
     # calculate fig ratios
     if not multi:
@@ -581,38 +588,38 @@ def pairdotplot(
     P.cla()  # clear any prior graph
     list_of_png_names = []
     if multi:
-        fig = P.figure(figsize=(figsize_x, figsize_y))
+        P.figure(figsize=(figsize_x, figsize_y))
         page_counter = 1
 
     # prepare LCS data file
     lcs_data_file = open(
-        "%sPairdotplot_wordsize%d_lcs_data_file%s.txt"
-        % (prefix, wordsize, suffix.replace("_scaled", "").replace("_collage", "")),
-        "w",
+        '%sPairdotplot_wordsize%d_lcs_data_file%s.txt'
+        % (prefix, wordsize, suffix.replace('_scaled', '').replace('_collage', '')),
+        'w',
     )
     lcs_data_file.write(
-        "\t".join(
+        '\t'.join(
             [
-                "#title1",
-                "title2",
-                "len_seq1",
-                "len_seq2",
-                "len_lcs_for",
-                "%_min_seq_len",
-                "len_lcs_rev",
-                "%_min_seq_len",
+                '#title1',
+                'title2',
+                'len_seq1',
+                'len_seq2',
+                'len_lcs_for',
+                '%_min_seq_len',
+                'len_lcs_rev',
+                '%_min_seq_len',
             ]
         )
-        + "\n"
+        + '\n'
     )
 
     counter, seq_counter = 0, 0
-    log_txt = "\nDrawing pairwise dotplots"
+    log_txt = '\nDrawing pairwise dotplots'
 
-    seq_text = ""
+    seq_text = ''
     for idx in range(len(sequences) - 1):
-        logging.debug("\n%d\t%s vs." % ((seq_counter + 1), sequences[idx]))
-        seq_text += "\n%d\t%s vs." % ((seq_counter + 1), sequences[idx])
+        logging.debug('\n%d\t%s vs.' % ((seq_counter + 1), sequences[idx]))
+        seq_text += '\n%d\t%s vs.' % ((seq_counter + 1), sequences[idx])
 
         rec_two = seq_dict[sequences[idx]]
         name_two = rec_two.id
@@ -629,10 +636,10 @@ def pairdotplot(
             seq_counter += 1
 
             logging.debug(sequences[jdx])
-            seq_text += " " + sequences[jdx]
+            seq_text += ' ' + sequences[jdx]
 
             if not seq_counter % 25:
-                log_txt += " " + str(seq_counter)
+                log_txt += ' ' + str(seq_counter)
 
             # get positions of matches
             if substitution_count != 0:
@@ -661,7 +668,7 @@ def pairdotplot(
 
             # write LCS data file
             lcs_data_file.write(
-                "\t".join(
+                '\t'.join(
                     [
                         name_one,
                         name_two,
@@ -673,7 +680,7 @@ def pairdotplot(
                         str(round((lcs_rev * 100.0 / min(len_one, len_two)), 3)),
                     ]
                 )
-                + "\n"
+                + '\n'
             )
 
             # Plotting with matplotlib
@@ -687,12 +694,12 @@ def pairdotplot(
             else:
                 # calculate figure size for separate figures
                 if len_one >= len_two:
-                    sizing = (plot_size, max(2, (plot_size) * len_two * 1.0 / len_one))
-                    # sizing = (plot_size, min(plot_size, max(2, (plot_size-2)*len_two*1./len_one+2)))
+                    pass
+                    # sizing = (plot_size, max(2, (plot_size) * len_two * 1.0 / len_one))
                 else:
-                    sizing = (max(2, (plot_size) * len_one * 1.0 / len_two), plot_size)
-                    # sizing = (min(plot_size, max(2, (plot_size-2)*len_one*1./len_two+2)), plot_size)
-                fig = P.figure(figsize=(plot_size, plot_size))
+                    pass
+                    # sizing = (max(2, (plot_size) * len_one * 1.0 / len_two), plot_size)
+                P.figure(figsize=(plot_size, plot_size))
 
                 ax = P.subplot(1, 1, 1)
 
@@ -704,7 +711,7 @@ def pairdotplot(
                 (x1, y1, line_col_for),
             ]:
                 # If color is not white, add lines to plot
-                if col != "white":
+                if col != 'white':
                     for ldx in range(len(x_lines)):
                         lines.append(
                             [
@@ -726,9 +733,9 @@ def pairdotplot(
                         name_one, max_len=title_length, title_clip_pos=title_clip_pos
                     )
                 )
-                + " [%s]" % aa_bp_unit,
+                + ' [%s]' % aa_bp_unit,
                 fontsize=label_size,
-                fontweight="bold",
+                fontweight='bold',
                 labelpad=4,
             )
             P.ylabel(
@@ -737,17 +744,17 @@ def pairdotplot(
                         name_two, max_len=title_length, title_clip_pos=title_clip_pos
                     )
                 )
-                + " [%s]" % aa_bp_unit,
+                + ' [%s]' % aa_bp_unit,
                 fontsize=label_size,
-                fontweight="bold",
+                fontweight='bold',
                 labelpad=4,
             )
-            P.tick_params(axis="both", which="major", labelsize=label_size * 0.9)
+            P.tick_params(axis='both', which='major', labelsize=label_size * 0.9)
 
             # P.axis('scaled') # make images scaled by size ### optional update ###
             if not multi:
                 if length_scaling:
-                    ax.set_aspect(aspect="equal", adjustable="box", anchor="NW")
+                    ax.set_aspect(aspect='equal', adjustable='box', anchor='NW')
                 P.xlim(0, len_one + 1)
                 # xlimit = [0, len_one+1]
                 if mirror_y_axis:
@@ -775,19 +782,19 @@ def pairdotplot(
                     ax.plot(
                         (len_one + 1, len_one + 1),
                         (0, len_two),
-                        marker="",
-                        linestyle="--",
+                        marker='',
+                        linestyle='--',
                         color=scale_delim_col,
-                        markerfacecolor="r",
+                        markerfacecolor='r',
                     )
                 if max_len != len_two:
                     ax.plot(
                         (0, len_one),
                         (len_two + 1, len_two + 1),
-                        marker="",
-                        linestyle="--",
+                        marker='',
+                        linestyle='--',
                         color=scale_delim_col,
-                        markerfacecolor="r",
+                        markerfacecolor='r',
                     )
 
             # # use same tick labels for x and y axis
@@ -799,7 +806,7 @@ def pairdotplot(
             # evtl. switch x axis position
             if x_label_pos_top:
                 ax.xaxis.tick_top()
-                ax.xaxis.set_label_position("top")
+                ax.xaxis.set_label_position('top')
             P.setp(ax.get_xticklabels(), fontsize=label_size * 0.9)
             P.setp(ax.get_yticklabels(), fontsize=label_size * 0.9)
 
@@ -808,9 +815,9 @@ def pairdotplot(
                 # finalize layout - margins & spacing between plots
                 try:
                     P.tight_layout(h_pad=0.02, w_pad=0.02)
-                except:
+                except KeyError:
                     logging.warning(
-                        "Attention - pylab.tight_layout failed! Please check sequence names and layout settings!"
+                        'Attention - pylab.tight_layout failed! Please check sequence names and layout settings!'
                     )
                 if x_label_pos_top:
                     P.subplots_adjust(
@@ -822,7 +829,7 @@ def pairdotplot(
                     )  # space between rows - def 0.4
 
                 # name and create output files (names derived from SEQNAME)
-                fig_name = "%s%s_wordsize%i%s-%.3d.%s" % (
+                fig_name = '%s%s_wordsize%i%s-%.3d.%s' % (
                     prefix,
                     name_graph,
                     wordsize,
@@ -830,7 +837,7 @@ def pairdotplot(
                     page_counter,
                     filetype,
                 )
-                P.savefig(fig_name, bbox_inches="tight")
+                P.savefig(fig_name, bbox_inches='tight')
                 P.close()
                 P.cla()
 
@@ -839,18 +846,18 @@ def pairdotplot(
                 counter = 0
                 page_counter += 1
 
-                fig = P.figure(figsize=(figsize_x, figsize_y))
+                P.figure(figsize=(figsize_x, figsize_y))
 
             # plotting separate figure files
             elif not multi:
                 # finalize layout - margins & spacing between plots
                 try:
                     P.tight_layout(h_pad=0.02, w_pad=0.02)
-                except:
+                except Exception:
                     logging.warning(
-                        "Attention - pylab.tight_layout failed! Please check sequence names and layout settings!"
+                        'Attention - pylab.tight_layout failed! Please check sequence names and layout settings!'
                     )
-                if y_label_rotation == "horizontal":
+                if y_label_rotation == 'horizontal':
                     if x_label_pos_top:
                         P.subplots_adjust(
                             hspace=0.02, wspace=0.02, left=0.13, top=0.95
@@ -865,7 +872,7 @@ def pairdotplot(
                     )  # space between rows - def 0.4
 
                 # name and create output files
-                fig_name = "%s%s-%d_wordsize%i%s.%s" % (
+                fig_name = '%s%s-%d_wordsize%i%s.%s' % (
                     prefix,
                     name_graph,
                     counter,
@@ -878,7 +885,7 @@ def pairdotplot(
                 P.cla()
 
                 list_of_png_names.append(fig_name)
-                fig = P.figure()
+                P.figure()  # clear any prior graph
 
         if only_vs_first_seq:
             break
@@ -888,9 +895,9 @@ def pairdotplot(
         # finalize layout - margins & spacing between plots
         try:
             P.tight_layout(h_pad=0.02, w_pad=0.02)
-        except:
+        except Exception:
             logging.warning(
-                "Attention - pylab.tight_layout failed! Please check sequence names and layout settings!"
+                'Attention - pylab.tight_layout failed! Please check sequence names and layout settings!'
             )
         if x_label_pos_top:
             P.subplots_adjust(
@@ -902,7 +909,7 @@ def pairdotplot(
             )  # space between rows - def 0.4
 
         # name and create output files (names derived from SEQNAME)
-        fig_name = "%s%s_wordsize%i%s-%.3d.%s" % (
+        fig_name = '%s%s_wordsize%i%s-%.3d.%s' % (
             prefix,
             name_graph,
             wordsize,
@@ -910,13 +917,13 @@ def pairdotplot(
             page_counter,
             filetype,
         )
-        P.savefig(fig_name, bbox_inches="tight")
+        P.savefig(fig_name, bbox_inches='tight')
         P.close()
         P.cla()
 
         list_of_png_names.append(fig_name)
 
-    log_txt += "\n%d done" % seq_counter
+    log_txt += '\n%d done' % seq_counter
     logging.info(log_txt)
 
     logging.debug(seq_text)
@@ -926,21 +933,21 @@ def pairdotplot(
 
 def polydotplot(
     input_fasta,
-    wordsize,
+    wordsize=10,
+    gff_files=None,
     alphabetic_sorting=False,
     convert_wobbles=False,
-    filetype="png",
-    gff_color_dict={"others": ("grey", 1, 0)},
-    gff_files=[],
-    input_user_matrix_file="",
+    filetype='png',
+    gff_color_dict=None,
+    input_user_matrix_file='',
     label_size=10,
     lcs_shading_interval_len=100,
     lcs_shading_num=5,
     lcs_shading_ori=0,
     lcs_shading_ref=0,
     lcs_shading=True,
-    line_col_for="#000000",  # defalut black
-    line_col_rev="#009243",  # default green
+    line_col_for='#000000',  # defalut black
+    line_col_rev='#009243',  # default green
     line_width=1,
     max_N_percentage=10,
     mirror_y_axis=False,
@@ -950,8 +957,8 @@ def polydotplot(
     rotate_labels=False,
     spacing=0.04,
     substitution_count=0,
-    title_clip_pos="B",
-    title_length=float("Inf"),
+    title_clip_pos='B',
+    title_length=float('Inf'),
     type_nuc=True,
     user_matrix_print=True,
     x_label_pos_top=True,
@@ -969,57 +976,65 @@ def polydotplot(
         2 both orientations (in opposite plot)
     """
 
+    # Initialize default gff_color_dict if None
+    if gff_color_dict is None:
+        gff_color_dict = {'others': ('grey', 1, 0)}
+
+    # Initialize default gff_files if None
+    if gff_files is None:
+        gff_files = []
+
     # read sequences
     seq_dict, sequences = read_seq(input_fasta)
     if seq_dict == {}:
-        logging.warning("Failed to load sequences.")
+        logging.warning('Failed to load sequences.')
         return []
 
     if type_nuc:
-        aa_bp_unit = "bp"
+        aa_bp_unit = 'bp'
     else:
-        aa_bp_unit = "aa"
+        aa_bp_unit = 'aa'
 
     if alphabetic_sorting:
         sequences = sorted(sequences)
 
     if len(sequences) == 0:
-        text = "\n%s\n\nCreating %dx%d polydotplot image\n%s\n\n=>" % (
-            50 * "=",
+        text = '\n%s\n\nCreating %dx%d polydotplot image\n%s\n\n=>' % (
+            50 * '=',
             len(sequences),
             len(sequences),
-            30 * "-",
+            30 * '-',
         )
-        text += " No sequences provided for polydotplot!\n\nTerminating polydotplot!"
+        text += ' No sequences provided for polydotplot!\n\nTerminating polydotplot!'
         logging.info(text)
         return
     elif len(sequences) == 1:
-        text = "\n\nCreating polydotplot for single sequence!"
+        text = '\n\nCreating polydotplot for single sequence!'
         text += "\nRecommendation: Use selfdotplot via '--plotting_mode 0'!\n\n"
         logging.info(text)
 
-    text = "\n%s\n\nCreating %dx%d polydotplot image\n%s\n\n=>" % (
-        50 * "=",
+    text = '\n%s\n\nCreating %dx%d polydotplot image\n%s\n\n=>' % (
+        50 * '=',
         len(sequences),
         len(sequences),
-        30 * "-",
+        30 * '-',
     )
-    text += " " + " ".join(sequences) + "\n"
+    text += ' ' + ' '.join(sequences) + '\n'
     logging.info(text)
 
     # read gff annotation data if provided for shading
     if gff_files is not None and gff_files != []:
-        text = "\n%s\n\nReading %s GFF annotation files\n%s\n\n=> %s\n" % (
-            50 * "=",
+        text = '\n%s\n\nReading %s GFF annotation files\n%s\n\n=> %s\n' % (
+            50 * '=',
             len(gff_files),
-            28 * "-",
-            ", ".join(gff_files),
+            28 * '-',
+            ', '.join(gff_files),
         )
         logging.info(text)
-        if prefix is not None and prefix != "":
-            legend_prefix = prefix + "-Polydotplot"
+        if prefix is not None and prefix != '':
+            legend_prefix = prefix + '-Polydotplot'
         else:
-            legend_prefix = "Polydotplot"
+            legend_prefix = 'Polydotplot'
         feat_dict = read_gffs(
             gff_files,
             color_dict=gff_color_dict,
@@ -1031,12 +1046,12 @@ def polydotplot(
     if lcs_shading and not type_nuc:
         if lcs_shading_ori != 0:
             lcs_shading_ori = 0
-            text = "Protein shading does not support reverse complementary matching!\n"
+            text = 'Protein shading does not support reverse complementary matching!\n'
             logging.info(text)
 
     # read custom shading matrix & match names of sequences to fasta
-    if input_user_matrix_file != "" and input_user_matrix_file != None:
-        logging.info("Reading user matrix file: %s" % input_user_matrix_file)
+    if input_user_matrix_file != '' and input_user_matrix_file is not None:
+        logging.info('Reading user matrix file: %s' % input_user_matrix_file)
         # lcs_shading_ori = 2
         custom_dict = read_matrix(input_user_matrix_file)
         if custom_dict != {}:
@@ -1044,20 +1059,20 @@ def polydotplot(
             custom_similarity_dict = {}
             invalid_entries = []
             custom_max = 0
-            custom_min = float("Inf")
+            custom_min = float('Inf')
             for key in list(custom_dict.keys()):
                 number_key = []
 
                 # convert number into float
                 try:
                     value = float(custom_dict[key])
-                    if not "." in custom_dict[key]:
+                    if '.' not in custom_dict[key]:
                         value = int(custom_dict[key])
                     custom_max = max(custom_max, value)
                     custom_min = min(custom_min, value)
-                except:
+                except Exception:
                     value = custom_dict[key]
-                    if value == "":
+                    if value == '':
                         value = None
                     invalid_entries.append(key)
                 # match matrix names with sequence names
@@ -1070,14 +1085,14 @@ def polydotplot(
                 custom_similarity_dict[tuple(sorted(number_key))] = value
             if len(invalid_entries) != 0:
                 text = (
-                    "No valid number in custom similarity matrix for %d entries: \n\t"
+                    'No valid number in custom similarity matrix for %d entries: \n\t'
                     % (len(invalid_entries))
                 )
                 for key in invalid_entries:
-                    text += str(key) + " - " + str(custom_dict[key]) + "; "
-                logging.info(text[:-2] + "\n")
+                    text += str(key) + ' - ' + str(custom_dict[key]) + '; '
+                logging.info(text[:-2] + '\n')
 
-        text = "Custom user matrix given: min %.2f, max %.2f\n" % (
+        text = 'Custom user matrix given: min %.2f, max %.2f\n' % (
             custom_min,
             custom_max,
         )
@@ -1087,7 +1102,7 @@ def polydotplot(
             rounding_factor = 5
             multi_factor = 100
             text += (
-                " > artificially rounding custom shading intervals: old (%.2f, %.2f) - "
+                ' > artificially rounding custom shading intervals: old (%.2f, %.2f) - '
                 % (custom_min, custom_max)
             )
             custom_min = max(
@@ -1100,100 +1115,100 @@ def polydotplot(
                 * (1.0 * rounding_factor / multi_factor),
                 1,
             )
-            text += "new (%.2f, >%2f)\n" % (custom_min, custom_max)
+            text += 'new (%.2f, >%2f)\n' % (custom_min, custom_max)
 
         elif 0 <= custom_min < 100 and 0 < custom_max <= 100:
             rounding_factor = 5
             text += (
-                " > artificially rounding custom shading intervals: old (%.2f, %.2f) - "
+                ' > artificially rounding custom shading intervals: old (%.2f, %.2f) - '
                 % (custom_min, custom_max)
             )
             custom_min = max(0, (custom_min // rounding_factor) * rounding_factor)
             custom_max = min((custom_max // rounding_factor) * rounding_factor, 100)
-            text += "new (%d, >%d)\n" % (custom_min, custom_max)
+            text += 'new (%d, >%d)\n' % (custom_min, custom_max)
 
         logging.info(text)
 
     else:
         custom_shading = False
 
-    name_graph = "Polydotplot"
-    suffix = ""
+    name_graph = 'Polydotplot'
+    suffix = ''
     if convert_wobbles:
-        suffix += "_wobbles"
+        suffix += '_wobbles'
     if substitution_count != 0:
-        suffix += "_S%d" % substitution_count
+        suffix += '_S%d' % substitution_count
     if custom_shading:
-        suffix += "_matrix"
+        suffix += '_matrix'
     if lcs_shading:
-        suffix += "_%dshades_ref%d_ori%s" % (
+        suffix += '_%dshades_ref%d_ori%s' % (
             lcs_shading_num + 1,
             lcs_shading_ref,
             lcs_shading_ori,
         )
-        if "ref2" in suffix and type_nuc:
-            suffix = suffix.replace("ref2", "%dbp" % lcs_shading_interval_len)
-        elif "ref2" in suffix:
-            suffix = suffix.replace("ref2", "%daa" % lcs_shading_interval_len)
+        if 'ref2' in suffix and type_nuc:
+            suffix = suffix.replace('ref2', '%dbp' % lcs_shading_interval_len)
+        elif 'ref2' in suffix:
+            suffix = suffix.replace('ref2', '%daa' % lcs_shading_interval_len)
 
     # name and create output files (names derived from SEQNAME)
     if prefix:
-        prefix = str(prefix) + "-"
+        prefix = str(prefix) + '-'
     else:
-        prefix = ""
+        prefix = ''
 
     # preparations for background shading
     if lcs_shading or custom_shading:
         # create color range white to grey
-        colors = create_color_list(lcs_shading_num + 1, color_map="Greys")
-        colors_2 = create_color_list(lcs_shading_num + 1, color_map="OrRd")
+        colors = create_color_list(lcs_shading_num + 1, color_map='Greys')
+        colors_2 = create_color_list(lcs_shading_num + 1, color_map='OrRd')
 
         if custom_shading:
-            text = "Custom Matrix Colors: " + ", ".join(colors_2)
+            text = 'Custom Matrix Colors: ' + ', '.join(colors_2)
 
     # write lcs lengths to file
     lcs_data_file = open(
-        "%sPolydotplot_lcs_data_file%s.txt"
-        % (prefix, suffix.replace("_scaled", "").replace("_collage", "")),
-        "w",
+        '%sPolydotplot_lcs_data_file%s.txt'
+        % (prefix, suffix.replace('_scaled', '').replace('_collage', '')),
+        'w',
     )
     lcs_data_file.write(
-        "\t".join(
+        '\t'.join(
             [
-                "#title1",
-                "title2",
-                "len_seq1",
-                "len_seq2",
-                "len_lcs_for",
-                "%_min_seq_len",
-                "len_lcs_rev",
-                "%_min_seq_len",
+                '#title1',
+                'title2',
+                'len_seq1',
+                'len_seq2',
+                'len_lcs_for',
+                '%_min_seq_len',
+                'len_lcs_rev',
+                '%_min_seq_len',
             ]
         )
-        + "\n"
+        + '\n'
     )
 
     # compare sequences pairwise - save lcs and line information in dictionary for plotting
     data_dict = {}  # keys = tuple(idx, jdx), value = x1, y1, x2, y2 (line positions)
     lcs_dict = {}  # keys = tuple(idx, jdx), value = length of lcs: lcs_len or (lcs_for, lcs_rev)
-    for_lcs_set = set([])  # keep lengths to calculate max (excluding self comparisons)
-    rev_lcs_set = set([])  # keep lengths to calculate max (all)
+    for_lcs_set = set()  # keep lengths to calculate max (excluding self comparisons)
+    rev_lcs_set = set()  # keep lengths to calculate max (all)
 
-    text = "\nTotal plot count:   %d" % (len(sequences) * (len(sequences)))
-    text += "\nTotal calculations: %d" % (len(sequences) * (len(sequences) + 1) / 2)
+    text = '\nTotal plot count:   %d' % (len(sequences) * (len(sequences)))
+    text += '\nTotal calculations: %d' % (len(sequences) * (len(sequences) + 1) / 2)
     logging.info(text)
 
     logging.info(
-        "\nCalculating shared regions and lengths of longest_common_substring..."
+        '\nCalculating shared regions and lengths of longest_common_substring...'
     )
-    log_txt = "\nCalculating shared regions and lengths of longest_common_substring..."
+    log_txt = '\nCalculating shared regions and lengths of longest_common_substring...'
     # determine  matches and length of lcs by comparing all sequence pairs
 
-    seq_text = ""
+    seq_text = ''
     counter = 0
     for idx in range(len(sequences)):
-        logging.debug("\n%d\t%s vs." % ((counter + 1), sequences[idx]))
-        seq_text += "\n%d\t%s vs." % ((counter + 1), sequences[idx])
+        logging.debug('\n%d\t%s vs.' % ((counter + 1), sequences[idx]))
+        seq_text += '\n%d\t%s vs.' % ((counter + 1), sequences[idx])
         rec_two = seq_dict[sequences[idx]]
         name_two = rec_two.id
         seq_two = rec_two.seq
@@ -1207,10 +1222,10 @@ def polydotplot(
 
             counter += 1
             logging.debug(sequences[jdx])
-            seq_text += " " + sequences[jdx]
+            seq_text += ' ' + sequences[jdx]
 
             if len(sequences) < 5:
-                log_txt += "\n\t%s (%d %s), %s (%d %s)" % (
+                log_txt += '\n\t%s (%d %s), %s (%d %s)' % (
                     name_one,
                     len_one,
                     aa_bp_unit,
@@ -1255,7 +1270,7 @@ def polydotplot(
             rev_lcs_set.add(lcs_rev)
 
             lcs_data_file.write(
-                "\t".join(
+                '\t'.join(
                     [
                         name_one,
                         name_two,
@@ -1267,26 +1282,26 @@ def polydotplot(
                         str(round((lcs_rev * 100.0 / min(len_one, len_two)), 3)),
                     ]
                 )
-                + "\n"
+                + '\n'
             )
 
-    log_txt += "\n" + str(len(sequences) * (len(sequences) + 1) / 2) + " done"
+    log_txt += '\n' + str(len(sequences) * (len(sequences) + 1) / 2) + ' done'
 
     logging.info(log_txt)
 
-    logging.debug("\n\nlcs_dict\n" + str(lcs_dict))
+    logging.debug('\n\nlcs_dict\n' + str(lcs_dict))
     if custom_shading:
-        logging.debug("\ncustom_dict\n" + str(custom_dict))
-        logging.debug("\ncustom_similarity_dict\n\n" + str(custom_similarity_dict))
+        logging.debug('\ncustom_dict\n' + str(custom_dict))
+        logging.debug('\ncustom_similarity_dict\n\n' + str(custom_similarity_dict))
 
-    logging.info(seq_text + "\n")
+    logging.info(seq_text + '\n')
 
     if lcs_shading_ref == 2:
         color_bins = []
-        text = "\nLCS lengh bins: "
+        text = '\nLCS lengh bins: '
         for idx in range(lcs_shading_num):
             color_bins.append(lcs_shading_interval_len * (idx + 1))
-            text += " " + str(lcs_shading_interval_len * (idx + 1))
+            text += ' ' + str(lcs_shading_interval_len * (idx + 1))
         logging.info(text)
 
     # Calculate maximum lcs length
@@ -1311,10 +1326,10 @@ def polydotplot(
             max_lcs = None
 
     if max_lcs:
-        text = "Maximum LCS: %d %s" % (max_lcs, aa_bp_unit)
+        text = 'Maximum LCS: %d %s' % (max_lcs, aa_bp_unit)
         logging.info(text)
     if custom_shading:
-        text = "Maximum custom value: %d\n" % custom_max
+        text = 'Maximum custom value: %d\n' % custom_max
         logging.info(text)
 
     # count sequences
@@ -1335,7 +1350,7 @@ def polydotplot(
     gs = gridspec.GridSpec(
         nrows, ncols, width_ratios=size_ratios, height_ratios=height_ratios
     )
-    fig = P.figure(figsize=(plot_size, plot_size))
+    P.figure(figsize=(plot_size, plot_size))
 
     # for cartesian coordinate system with mirrored y-axis: plot x labels below plot
     if mirror_y_axis and representation == 1:
@@ -1354,91 +1369,91 @@ def polydotplot(
     # determine label orientations
     if len(sequences) > 5 or rotate_labels:
         x_label_rotation = 45
-        y_label_rotation = "horizontal"
+        y_label_rotation = 'horizontal'
         if x_label_pos_top:
-            xhalign = "left"
-            xvalign = "bottom"
+            xhalign = 'left'
+            xvalign = 'bottom'
         else:
-            xhalign = "right"
-            xvalign = "top"
-        yhalign = "right"
+            xhalign = 'right'
+            xvalign = 'top'
+        yhalign = 'right'
     else:
-        x_label_rotation = "horizontal"
-        y_label_rotation = "vertical"
-        xvalign = "center"
-        xhalign = "center"
-        yhalign = "center"
-    yvalign = "center"
+        x_label_rotation = 'horizontal'
+        y_label_rotation = 'vertical'
+        xvalign = 'center'
+        xhalign = 'center'
+        yhalign = 'center'
+    yvalign = 'center'
 
     # check combination of shading parameters for triangular output
     if (
         representation != 0 and lcs_shading and custom_shading
     ):  # both directions in triangle
         logging.info(
-            "\nAttention: For triangular output custom-shading and LCS shading cannot be combined!\n"
+            '\nAttention: For triangular output custom-shading and LCS shading cannot be combined!\n'
         )
     elif (
         representation != 0 and lcs_shading and lcs_shading_ori == 2
     ):  # both directions in triangle
         logging.info(
-            "\nAttention: For triangular output LCS shading for both orientations is combined to max of both orientations!\n"
+            '\nAttention: For triangular output LCS shading for both orientations is combined to max of both orientations!\n'
         )
 
-    log_txt = "\nDrawing polydotplot..."
+    log_txt = '\nDrawing polydotplot...'
 
     # draw subplots
     if lcs_shading and custom_shading:
         lcs_text = (
-            "\n"
-            + "\t".join(
+            '\n'
+            + '\t'.join(
                 [
-                    "#Seq1",
-                    "Seq2",
-                    "LCS for [%s]" % aa_bp_unit,
-                    "LCS for [%s]" % aa_bp_unit,
-                    "Custom matrix value",
-                    "Matrix color index",
-                    "LCS color index",
+                    '#Seq1',
+                    'Seq2',
+                    'LCS for [%s]' % aa_bp_unit,
+                    'LCS for [%s]' % aa_bp_unit,
+                    'Custom matrix value',
+                    'Matrix color index',
+                    'LCS color index',
                 ]
             )
-            + "\n"
+            + '\n'
         )
     elif lcs_shading:
         lcs_text = (
-            "\n"
-            + "\t".join(
+            '\n'
+            + '\t'.join(
                 [
-                    "#Seq1",
-                    "Seq2",
-                    "LCS for [%s]" % aa_bp_unit,
-                    "LCS for [%s]" % aa_bp_unit,
-                    "LCS color index for",
-                    "LCS color index rev",
+                    '#Seq1',
+                    'Seq2',
+                    'LCS for [%s]' % aa_bp_unit,
+                    'LCS for [%s]' % aa_bp_unit,
+                    'LCS color index for',
+                    'LCS color index rev',
                 ]
             )
-            + "\n"
+            + '\n'
         )
     elif custom_shading:
         lcs_text = (
-            "\n"
-            + "\t".join(
+            '\n'
+            + '\t'.join(
                 [
-                    "#Seq1",
-                    "Seq2",
-                    "Custom matrix value",
-                    "Color index for",
-                    "Color index rev",
+                    '#Seq1',
+                    'Seq2',
+                    'Custom matrix value',
+                    'Color index for',
+                    'Color index rev',
                 ]
             )
-            + "\n"
+            + '\n'
         )
 
-    seq_text = ""
+    seq_text = ''
 
     counter, seq_counter = 0, 0
     for idx in range(len(sequences)):
-        logging.debug("\n%d\t%s vs." % ((seq_counter + 1), sequences[idx]))
-        seq_text += "\n%d\t%s vs." % ((seq_counter + 1), sequences[idx])
+        logging.debug('\n%d\t%s vs.' % ((seq_counter + 1), sequences[idx]))
+        seq_text += '\n%d\t%s vs.' % ((seq_counter + 1), sequences[idx])
 
         rec_two = seq_dict[sequences[idx]]
         len_two = len(rec_two.seq)
@@ -1453,7 +1468,7 @@ def polydotplot(
             seq_counter += 1
 
             logging.debug(sequences[jdx])
-            seq_text += " " + sequences[jdx]
+            seq_text += ' ' + sequences[jdx]
 
             if not seq_counter % 25:
                 # print(seq_counter)
@@ -1465,7 +1480,7 @@ def polydotplot(
             # get interval based on LCS
             background_colors = [None, None]
             if lcs_shading and (
-                lcs_shading_ref == 1 or lcs_shading_ref == 2 or max_lcs != None
+                lcs_shading_ref == 1 or lcs_shading_ref == 2 or max_lcs is not None
             ):  # self plot max_lcs_for == None
                 lcs_len = lcs_dict[(idx, jdx)]
                 l1 = lcs_len[0]  # forward
@@ -1499,8 +1514,8 @@ def polydotplot(
                 # matrix value
                 try:
                     custom_value = custom_similarity_dict[(idx, jdx)]
-                except:
-                    custom_value = ""
+                except Exception:
+                    custom_value = ''
 
                 # bottom left triangle = LCS forward/reverse or best of both
                 if lcs_shading_bool:
@@ -1553,7 +1568,7 @@ def polydotplot(
 
             if custom_shading and lcs_shading_bool:
                 lcs_text += (
-                    "\t".join(
+                    '\t'.join(
                         [
                             name_one,
                             name_two,
@@ -1564,11 +1579,11 @@ def polydotplot(
                             str(color_idx1),
                         ]
                     )
-                    + "\n"
+                    + '\n'
                 )
             elif lcs_shading_bool:
                 lcs_text += (
-                    "\t".join(
+                    '\t'.join(
                         [
                             name_one,
                             name_two,
@@ -1578,11 +1593,11 @@ def polydotplot(
                             str(color_idx1),
                         ]
                     )
-                    + "\n"
+                    + '\n'
                 )
             elif custom_shading:
                 lcs_text += (
-                    "\t".join(
+                    '\t'.join(
                         [
                             name_one,
                             name_two,
@@ -1591,7 +1606,7 @@ def polydotplot(
                             str(color_idx1),
                         ]
                     )
-                    + "\n"
+                    + '\n'
                 )
 
             # calculate figure position in polyplot
@@ -1647,7 +1662,7 @@ def polydotplot(
                             features = feat_dict[name_one]
                             if len_two != len_one:
                                 logging.info(
-                                    "Polydot GFF shading for diagonal fields - nequal length error!"
+                                    'Polydot GFF shading for diagonal fields - nequal length error!'
                                 )
                                 return
                             for item in features:
@@ -1704,7 +1719,7 @@ def polydotplot(
                             (x1, y1, line_col_for),
                         ]:
                             # If color is not white, add lines to plot
-                            if col != "white":
+                            if col != 'white':
                                 for ldx in range(len(x_lines)):
                                     lines.append(
                                         [
@@ -1724,8 +1739,8 @@ def polydotplot(
                     # plot value provided by customer instead of dotplot
                     else:
                         alignment = {
-                            "horizontalalignment": "center",
-                            "verticalalignment": "center",
+                            'horizontalalignment': 'center',
+                            'verticalalignment': 'center',
                         }
                         # P.text(0.5, 0.5, custom_value, size='medium', transform=ax.transAxes, **alignment)
                         P.text(
@@ -1742,14 +1757,14 @@ def polydotplot(
                     if custom_shading:
                         # omit diagonal
                         if idx == jdx:
-                            ax.set_facecolor("white")
+                            ax.set_facecolor('white')
                         # use white background for text fields (top right triangle only [kdx 0])
                         elif (
                             type(custom_value) is not int
                             and type(custom_value) is not float
                             and kdx == 0
                         ):
-                            ax.set_facecolor("white")
+                            ax.set_facecolor('white')
                         else:
                             ax.set_facecolor(background_colors[kdx])
                     # set background color if lcs shading
@@ -1771,7 +1786,7 @@ def polydotplot(
                     # determine axis positions
                     if x_label_pos_top:
                         ax.xaxis.tick_top()
-                        ax.xaxis.set_label_position("top")
+                        ax.xaxis.set_label_position('top')
                         x_label_bool = fig_pos <= ncols
                         x_tick_bool = fig_pos > ncols * (ncols - 1)
                     else:
@@ -1781,7 +1796,7 @@ def polydotplot(
                     # settings for y labels on right side
                     if y_label_pos == 0:  # right label
                         ax.yaxis.tick_right()
-                        ax.yaxis.set_label_position("right")
+                        ax.yaxis.set_label_position('right')
                         label_dist = 30
                     else:
                         label_dist = 8
@@ -1800,14 +1815,14 @@ def polydotplot(
                             rotation=x_label_rotation,
                             verticalalignment=xvalign,
                             horizontalalignment=xhalign,
-                            fontweight="bold",
+                            fontweight='bold',
                             labelpad=8,
                         )  # axis naming
-                        if x_label_rotation not in ["horizontal", "vertical"]:
+                        if x_label_rotation not in ['horizontal', 'vertical']:
                             P.setp(
                                 ax.get_xticklabels(),
                                 fontsize=label_size * 0.9,
-                                rotation="vertical",
+                                rotation='vertical',
                             )
                         else:
                             P.setp(
@@ -1862,7 +1877,7 @@ def polydotplot(
                             rotation=y_label_rotation,
                             verticalalignment=yvalign,
                             horizontalalignment=yhalign,
-                            fontweight="bold",
+                            fontweight='bold',
                             labelpad=label_dist,
                         )
                         P.setp(
@@ -1888,24 +1903,24 @@ def polydotplot(
                     else:
                         ax.axes.get_yaxis().set_visible(False)
 
-    log_txt += "\n%d done" % seq_counter
+    log_txt += '\n%d done' % seq_counter
     logging.info(log_txt)
 
     try:
         logging.debug(lcs_text)
-    except:
+    except Exception:
         pass
 
     # finalize layout - margins & spacing between plots
-    P.tick_params(axis="both", which="major", labelsize=label_size * 0.9)
+    P.tick_params(axis='both', which='major', labelsize=label_size * 0.9)
     try:
         P.tight_layout(h_pad=0.02, w_pad=0.02)
-    except:
+    except Exception:
         logging.info(
-            "Attention - pylab.tight_layout failed! Please check sequence names and layout settings!"
+            'Attention - pylab.tight_layout failed! Please check sequence names and layout settings!'
         )
     # gs.tight_layout(fig, h_pad=.02, w_pad=.02) # less overlapping tick labels, but also disturbingly large spacing
-    if y_label_rotation == "horizontal":
+    if y_label_rotation == 'horizontal':
         if x_label_pos_top:
             P.subplots_adjust(
                 hspace=spacing, wspace=spacing, left=0.13, top=0.87
@@ -1920,7 +1935,7 @@ def polydotplot(
         )  # space between rows - def 0.4
 
     # save figure and close instance
-    fig_name = "%s%s_wordsize%i%s.%s" % (prefix, name_graph, wordsize, suffix, filetype)
+    fig_name = '%s%s_wordsize%i%s.%s' % (prefix, name_graph, wordsize, suffix, filetype)
     P.savefig(fig_name)
     P.close()
     P.cla()
@@ -1929,7 +1944,7 @@ def polydotplot(
     if lcs_shading:
         if lcs_shading_ref == 1:  # percentage of shorter sequence
             legend_file_name = legend_figure(
-                colors, lcs_shading_num, unit="%", filetype=filetype, prefix=prefix
+                colors, lcs_shading_num, unit='%', filetype=filetype, prefix=prefix
             )
         elif lcs_shading_ref == 2:  # interval sizes
             legend_file_name = legend_figure(
@@ -1951,11 +1966,11 @@ def polydotplot(
             )
 
     if custom_shading:
-        custom_prefix = "custom-matrix-" + prefix
+        custom_prefix = 'custom-matrix-' + prefix
         legend_file_name_custom = legend_figure(
             colors_2,
             lcs_shading_num,
-            unit="%",
+            unit='%',
             filetype=filetype,
             prefix=custom_prefix,
             max_len=custom_max,
