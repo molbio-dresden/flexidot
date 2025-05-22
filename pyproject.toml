@@ -33,6 +33,7 @@ dependencies = [
   "matplotlib",
   "numpy",
   "regex",
+  "rich",
 ]
 
 # Dynamic versioning
