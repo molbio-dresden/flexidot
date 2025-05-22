@@ -16,5 +16,3 @@ dependencies:
       - pytest
       - pytest-cov
       - hatch
-
-
