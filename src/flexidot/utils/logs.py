@@ -8,12 +8,12 @@ class CustomFormatter(logging.Formatter):
     """
 
     # ANSI escape codes for colors
-    grey = "\x1b[38;21m"
-    blue = "\x1b[38;5;39m"
-    yellow = "\x1b[38;5;226m"
-    red = "\x1b[38;5;196m"
-    bold_red = "\x1b[31;1m"
-    reset = "\x1b[0m"
+    grey = '\x1b[38;21m'
+    blue = '\x1b[38;5;39m'
+    yellow = '\x1b[38;5;226m'
+    red = '\x1b[38;5;196m'
+    bold_red = '\x1b[31;1m'
+    reset = '\x1b[0m'
 
     def __init__(self, fmt):
         """
@@ -47,7 +47,7 @@ class CustomFormatter(logging.Formatter):
         return formatter.format(record)
 
 
-def init_logging(loglevel="DEBUG", logfile=None):
+def init_logging(loglevel='DEBUG', logfile=None):
     """
     Initializes the logging system with a specified log level and custom formatter.
 
@@ -63,10 +63,10 @@ def init_logging(loglevel="DEBUG", logfile=None):
     # Convert log level string to numeric value
     numeric_level = getattr(logging, loglevel.upper(), None)
     if not isinstance(numeric_level, int):
-        raise ValueError(f"Invalid log level: {loglevel}")
+        raise ValueError(f'Invalid log level: {loglevel}')
 
     # Define log message format
-    fmt = "%(asctime)s | %(levelname)s | %(module)s | %(funcName)s | %(lineno)d | %(message)s"
+    fmt = '%(asctime)s | %(levelname)s | %(module)s | %(funcName)s | %(lineno)d | %(message)s'
 
     # Create a StreamHandler to output log messages to stderr
     handler_sh = logging.StreamHandler(sys.stderr)

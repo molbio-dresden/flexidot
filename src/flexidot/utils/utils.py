@@ -1,11 +1,9 @@
-import sys
 import logging
 import time
-import pylab as P
-from matplotlib import colormaps
 
 from colormap import rgb2hex
 from colour import Color
+from matplotlib import colormaps
 
 
 # TODO: Remove internal logging message. Return delta time instead of printing it.
@@ -17,7 +15,7 @@ def time_track(starting_time, show=True):
     now = time.time()
     delta = now - starting_time
     if show:
-        logging.info(f"{delta} seconds")
+        logging.info(f'{delta} seconds')
     return delta
 
 
@@ -27,7 +25,7 @@ def calc_fig_ratio(ncols, nrows, plot_size):
     with plot_size as maximum width and length
     """
     ratio = ncols * 1.0 / nrows
-    logging.debug(" ".join([str(ncols), str(nrows), str(ratio)]))
+    logging.debug(' '.join([str(ncols), str(nrows), str(ratio)]))
     if ncols >= nrows:
         figsize_x = plot_size
         figsize_y = plot_size / ratio
@@ -37,7 +35,7 @@ def calc_fig_ratio(ncols, nrows, plot_size):
     return figsize_x, figsize_y
 
 
-def shorten_name(seq_name, max_len=20, title_clip_pos="B"):  # , delim="_"):
+def shorten_name(seq_name, max_len=20, title_clip_pos='B'):  # , delim="_"):
     """
     shorten sequence names (for diagram titles)
     """
@@ -46,7 +44,7 @@ def shorten_name(seq_name, max_len=20, title_clip_pos="B"):  # , delim="_"):
         return seq_name
 
     # take last characters
-    if title_clip_pos == "E":
+    if title_clip_pos == 'E':
         name = seq_name[len(seq_name) - max_len :]
 
     # take first characters
@@ -74,12 +72,12 @@ def unicode_name(name):
     replace non-ascii characters in string (e.g. for use in matplotlib)
     """
     unicode_string = eval('u"%s"' % name)
-    return "".join(char for char in unicode_string if ord(char) < 128)
+    return ''.join(char for char in unicode_string if ord(char) < 128)
     # return unicodedata.normalize("NFKD", unicode_string).encode("ascii", "ignore")
 
 
 def create_color_list(
-    number: int, color_map: str = "Greys", max_grey: str = "#595959"
+    number: int, color_map: str = 'Greys', max_grey: str = '#595959'
 ) -> list:
     """
     Create color list with given number of entries
@@ -87,13 +85,13 @@ def create_color_list(
     """
     if color_map not in list(colormaps):
         logging.warning(
-            f"Invalid color_map {color_map} provided! - Examples: {list(colormaps)}."
+            f'Invalid color_map {color_map} provided! - Examples: {list(colormaps)}.'
         )
-        logging.warning("See https://matplotlib.org/users/colormaps.html\n")
+        logging.warning('See https://matplotlib.org/users/colormaps.html\n')
 
     try:
         # create pylab colormap
-        cmap = eval("P.cm." + color_map)
+        cmap = eval('P.cm.' + color_map)
 
         # get descrete color list from pylab
         cmaplist = [cmap(i) for i in range(cmap.N)]  # extract colors from map
@@ -116,23 +114,21 @@ def create_color_list(
 
     # Default to Greys color scheme if an error occurs
     except Exception as e:
-        logging.warning(f"An error occurred: {e}")
-        logging.warning("Using grey color scheme instead.")
+        logging.warning(f'An error occurred: {e}')
+        logging.warning('Using grey color scheme instead.')
 
-        old_max_grey = "#373737"
-        old_max_grey = "#444444"
-        colors = list(Color("#FFFFFF").range_to(Color(max_grey), number))  # grey
+        colors = list(Color('#FFFFFF').range_to(Color(max_grey), number))  # grey
         for idx in range(len(colors)):
-            colors[idx] = str(colors[idx]).replace("Color ", "")
-            if "#" in colors[idx] and len(colors[idx]) != 7:
+            colors[idx] = str(colors[idx]).replace('Color ', '')
+            if '#' in colors[idx] and len(colors[idx]) != 7:
                 # print colors[idx]
                 colors[idx] = colors[idx] + colors[idx][-(7 - len(colors[idx])) :]
 
-    logging.info("%d Colors: %s" % (len(colors), ", ".join(colors)))
+    logging.info('%d Colors: %s' % (len(colors), ', '.join(colors)))
 
     if len(colors) < number:
         logging.info(
-            "\nError in color range definition! %d colors missing\n"
+            '\nError in color range definition! %d colors missing\n'
             % (number - len(colors))
         )
 
