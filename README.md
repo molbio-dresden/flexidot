@@ -14,7 +14,7 @@ If you use FlexiDot in your research, please cite us:
 
 <img align="right" width="100" height="100" src="https://github.com/flexidot-bio/flexidot/blob/master/docs/images/FlexiLogo.png">
 
-**Current version (Jan 2025): FlexiDot v2.0.0**
+**Current version (May 2025): FlexiDot v2.0.0**
 
 For an overview of FlexiDot version updates please see the [code history](https://github.com/flexidot-bio/flexidot/blob/master/CHANGELOG.md).
 
